@@ -6,22 +6,17 @@ realized historical path; this module exists to answer this project's
 research question by generating alternative, statistically-plausible
 market histories from a regime-switching model fit to the real one.
 
-Approach
---------
-1. Fit a Gaussian HMM to a 2D observation series: the daily equal-weight
-   portfolio log-return and the daily VIX log-change. This is the "market
-   factor" — the thing that drives regime transitions (calm / normal /
-   crisis).
-2. Decode the historical hidden-state path (Viterbi, via `.predict`) and,
-   per ticker, bucket historical idiosyncratic residuals
-   (return - beta * market_return) by the state they occurred in.
-3. To generate a synthetic path: sample a state sequence + market-factor
-   path from the fitted HMM, then for each ticker reconstruct a return as
-   `beta * market_return + bootstrapped_residual`, where the residual is
-   drawn from that ticker's historical residual pool for the sampled
-   state. This keeps cross-sectional structure (betas) and
-   regime-appropriate volatility clustering while letting the specific
-   sequence of daily moves differ from history.
+Roughly: fit a Gaussian HMM on a 2D series (daily equal-weight portfolio
+log-return + daily VIX log-change) — that's the "market factor" driving
+regime transitions (calm / normal / crisis). Decode the historical
+hidden-state path with Viterbi, and per ticker bucket the historical
+idiosyncratic residuals (return - beta * market_return) by which state
+they happened in. To sample a synthetic path: draw a state sequence +
+market path from the HMM, then per ticker rebuild a return as
+`beta * market_return + bootstrapped_residual`, pulling the residual from
+that ticker's pool for whichever state got sampled. Keeps the
+cross-sectional structure (betas) and regime-appropriate vol clustering
+while letting the actual day-to-day path differ from history.
 
 This is deliberately a single-factor regime model, not a full multivariate
 HMM over all tickers (which would need far more data to fit without

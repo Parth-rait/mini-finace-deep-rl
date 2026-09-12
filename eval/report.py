@@ -1,8 +1,8 @@
 """
-Aggregate backtest results across seeds and synthetic paths into the
-rank-stability summary this project's research question depends on:
-does the model that wins on real history keep winning across plausible
-alternate histories?
+Aggregate backtest results across seeds and synthetic paths — this is
+basically the whole point of the project: does whatever wins on the real
+historical path keep winning across the plausible alternate ones, or was
+it just luck of the draw?
 """
 
 from __future__ import annotations

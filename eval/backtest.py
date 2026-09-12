@@ -2,9 +2,9 @@
 Single-episode backtest runner: step an agent through a Gym environment
 end-to-end and collect the portfolio value trajectory.
 
-Works identically for a DRLAgentWrapper, a BuyAndHoldAgent/EqualWeightAgent,
-or anything else exposing `.predict(obs, deterministic=True) -> (action, _)`
-— that's the whole contract this module depends on.
+Doesn't care if the agent is a DRLAgentWrapper, a
+BuyAndHoldAgent/EqualWeightAgent, or something else entirely, as long as
+it has `.predict(obs, deterministic=True) -> (action, _)`.
 """
 
 from __future__ import annotations
