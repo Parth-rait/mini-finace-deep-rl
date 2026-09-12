@@ -73,6 +73,10 @@ TODO — metrics table (median and IQR across seeds), equity curves,
 rank-stability across synthetic paths. Run `scripts/05_report.py` after a
 full training + backtest sweep to generate the numbers.
 
+## Demo Video
+
+[5-minute walkthrough](https://www.youtube.com/watch?v=yNb6URCGGPw) — what was built, what was found, and what I'd do differently.
+
 ## Provenance
 
 See [CITATION.md](CITATION.md).
