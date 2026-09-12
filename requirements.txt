@@ -1,0 +1,9 @@
+numpy
+pandas
+scipy
+yfinance
+stockstats
+gymnasium
+stable-baselines3
+hmmlearn
+torch
