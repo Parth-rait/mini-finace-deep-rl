@@ -12,3 +12,7 @@ results/
 *.egg-info/
 build/
 dist/
+
+# labelling texts come from third-party posts: kept local
+corpus/candidates.jsonl
+corpus/bias_labels.jsonl

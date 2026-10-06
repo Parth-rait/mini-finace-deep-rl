@@ -34,6 +34,8 @@ def load_labels(path: str | Path) -> list[dict]:
         if not line.strip() or line.lstrip().startswith("//"):
             continue
         r = json.loads(line)
+        if not isinstance(r.get("labels"), list):
+            raise ValueError(f"line {n}: add a \"labels\" list (use [] when no bias is signalled)")
         for key in ("labels", "labels_b"):
             unknown = set(r.get(key) or []) - set(LABELS)
             if unknown:
