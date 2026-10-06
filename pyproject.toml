@@ -38,7 +38,7 @@ service = ["fastapi>=0.115", "uvicorn>=0.32"]
 # the aip toolkit, imported only by minifinrl/adapters (PLAN_SHIPPABLE.md 1.6).
 # Needs the aip-v1.0.0 tag to exist in lab1_ai_in_prac.
 llm = ["aip @ git+https://github.com/Parth-rait/lab1_ai_in_prac.git@aip-v1.0.0"]
-dev = ["pytest>=8.3"]
+dev = ["pytest>=8.3", "fastapi>=0.115", "uvicorn>=0.32", "httpx2>=2.13"]  # tests cover the API too
 
 [tool.setuptools.packages.find]
 include = ["minifinrl*"]
