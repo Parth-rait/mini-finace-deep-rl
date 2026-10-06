@@ -13,8 +13,8 @@ from pathlib import Path
 import pandas as pd
 import yfinance as yf
 
-from configs.logging_config import get_logger
-from configs.settings import DATA_RAW, VIX_TICKER
+from minifinrl.core.configs.logging_config import get_logger
+from minifinrl.core.configs.settings import DATA_RAW, VIX_TICKER
 
 log = get_logger(__name__)
 
