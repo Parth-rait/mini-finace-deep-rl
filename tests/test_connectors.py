@@ -101,6 +101,11 @@ def test_crosscheck_flags_disagreement():
     same_but_rescaled = ref.assign(close=close * 0.97)  # different adjustment anchor: still agrees
     noisy = ref.assign(close=close * (1 + rng.normal(0, 0.003, 200)))  # ~30 bps noise: disagrees
     gappy = ref.iloc[::2]  # half the days missing
+    one_bad_print = ref.copy()
+    one_bad_print.loc[100, "close"] = one_bad_print.loc[100, "close"] * 1.02  # one wrong close
+    r1 = crosscheck(ref, one_bad_print, ["AAA"])[0]
+    assert r1["agrees"]  # one day doesn't move p99 ...
+    assert [f["date"] for f in r1["flagged_days"]] == [dates[100], dates[101]]  # ... but both affected returns are listed
     assert crosscheck(ref, same_but_rescaled, ["AAA"])[0]["agrees"]
     assert not crosscheck(ref, noisy, ["AAA"])[0]["agrees"]
     r = crosscheck(ref, gappy, ["AAA"])[0]

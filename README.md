@@ -214,9 +214,12 @@ See [CITATION.md](CITATION.md).
   indicators, not a realistic intraday model.
 - Cash in the environments earns nothing, while Sharpe is measured over the T-bill rate.
   This is conservative for any strategy that holds cash (the trading agents hold 3-24%).
-- The Tiingo and Alpaca connectors are tested against recorded responses only; live use
-  needs API keys and has not been verified. Alpaca's free feed is IEX-only, so its closes
-  are not the consolidated close (run `crosscheck_prices` before relying on it).
+- Tiingo was checked live against Yahoo on all 20 tickers, 2014 to mid-2026: identical
+  trading calendars, daily returns within 1.2 basis points at the 99th percentile, one
+  bad print found (Tiingo's XOM row for 2014-07-28 repeats the prices of 2014-07-30).
+  Yahoo stays the research source and Tiingo is the cross-check. Tiingo's free plan is
+  for internal use only, so its prices are not committed or served. The Alpaca connector
+  is tested against recorded responses only, and its free feed is IEX-only.
 - All research numbers use Yahoo data. Two downloads of the same range differ by about
   1e-6 in adjusted closes, so a data hash identifies a stored snapshot, not the market.
 - Results are backtests, not evidence of live tradability, and nothing here is investment advice.

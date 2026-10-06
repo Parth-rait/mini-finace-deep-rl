@@ -302,6 +302,7 @@ class TickerAgreement(BaseModel):
     max_abs_diff: float | None
     p99_abs_diff: float | None = Field(description="99th percentile of |daily return difference|")
     return_corr: float | None
+    flagged_days: list[dict] = Field(default_factory=list, description="days where |r_ref - r_cand| > 50 bps, largest first")
     agrees: bool
 
 
