@@ -5,7 +5,7 @@ PROVENANCE: adapted from FinRL `meta/preprocessor/preprocessors.py`.
 
 One deliberate departure from FinRL's `FeatureEngineer.add_technical_indicator`:
 FinRL runs `Sdf.retype` on the WHOLE multi-ticker frame and then slices per
-ticker, but stockstats' rolling windows don't know about ticker boundaries —
+ticker, but stockstats' rolling windows don't know about ticker boundaries -
 rows from the end of one ticker's history bleed into the start of the next
 one's rolling stats. Here we `Sdf.retype` each ticker's slice independently,
 which avoids that leakage.
@@ -17,7 +17,7 @@ import numpy as np
 import pandas as pd
 from stockstats import StockDataFrame as Sdf
 
-from configs.logging_config import get_logger
+from minifinrl.core.configs.logging_config import get_logger
 
 log = get_logger(__name__)
 
@@ -56,19 +56,42 @@ def add_indicators(df: pd.DataFrame, indicators: list[str]) -> pd.DataFrame:
     if n_bad:
         log.warning("add_indicators: replacing %d inf/-inf values before fill", n_bad)
     merged[indicators] = merged[indicators].replace([np.inf, -np.inf], np.nan)
-    merged[indicators] = merged.groupby("tic")[indicators].ffill().bfill()
+    merged = fill_indicators(merged, indicators)
     log.info("add_indicators: computed %s for %d tickers, %d rows", indicators, df["tic"].nunique(), len(merged))
     return merged
 
 
+def fill_indicators(df: pd.DataFrame, indicators: list[str]) -> pd.DataFrame:
+    """Forward-fill gaps within each ticker, then drop the leading dates
+    that are still NaN (indicator warm-up).
+
+    This replaces FinRL's `groupby("tic").ffill().bfill()`, where the
+    `.bfill()` ran on the whole frame: a ticker's warm-up NaN got the next
+    row's value, i.e. another ticker's, or a later date's (look-ahead).
+    Dropping whole dates keeps the panel rectangular. With the current
+    INDICATORS stockstats emits no NaN, so this changes nothing today; it
+    only matters once an indicator with a warm-up period is added.
+    """
+    df = df.copy()
+    df[indicators] = df.groupby("tic")[indicators].ffill()
+    still_nan = df.loc[df[indicators].isna().any(axis=1), "date"].unique()
+    if len(still_nan):
+        log.warning(
+            "fill_indicators: dropping %d leading warm-up date(s) with NaN indicators (%s..%s)",
+            len(still_nan), min(still_nan), max(still_nan),
+        )
+        df = df[~df["date"].isin(still_nan)].reset_index(drop=True)
+    return df
+
+
 def add_turbulence(df: pd.DataFrame, lookback: int = 252) -> pd.DataFrame:
     """Mahalanobis distance of today's cross-sectional return vector from its
-    trailing `lookback`-day covariance — a market-wide "this looks unusual
+    trailing `lookback`-day covariance - a market-wide "this looks unusual
     given recent history" signal, same value broadcast to every ticker on a
     given date.
 
     PROVENANCE: lifted close to verbatim from FinRL
-    `FeatureEngineer.calculate_turbulence` — the pinv-on-a-near-singular-
+    `FeatureEngineer.calculate_turbulence` - the pinv-on-a-near-singular-
     covariance trick and the "ignore the first couple of nonzero values as
     warm-up noise" rule are fiddly enough to get right that there's no value
     in re-deriving them from scratch.
