@@ -5,7 +5,7 @@ PROVENANCE: adapted from FinRL `meta/env_stock_trading/env_stocktrading.py`
 and `finrl/applications/stock_trading/*.py`. Trimmed to what this project
 needs: single stock universe, cash + per-asset share-count state, no
 short selling, optional turbulence-based risk control. Share amounts are
-treated as continuous (a Box action, not integer lots) — simpler for SB3
+treated as continuous (a Box action, not integer lots) - simpler for SB3
 and immaterial at this position-sizing scale.
 """
 
@@ -15,40 +15,47 @@ import gymnasium as gym
 import numpy as np
 from gymnasium import spaces
 
-from configs.settings import (
+from minifinrl.core.configs.settings import (
     HMAX,
     INITIAL_AMOUNT,
     REWARD_SCALING,
     TRANSACTION_COST_PCT,
     USE_TURBULENCE,
 )
+from minifinrl.core.envs.scaling import OBS_SCALING, default_feature_names, scale_features
 
 
 class StockTradingEnv(gym.Env):
     """One episode = one full pass through `prices`/`features` (a
     historical or synthetic path). Action is a per-ticker share-delta in
-    [-hmax, hmax]; observation is [cash, prices, holdings, flat features].
+    [-hmax, hmax]; observation is [cash, prices, holdings, flat features],
+    each scaled to roughly +-1 (see _get_obs and envs/scaling.py).
     """
 
     metadata = {"render_modes": []}
+    env_version = "trading-v1"  # costs are charged on actual share trades, so already exact
 
     def __init__(
         self,
         prices: np.ndarray,  # (T, N)
-        features: np.ndarray,  # (T, N, F) — last F column is turbulence if USE_TURBULENCE
+        features: np.ndarray,  # (T, N, F) - last F column is turbulence if USE_TURBULENCE
         tickers: list[str],
         initial_amount: float = INITIAL_AMOUNT,
         hmax: int = HMAX,
         transaction_cost_pct: float = TRANSACTION_COST_PCT,
         reward_scaling: float = REWARD_SCALING,
         turbulence_threshold: float | None = None,
+        feature_names: list[str] | None = None,
     ):
         super().__init__()
         assert prices.shape[0] == features.shape[0]
         assert prices.shape[1] == features.shape[1] == len(tickers)
 
         self.prices = prices
-        self.features = features
+        self.features = features  # raw: the turbulence threshold compares raw values
+        self.feature_names = feature_names or default_feature_names(features.shape[2])
+        self.obs_features = scale_features(features, prices, self.feature_names)
+        self.obs_scaling = OBS_SCALING
         self.tickers = tickers
         self.n_assets = len(tickers)
         self.n_features = features.shape[2]
@@ -83,8 +90,18 @@ class StockTradingEnv(gym.Env):
         return self.cash + float(np.dot(self.holdings, self.prices[self.day]))
 
     def _get_obs(self) -> np.ndarray:
-        flat_features = self.features[self.day].reshape(-1)
-        obs = np.concatenate(([self.cash], self.prices[self.day], self.holdings, flat_features))
+        # Same layout as before (so obs_dim is unchanged), scaled:
+        #   cash            -> share of initial capital (1.0 at reset)
+        #   prices          -> relative to the episode's first day
+        #   holdings        -> position value as share of initial capital
+        #   features        -> envs/scaling.py rules
+        price = self.prices[self.day]
+        obs = np.concatenate((
+            [self.cash / self.initial_amount],
+            price / self.prices[0],
+            self.holdings * price / self.initial_amount,
+            self.obs_features[self.day].reshape(-1),
+        ))
         return obs.astype(np.float32)
 
     def reset(self, *, seed: int | None = None, options: dict | None = None):
@@ -105,8 +122,9 @@ class StockTradingEnv(gym.Env):
             # risk-off: liquidate everything, ignore the requested action
             actions = -self.holdings.copy()
 
-        # sells first (frees up cash), then buys — both are share-value
+        # sells first (frees up cash), then buys - both are share-value
         # truncated to what's actually available (no shorting, no margin)
+        traded, paid = 0.0, 0.0
         order = np.argsort(actions)
         for i in order:
             price = self.prices[self.day, i]
@@ -116,15 +134,23 @@ class StockTradingEnv(gym.Env):
             if shares < 0:
                 sell = min(-shares, self.holdings[i])
                 proceeds = sell * price * (1 - self.transaction_cost_pct)
+                traded += sell * price
+                paid += sell * price * self.transaction_cost_pct
                 self.cash += proceeds
                 self.holdings[i] -= sell
             elif shares > 0:
                 affordable = self.cash / (price * (1 + self.transaction_cost_pct))
                 buy = min(shares, affordable)
                 cost = buy * price * (1 + self.transaction_cost_pct)
+                traded += buy * price
+                paid += buy * price * self.transaction_cost_pct
                 self.cash -= cost
                 self.holdings[i] += buy
 
+        # turnover = traded notional / portfolio value before trading (same
+        # definition as the portfolio env's sum |dw|)
+        self.last_turnover = traded / prev_value if prev_value > 0 else 0.0
+        self.last_cost = paid
         self.day += 1
         terminated = self.day >= self.max_step
         self.portfolio_value = self._compute_portfolio_value()

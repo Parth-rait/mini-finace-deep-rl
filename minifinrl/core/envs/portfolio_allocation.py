@@ -13,7 +13,8 @@ import gymnasium as gym
 import numpy as np
 from gymnasium import spaces
 
-from configs.settings import INITIAL_AMOUNT, REWARD_SCALING, TRANSACTION_COST_PCT
+from minifinrl.core.configs.settings import INITIAL_AMOUNT, REWARD_SCALING, TRANSACTION_COST_PCT
+from minifinrl.core.envs.scaling import OBS_SCALING, default_feature_names, scale_features
 
 
 def _softmax(x: np.ndarray) -> np.ndarray:
@@ -29,6 +30,10 @@ class PortfolioAllocationEnv(gym.Env):
     (reallocation) cost."""
 
     metadata = {"render_modes": []}
+    # v2 (6 Oct 2026, EXPERIMENTS.md E02): turnover is charged against the
+    # weights after price drift, not against yesterday's target. Recorded on
+    # every model card; a v1-trained policy is refused.
+    env_version = "portfolio-v2"
 
     def __init__(
         self,
@@ -38,6 +43,7 @@ class PortfolioAllocationEnv(gym.Env):
         initial_amount: float = INITIAL_AMOUNT,
         transaction_cost_pct: float = TRANSACTION_COST_PCT,
         reward_scaling: float = REWARD_SCALING,
+        feature_names: list[str] | None = None,
     ):
         super().__init__()
         assert prices.shape[0] == features.shape[0]
@@ -45,6 +51,9 @@ class PortfolioAllocationEnv(gym.Env):
 
         self.prices = prices
         self.features = features
+        self.feature_names = feature_names or default_feature_names(features.shape[2])
+        self.obs_features = scale_features(features, prices, self.feature_names)
+        self.obs_scaling = OBS_SCALING
         self.tickers = tickers
         self.n_assets = len(tickers)
         self.n_features = features.shape[2]
@@ -67,7 +76,8 @@ class PortfolioAllocationEnv(gym.Env):
         self.asset_history: list[float] = []
 
     def _get_obs(self) -> np.ndarray:
-        flat_features = self.features[self.day].reshape(-1)
+        # weights are already in [0, 1]; features scaled per envs/scaling.py
+        flat_features = self.obs_features[self.day].reshape(-1)
         return np.concatenate((self.weights, flat_features)).astype(np.float32)
 
     def reset(self, *, seed: int | None = None, options: dict | None = None):
@@ -76,9 +86,14 @@ class PortfolioAllocationEnv(gym.Env):
         self.weights = np.ones(self.n_assets) / self.n_assets
         self.portfolio_value = self.initial_amount
         self.asset_history = [self.portfolio_value]
+        self.last_turnover = 0.0
+        self.last_cost = 0.0
         return self._get_obs(), {}
 
     def step(self, action: np.ndarray):
+        # self.weights are the weights held *now*, i.e. after yesterday's
+        # price moves. Rebalancing to new_weights trades their difference:
+        #   turnover_t = sum_i |w_new_i - w_drift_i|,  cost_t = c * turnover_t
         new_weights = _softmax(np.asarray(action, dtype=np.float64))
         turnover = np.abs(new_weights - self.weights).sum()
         cost = turnover * self.transaction_cost_pct
@@ -86,11 +101,15 @@ class PortfolioAllocationEnv(gym.Env):
         price_today = self.prices[self.day]
         price_next = self.prices[min(self.day + 1, self.max_step)]
         asset_returns = price_next / price_today - 1.0
-        portfolio_return = float(np.dot(new_weights, asset_returns)) - cost
+        gross = float(np.dot(new_weights, asset_returns))
+        portfolio_return = gross - cost
 
         prev_value = self.portfolio_value
         self.portfolio_value *= 1.0 + portfolio_return
-        self.weights = new_weights
+        # drift: w_drift_i = w_i (1 + r_i) / (1 + w . r)
+        self.weights = new_weights * (1.0 + asset_returns) / (1.0 + gross)
+        self.last_turnover = turnover
+        self.last_cost = cost * prev_value
         self.day += 1
 
         terminated = self.day >= self.max_step
