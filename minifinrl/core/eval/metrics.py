@@ -10,7 +10,7 @@ from __future__ import annotations
 
 import numpy as np
 
-from configs.settings import RISK_FREE_RATE, TRADING_DAYS
+from minifinrl.core.configs.settings import RISK_FREE_RATE, TRADING_DAYS
 
 
 def returns_from_values(values: np.ndarray) -> np.ndarray:
@@ -32,18 +32,30 @@ def annualized_volatility(returns: np.ndarray) -> float:
     return float(np.std(returns, ddof=1) * np.sqrt(TRADING_DAYS))
 
 
-def sharpe_ratio(returns: np.ndarray, risk_free: float = RISK_FREE_RATE) -> float:
+def _excess(returns: np.ndarray, risk_free) -> np.ndarray:
+    """`risk_free`: an annual rate (scalar, the old convention, divided by
+    TRADING_DAYS) or a per-period array of daily risk-free returns aligned
+    with `returns` (E03)."""
+    if np.ndim(risk_free) == 0:
+        return returns - float(risk_free) / TRADING_DAYS
+    rf = np.asarray(risk_free, dtype=np.float64)
+    if rf.shape != returns.shape:
+        raise ValueError(f"risk-free series has {rf.shape}, returns have {returns.shape}")
+    return returns - rf
+
+
+def sharpe_ratio(returns: np.ndarray, risk_free=RISK_FREE_RATE) -> float:
     if len(returns) < 2:
         return 0.0
-    excess = returns - risk_free / TRADING_DAYS
+    excess = _excess(returns, risk_free)
     std = np.std(excess, ddof=1)
     if std == 0:
         return 0.0
     return float(np.mean(excess) / std * np.sqrt(TRADING_DAYS))
 
 
-def sortino_ratio(returns: np.ndarray, risk_free: float = RISK_FREE_RATE) -> float:
-    excess = returns - risk_free / TRADING_DAYS
+def sortino_ratio(returns: np.ndarray, risk_free=RISK_FREE_RATE) -> float:
+    excess = _excess(returns, risk_free)
     downside = excess[excess < 0]
     if len(downside) < 2:
         return 0.0
@@ -60,14 +72,15 @@ def max_drawdown(values: np.ndarray) -> float:
     return float(drawdown.min())
 
 
-def summarize(values: np.ndarray) -> dict[str, float]:
-    """One row of headline stats for a single equity curve."""
+def summarize(values: np.ndarray, risk_free=RISK_FREE_RATE) -> dict[str, float]:
+    """One row of headline stats for a single equity curve. Sharpe and
+    Sortino are on returns in excess of `risk_free` (see _excess)."""
     returns = returns_from_values(values)
     return {
         "final_value": float(values[-1]),
         "cagr": cagr(values),
         "volatility": annualized_volatility(returns),
-        "sharpe": sharpe_ratio(returns),
-        "sortino": sortino_ratio(returns),
+        "sharpe": sharpe_ratio(returns, risk_free),
+        "sortino": sortino_ratio(returns, risk_free),
         "max_drawdown": max_drawdown(values),
     }
