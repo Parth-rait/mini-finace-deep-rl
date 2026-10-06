@@ -24,11 +24,12 @@ import numpy as np
 import pandas as pd
 
 import minifinrl
+from minifinrl import bias_eval
 from minifinrl.capabilities import CapabilityForbidden, CapabilityRegistry, CapabilityUnavailable, capability
 from minifinrl.core import pipeline
 from minifinrl.core.configs.logging_config import get_logger
 from minifinrl.core.agents.registry import ModelRegistry
-from minifinrl.core.configs.settings import HMM_N_PATHS, HMM_PATH_LENGTH, TOTAL_TIMESTEPS, TRAIN_START
+from minifinrl.core.configs.settings import HMM_N_PATHS, HMM_PATH_LENGTH, ROOT, TOTAL_TIMESTEPS, TRAIN_START
 from minifinrl.core import experiments, walkforward
 from minifinrl.core.meta.crosscheck import crosscheck
 from minifinrl.core.eval.report import rank_stability as rank_table
@@ -44,6 +45,8 @@ from minifinrl.ports import BiasClassification, BiasClassifier
 from minifinrl.schemas import (
     AppReport,
     BacktestQuery,
+    BiasEvalIn,
+    BiasEvalOut,
     BacktestResults,
     BacktestRow,
     BacktestRunIn,
@@ -263,6 +266,20 @@ class Engine:
         if self.bias is None:
             raise CapabilityUnavailable(f"no bias classifier configured in profile '{self.cfg.profile}'")
         return self.bias.classify(req.text)
+
+    # ---- batch: evaluation against hand labels --------------------------------------------------
+
+    @capability("evaluate_biases", BiasEvalIn, BiasEvalOut, effect="batch")
+    def evaluate_biases(self, req: BiasEvalIn) -> BiasEvalOut:
+        """Score the configured bias classifier against hand-labelled texts: precision, recall, F1 and Cohen's kappa per bias."""
+        if self.bias is None:
+            raise CapabilityUnavailable(f"no bias classifier configured in profile '{self.cfg.profile}'")
+        path = Path(req.labels_path)
+        if not path.is_absolute():
+            path = ROOT / path
+        if not path.exists():
+            raise CapabilityUnavailable(f"no labels at {path}: see corpus/LABELLING.md")
+        return BiasEvalOut(**bias_eval.evaluate(bias_eval.load_labels(path), self.bias))
 
     # ---- forbidden ----------------------------------------------------------------------------
 

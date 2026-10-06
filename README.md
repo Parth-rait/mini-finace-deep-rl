@@ -66,6 +66,34 @@ python -m minifinrl train --app trading --model sac --seed 1
 python -m minifinrl health --profile ci           # offline profile, no network
 ```
 
+## HTTP API
+
+The same capabilities are served over HTTP (paper analysis only; nothing places orders):
+
+```bash
+uvicorn minifinrl.interfaces.api:create_app --factory --port 8000
+curl -s localhost:8000/                       # routes
+curl -s -X POST localhost:8000/luck-test -H 'content-type: application/json' \
+     -d '{"ticker": "META", "date": "2023-02-01", "horizon_days": 5}'
+```
+
+Routes are generated from the capability registry. Training, fetching and
+backtesting have no route; they run from the command line only.
+`MINIFINRL_PROFILE`, `MINIFINRL_UNIVERSE` and `MINIFINRL_WORKSPACE` choose the
+setup. Interactive docs are at `/docs`.
+
+## Bias classifier evaluation
+
+`corpus/LABELLING.md` explains how to label trading texts for six behavioural
+biases. With the labels in `corpus/bias_labels.jsonl`:
+
+```bash
+python -m minifinrl evaluate-biases
+```
+
+reports precision, recall, F1 and Cohen's kappa per bias, and agreement
+between two human labellers when a second set of labels is present.
+
 ## Logging
 
 Every module logs through `minifinrl/core/configs/logging_config.py` (`get_logger(__name__)`)

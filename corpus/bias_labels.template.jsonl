@@ -1,0 +1,4 @@
+// Three made-up examples showing the format. They are not data: copy this file to bias_labels.jsonl and replace them.
+{"id": "ex1", "text": "Everyone in the group chat is up 40% on this. Buying before it runs further.", "labels": ["fomo", "herding"], "labels_b": ["fomo", "herding"], "source": "example written for the template"}
+{"id": "ex2", "text": "Down 30% but I'm not selling at a loss. I'll wait until it's back to what I paid.", "labels": ["loss_aversion"], "labels_b": ["loss_aversion", "anchoring"], "source": "example written for the template"}
+{"id": "ex3", "text": "Trimmed my position after earnings to keep it under 5% of the portfolio.", "labels": [], "labels_b": [], "source": "example written for the template"}

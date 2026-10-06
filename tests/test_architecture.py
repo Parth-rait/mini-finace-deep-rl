@@ -21,7 +21,7 @@ PKG = Path(__file__).resolve().parents[1] / "minifinrl"
 
 WEB = {"fastapi", "starlette", "uvicorn", "sse_starlette"}
 LLM = {"aip", "litellm", "openai", "anthropic"}
-ENGINE_LAYER = {"minifinrl.engine", "minifinrl.capabilities", "minifinrl.ports", "minifinrl.schemas"}
+ENGINE_LAYER = {"minifinrl.engine", "minifinrl.capabilities", "minifinrl.ports", "minifinrl.schemas", "minifinrl.bias_eval"}
 
 
 def _imports(path: Path) -> set[str]:
@@ -78,7 +78,7 @@ def test_core_is_self_contained():
 
 
 def test_engine_layer_never_sees_adapters_web_or_llm():
-    files = [f for name in ("engine.py", "capabilities.py", "ports.py", "schemas.py") for f in _files(name)]
+    files = [f for name in ("engine.py", "capabilities.py", "ports.py", "schemas.py", "bias_eval.py") for f in _files(name)]
     bad = _violations(files, ["minifinrl.core", *ENGINE_LAYER], WEB | LLM)
     assert not bad, "\n".join(bad)
 

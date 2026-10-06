@@ -330,6 +330,34 @@ class WalkForwardOut(BaseModel):
     study: dict = Field(description="per app: selection rules (chained out-of-sample), rank persistence, Sharpe per fold")
 
 
+class BiasEvalIn(_In):
+    labels_path: str = Field(default="corpus/bias_labels.jsonl", description="JSONL of hand-labelled texts (corpus/LABELLING.md)")
+
+
+class LabelScore(BaseModel):
+    label: str
+    support: int = Field(description="texts with this label in the reference")
+    tp: int
+    fp: int
+    fn: int
+    precision: float | None
+    recall: float | None
+    f1: float | None
+    kappa_model: float | None = Field(description="Cohen's kappa, classifier vs reference labels")
+    kappa_humans: float | None = Field(default=None, description="Cohen's kappa, labeller A vs labeller B")
+
+
+class BiasEvalOut(BaseModel):
+    classifier: str
+    texts: int
+    double_labelled: int
+    exact_match: float
+    macro_f1: float | None
+    macro_kappa_model: float | None
+    macro_kappa_humans: float | None
+    per_label: list[LabelScore]
+
+
 class ExperimentIn(_In):
     id: str = Field(pattern=r"^E\d{2,3}$", description="permanent id, e.g. E03")
     title: str = Field(min_length=3, max_length=120)
