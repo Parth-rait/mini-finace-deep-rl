@@ -1,0 +1,38 @@
+
+=== trading ===
+historical sharpe by model (median over seeds):
+   model  sharpe_median  sharpe_q25  sharpe_q75
+baseline       1.213023    1.213023    1.213023
+     ppo       1.166618    1.166618    1.166618
+     sac       1.234336    1.234336    1.234336
+
+synthetic sharpe by model (median over seeds & paths):
+   model  sharpe_median  sharpe_q25  sharpe_q75
+baseline       1.085444    0.763425    1.335735
+     ppo       1.184180    0.876285    1.316602
+     sac       1.198510    0.844858    1.514361
+
+synthetic path win rate by model:
+   model  win_rate
+     sac       0.5
+     ppo       0.4
+baseline       0.1
+
+=== portfolio ===
+historical sharpe by model (median over seeds):
+   model  sharpe_median  sharpe_q25  sharpe_q75
+baseline       1.789973    1.789973    1.789973
+     ppo       1.768864    1.768864    1.768864
+     sac       1.047943    1.047943    1.047943
+
+synthetic sharpe by model (median over seeds & paths):
+   model  sharpe_median  sharpe_q25  sharpe_q75
+baseline       1.285693    0.837355    1.427227
+     ppo       1.243030    0.822111    1.420688
+     sac       0.873950    0.542998    1.299062
+
+synthetic path win rate by model:
+   model  win_rate
+baseline      0.75
+     sac      0.15
+     ppo      0.10

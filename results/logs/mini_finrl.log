@@ -1,0 +1,1075 @@
+2026-09-11 12:22:58 INFO     mini_finrl.meta.data: downloading 8 tickers from 2014-01-01 to 2026-06-30 (cache miss: ohlcv_2014-01-01_2026-06-30_AAPL-AMZN-GOOGL-JNJ-JPM-META-MSFT-XOM.csv)
+2026-09-11 12:23:04 INFO     mini_finrl.meta.data: downloaded 25120 rows for 8 tickers, cached to /Users/parthrait/Desktop/Mini-fin-rl/data/raw/ohlcv_2014-01-01_2026-06-30_AAPL-AMZN-GOOGL-JNJ-JPM-META-MSFT-XOM.csv
+2026-09-11 12:23:04 INFO     mini_finrl.meta.data: downloading ^VIX from 2014-01-01 to 2026-06-30
+2026-09-11 12:23:04 INFO     mini_finrl.meta.data: downloaded 3141 VIX rows, cached to /Users/parthrait/Desktop/Mini-fin-rl/data/raw/vix_2014-01-01_2026-06-30.csv
+2026-09-11 12:23:04 INFO     mini_finrl.__main__: downloaded 25120 rows for 8 tickers
+2026-09-11 12:23:04 INFO     mini_finrl.__main__: downloaded 3141 VIX rows
+2026-09-11 12:23:36 INFO     mini_finrl.meta.data: cache hit: ohlcv_2014-01-01_2026-06-30_AAPL-AMZN-GOOGL-JNJ-JPM-META-MSFT-XOM.csv
+2026-09-11 12:23:36 INFO     mini_finrl.meta.data: cache hit: vix_2014-01-01_2026-06-30.csv
+2026-09-11 12:23:36 INFO     mini_finrl.meta.features: add_indicators: computed ['macd', 'rsi_30', 'cci_30', 'dx_30', 'close_30_sma', 'close_60_sma'] for 8 tickers, 25120 rows
+2026-09-11 12:23:37 INFO     mini_finrl.meta.features: add_turbulence: lookback=252, 2888/3140 days scored (rest are warm-up), max=343.11
+2026-09-11 12:23:37 INFO     mini_finrl.__main__: processed panel: (25120, 16), cached to /Users/parthrait/Desktop/Mini-fin-rl/data/processed/panel.csv
+2026-09-11 12:23:37 INFO     mini_finrl.meta.synthetic: fitting 3-state HMM on 3139 observations
+2026-09-11 12:23:37 INFO     mini_finrl.meta.synthetic: HMM state occupancy: {0: 1323, 1: 1491, 2: 325}
+2026-09-11 12:23:37 INFO     mini_finrl.meta.synthetic: fit complete for 8 tickers
+2026-09-11 12:23:37 INFO     mini_finrl.meta.synthetic: sampling 20 synthetic paths of length 500
+2026-09-11 12:23:38 INFO     mini_finrl.meta.synthetic: sampled 20 synthetic paths
+2026-09-11 12:23:38 INFO     mini_finrl.meta.features: add_indicators: computed ['macd', 'rsi_30', 'cci_30', 'dx_30', 'close_30_sma', 'close_60_sma'] for 8 tickers, 4000 rows
+2026-09-11 12:23:38 INFO     mini_finrl.meta.features: add_turbulence: lookback=252, 248/500 days scored (rest are warm-up), max=44.76
+2026-09-11 12:23:38 INFO     mini_finrl.meta.features: add_indicators: computed ['macd', 'rsi_30', 'cci_30', 'dx_30', 'close_30_sma', 'close_60_sma'] for 8 tickers, 4000 rows
+2026-09-11 12:23:38 INFO     mini_finrl.meta.features: add_turbulence: lookback=252, 248/500 days scored (rest are warm-up), max=71.03
+2026-09-11 12:23:38 INFO     mini_finrl.meta.features: add_indicators: computed ['macd', 'rsi_30', 'cci_30', 'dx_30', 'close_30_sma', 'close_60_sma'] for 8 tickers, 4000 rows
+2026-09-11 12:23:38 INFO     mini_finrl.meta.features: add_turbulence: lookback=252, 248/500 days scored (rest are warm-up), max=99.51
+2026-09-11 12:23:38 INFO     mini_finrl.meta.features: add_indicators: computed ['macd', 'rsi_30', 'cci_30', 'dx_30', 'close_30_sma', 'close_60_sma'] for 8 tickers, 4000 rows
+2026-09-11 12:23:38 INFO     mini_finrl.meta.features: add_turbulence: lookback=252, 248/500 days scored (rest are warm-up), max=91.22
+2026-09-11 12:23:38 INFO     mini_finrl.meta.features: add_indicators: computed ['macd', 'rsi_30', 'cci_30', 'dx_30', 'close_30_sma', 'close_60_sma'] for 8 tickers, 4000 rows
+2026-09-11 12:23:39 INFO     mini_finrl.meta.features: add_turbulence: lookback=252, 248/500 days scored (rest are warm-up), max=186.14
+2026-09-11 12:23:39 INFO     mini_finrl.meta.features: add_indicators: computed ['macd', 'rsi_30', 'cci_30', 'dx_30', 'close_30_sma', 'close_60_sma'] for 8 tickers, 4000 rows
+2026-09-11 12:23:39 INFO     mini_finrl.meta.features: add_turbulence: lookback=252, 248/500 days scored (rest are warm-up), max=119.75
+2026-09-11 12:23:39 INFO     mini_finrl.meta.features: add_indicators: computed ['macd', 'rsi_30', 'cci_30', 'dx_30', 'close_30_sma', 'close_60_sma'] for 8 tickers, 4000 rows
+2026-09-11 12:23:39 INFO     mini_finrl.meta.features: add_turbulence: lookback=252, 248/500 days scored (rest are warm-up), max=84.98
+2026-09-11 12:23:39 INFO     mini_finrl.meta.features: add_indicators: computed ['macd', 'rsi_30', 'cci_30', 'dx_30', 'close_30_sma', 'close_60_sma'] for 8 tickers, 4000 rows
+2026-09-11 12:23:39 INFO     mini_finrl.meta.features: add_turbulence: lookback=252, 248/500 days scored (rest are warm-up), max=65.72
+2026-09-11 12:23:39 INFO     mini_finrl.meta.features: add_indicators: computed ['macd', 'rsi_30', 'cci_30', 'dx_30', 'close_30_sma', 'close_60_sma'] for 8 tickers, 4000 rows
+2026-09-11 12:23:39 INFO     mini_finrl.meta.features: add_turbulence: lookback=252, 248/500 days scored (rest are warm-up), max=93.16
+2026-09-11 12:23:39 INFO     mini_finrl.meta.features: add_indicators: computed ['macd', 'rsi_30', 'cci_30', 'dx_30', 'close_30_sma', 'close_60_sma'] for 8 tickers, 4000 rows
+2026-09-11 12:23:39 INFO     mini_finrl.meta.features: add_turbulence: lookback=252, 248/500 days scored (rest are warm-up), max=141.39
+2026-09-11 12:23:39 INFO     mini_finrl.meta.features: add_indicators: computed ['macd', 'rsi_30', 'cci_30', 'dx_30', 'close_30_sma', 'close_60_sma'] for 8 tickers, 4000 rows
+2026-09-11 12:23:40 INFO     mini_finrl.meta.features: add_turbulence: lookback=252, 248/500 days scored (rest are warm-up), max=131.25
+2026-09-11 12:23:40 INFO     mini_finrl.meta.features: add_indicators: computed ['macd', 'rsi_30', 'cci_30', 'dx_30', 'close_30_sma', 'close_60_sma'] for 8 tickers, 4000 rows
+2026-09-11 12:23:40 INFO     mini_finrl.meta.features: add_turbulence: lookback=252, 248/500 days scored (rest are warm-up), max=53.40
+2026-09-11 12:23:40 INFO     mini_finrl.meta.features: add_indicators: computed ['macd', 'rsi_30', 'cci_30', 'dx_30', 'close_30_sma', 'close_60_sma'] for 8 tickers, 4000 rows
+2026-09-11 12:23:40 INFO     mini_finrl.meta.features: add_turbulence: lookback=252, 248/500 days scored (rest are warm-up), max=122.73
+2026-09-11 12:23:40 INFO     mini_finrl.meta.features: add_indicators: computed ['macd', 'rsi_30', 'cci_30', 'dx_30', 'close_30_sma', 'close_60_sma'] for 8 tickers, 4000 rows
+2026-09-11 12:23:40 INFO     mini_finrl.meta.features: add_turbulence: lookback=252, 248/500 days scored (rest are warm-up), max=86.48
+2026-09-11 12:23:40 INFO     mini_finrl.meta.features: add_indicators: computed ['macd', 'rsi_30', 'cci_30', 'dx_30', 'close_30_sma', 'close_60_sma'] for 8 tickers, 4000 rows
+2026-09-11 12:23:40 INFO     mini_finrl.meta.features: add_turbulence: lookback=252, 248/500 days scored (rest are warm-up), max=76.79
+2026-09-11 12:23:40 INFO     mini_finrl.meta.features: add_indicators: computed ['macd', 'rsi_30', 'cci_30', 'dx_30', 'close_30_sma', 'close_60_sma'] for 8 tickers, 4000 rows
+2026-09-11 12:23:40 INFO     mini_finrl.meta.features: add_turbulence: lookback=252, 248/500 days scored (rest are warm-up), max=115.59
+2026-09-11 12:23:40 INFO     mini_finrl.meta.features: add_indicators: computed ['macd', 'rsi_30', 'cci_30', 'dx_30', 'close_30_sma', 'close_60_sma'] for 8 tickers, 4000 rows
+2026-09-11 12:23:41 INFO     mini_finrl.meta.features: add_turbulence: lookback=252, 248/500 days scored (rest are warm-up), max=63.02
+2026-09-11 12:23:41 INFO     mini_finrl.meta.features: add_indicators: computed ['macd', 'rsi_30', 'cci_30', 'dx_30', 'close_30_sma', 'close_60_sma'] for 8 tickers, 4000 rows
+2026-09-11 12:23:41 INFO     mini_finrl.meta.features: add_turbulence: lookback=252, 248/500 days scored (rest are warm-up), max=124.88
+2026-09-11 12:23:41 INFO     mini_finrl.meta.features: add_indicators: computed ['macd', 'rsi_30', 'cci_30', 'dx_30', 'close_30_sma', 'close_60_sma'] for 8 tickers, 4000 rows
+2026-09-11 12:23:41 INFO     mini_finrl.meta.features: add_turbulence: lookback=252, 248/500 days scored (rest are warm-up), max=105.34
+2026-09-11 12:23:41 INFO     mini_finrl.meta.features: add_indicators: computed ['macd', 'rsi_30', 'cci_30', 'dx_30', 'close_30_sma', 'close_60_sma'] for 8 tickers, 4000 rows
+2026-09-11 12:23:41 INFO     mini_finrl.meta.features: add_turbulence: lookback=252, 248/500 days scored (rest are warm-up), max=78.31
+2026-09-11 12:23:41 INFO     mini_finrl.__main__: sampled 20 synthetic paths of length 500 to /Users/parthrait/Desktop/Mini-fin-rl/data/synthetic
+2026-09-11 12:23:59 INFO     mini_finrl.__main__: run: app=trading model=ppo seed=0 timesteps=5000
+2026-09-11 12:23:59 INFO     mini_finrl.meta.data: downloading 8 tickers from 2014-01-01 to 2022-12-31 (cache miss: ohlcv_2014-01-01_2022-12-31_AAPL-AMZN-GOOGL-JNJ-JPM-META-MSFT-XOM.csv)
+2026-09-11 12:24:03 INFO     mini_finrl.meta.data: downloaded 18128 rows for 8 tickers, cached to /Users/parthrait/Desktop/Mini-fin-rl/data/raw/ohlcv_2014-01-01_2022-12-31_AAPL-AMZN-GOOGL-JNJ-JPM-META-MSFT-XOM.csv
+2026-09-11 12:24:03 INFO     mini_finrl.meta.features: add_indicators: computed ['macd', 'rsi_30', 'cci_30', 'dx_30', 'close_30_sma', 'close_60_sma'] for 8 tickers, 18128 rows
+2026-09-11 12:24:04 INFO     mini_finrl.meta.features: add_turbulence: lookback=252, 2014/2266 days scored (rest are warm-up), max=343.12
+2026-09-11 12:24:04 INFO     mini_finrl.agents.sb3_wrapper: initialized PPO agent, seed=0, params={'n_steps': 2048, 'batch_size': 128, 'learning_rate': 0.00025, 'ent_coef': 0.005}
+2026-09-11 12:24:04 INFO     mini_finrl.agents.sb3_wrapper: training PPO (seed=0) for 5000 timesteps
+2026-09-11 12:24:06 INFO     mini_finrl.agents.sb3_wrapper: finished training PPO in 1.2s (4028 steps/s)
+2026-09-11 12:24:06 INFO     mini_finrl.agents.sb3_wrapper: saved PPO model to /Users/parthrait/Desktop/Mini-fin-rl/results/models/trading_ppo_seed0.zip
+2026-09-11 12:24:14 INFO     mini_finrl.__main__: run: app=trading model=sac seed=0 timesteps=5000
+2026-09-11 12:24:14 INFO     mini_finrl.meta.data: cache hit: ohlcv_2014-01-01_2022-12-31_AAPL-AMZN-GOOGL-JNJ-JPM-META-MSFT-XOM.csv
+2026-09-11 12:24:14 INFO     mini_finrl.meta.features: add_indicators: computed ['macd', 'rsi_30', 'cci_30', 'dx_30', 'close_30_sma', 'close_60_sma'] for 8 tickers, 18128 rows
+2026-09-11 12:24:14 INFO     mini_finrl.meta.features: add_turbulence: lookback=252, 2014/2266 days scored (rest are warm-up), max=343.12
+2026-09-11 12:24:15 INFO     mini_finrl.agents.sb3_wrapper: initialized SAC agent, seed=0, params={'batch_size': 256, 'buffer_size': 100000, 'learning_rate': 0.0003, 'learning_starts': 1000}
+2026-09-11 12:24:15 INFO     mini_finrl.agents.sb3_wrapper: training SAC (seed=0) for 5000 timesteps
+2026-09-11 12:24:35 INFO     mini_finrl.agents.sb3_wrapper: finished training SAC in 20.3s (247 steps/s)
+2026-09-11 12:24:36 INFO     mini_finrl.agents.sb3_wrapper: saved SAC model to /Users/parthrait/Desktop/Mini-fin-rl/results/models/trading_sac_seed0.zip
+2026-09-11 12:24:43 INFO     mini_finrl.__main__: run: app=portfolio model=ppo seed=0 timesteps=5000
+2026-09-11 12:24:43 INFO     mini_finrl.meta.data: cache hit: ohlcv_2014-01-01_2022-12-31_AAPL-AMZN-GOOGL-JNJ-JPM-META-MSFT-XOM.csv
+2026-09-11 12:24:43 INFO     mini_finrl.meta.features: add_indicators: computed ['macd', 'rsi_30', 'cci_30', 'dx_30', 'close_30_sma', 'close_60_sma'] for 8 tickers, 18128 rows
+2026-09-11 12:24:44 INFO     mini_finrl.meta.features: add_turbulence: lookback=252, 2014/2266 days scored (rest are warm-up), max=343.12
+2026-09-11 12:24:45 INFO     mini_finrl.agents.sb3_wrapper: initialized PPO agent, seed=0, params={'n_steps': 2048, 'batch_size': 128, 'learning_rate': 0.00025, 'ent_coef': 0.005}
+2026-09-11 12:24:45 INFO     mini_finrl.agents.sb3_wrapper: training PPO (seed=0) for 5000 timesteps
+2026-09-11 12:24:46 INFO     mini_finrl.agents.sb3_wrapper: finished training PPO in 1.3s (3905 steps/s)
+2026-09-11 12:24:46 INFO     mini_finrl.agents.sb3_wrapper: saved PPO model to /Users/parthrait/Desktop/Mini-fin-rl/results/models/portfolio_ppo_seed0.zip
+2026-09-11 12:24:53 INFO     mini_finrl.__main__: run: app=portfolio model=sac seed=0 timesteps=5000
+2026-09-11 12:24:53 INFO     mini_finrl.meta.data: cache hit: ohlcv_2014-01-01_2022-12-31_AAPL-AMZN-GOOGL-JNJ-JPM-META-MSFT-XOM.csv
+2026-09-11 12:24:53 INFO     mini_finrl.meta.features: add_indicators: computed ['macd', 'rsi_30', 'cci_30', 'dx_30', 'close_30_sma', 'close_60_sma'] for 8 tickers, 18128 rows
+2026-09-11 12:24:53 INFO     mini_finrl.meta.features: add_turbulence: lookback=252, 2014/2266 days scored (rest are warm-up), max=343.12
+2026-09-11 12:24:54 INFO     mini_finrl.agents.sb3_wrapper: initialized SAC agent, seed=0, params={'batch_size': 256, 'buffer_size': 100000, 'learning_rate': 0.0003, 'learning_starts': 1000}
+2026-09-11 12:24:54 INFO     mini_finrl.agents.sb3_wrapper: training SAC (seed=0) for 5000 timesteps
+2026-09-11 12:25:15 INFO     mini_finrl.agents.sb3_wrapper: finished training SAC in 20.7s (241 steps/s)
+2026-09-11 12:25:15 INFO     mini_finrl.agents.sb3_wrapper: saved SAC model to /Users/parthrait/Desktop/Mini-fin-rl/results/models/portfolio_sac_seed0.zip
+2026-09-11 12:25:23 INFO     mini_finrl.meta.data: downloading 8 tickers from 2023-01-01 to 2026-06-30 (cache miss: ohlcv_2023-01-01_2026-06-30_AAPL-AMZN-GOOGL-JNJ-JPM-META-MSFT-XOM.csv)
+2026-09-11 12:25:26 INFO     mini_finrl.meta.data: downloaded 6992 rows for 8 tickers, cached to /Users/parthrait/Desktop/Mini-fin-rl/data/raw/ohlcv_2023-01-01_2026-06-30_AAPL-AMZN-GOOGL-JNJ-JPM-META-MSFT-XOM.csv
+2026-09-11 12:25:26 INFO     mini_finrl.meta.features: add_indicators: computed ['macd', 'rsi_30', 'cci_30', 'dx_30', 'close_30_sma', 'close_60_sma'] for 8 tickers, 6992 rows
+2026-09-11 12:25:26 INFO     mini_finrl.meta.features: add_turbulence: lookback=252, 622/874 days scored (rest are warm-up), max=180.18
+2026-09-11 12:25:27 INFO     mini_finrl.agents.sb3_wrapper: loaded PPO model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/trading_ppo_seed0.zip
+2026-09-11 12:25:27 INFO     mini_finrl.eval.backtest: backtest[historical]: final_value=2226481 sharpe=1.167 max_drawdown=-0.269
+2026-09-11 12:25:27 INFO     mini_finrl.agents.sb3_wrapper: loaded PPO model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/trading_ppo_seed0.zip
+2026-09-11 12:25:27 INFO     mini_finrl.eval.backtest: backtest[path_000]: final_value=1808808 sharpe=1.218 max_drawdown=-0.234
+2026-09-11 12:25:27 INFO     mini_finrl.agents.sb3_wrapper: loaded PPO model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/trading_ppo_seed0.zip
+2026-09-11 12:25:27 INFO     mini_finrl.eval.backtest: backtest[path_001]: final_value=2162801 sharpe=2.010 max_drawdown=-0.189
+2026-09-11 12:25:27 INFO     mini_finrl.agents.sb3_wrapper: loaded PPO model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/trading_ppo_seed0.zip
+2026-09-11 12:25:27 INFO     mini_finrl.eval.backtest: backtest[path_002]: final_value=1508280 sharpe=1.081 max_drawdown=-0.189
+2026-09-11 12:25:27 INFO     mini_finrl.agents.sb3_wrapper: loaded PPO model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/trading_ppo_seed0.zip
+2026-09-11 12:25:27 INFO     mini_finrl.eval.backtest: backtest[path_003]: final_value=1818079 sharpe=1.338 max_drawdown=-0.218
+2026-09-11 12:25:27 INFO     mini_finrl.agents.sb3_wrapper: loaded PPO model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/trading_ppo_seed0.zip
+2026-09-11 12:25:27 INFO     mini_finrl.eval.backtest: backtest[path_004]: final_value=1544954 sharpe=1.022 max_drawdown=-0.196
+2026-09-11 12:25:27 INFO     mini_finrl.agents.sb3_wrapper: loaded PPO model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/trading_ppo_seed0.zip
+2026-09-11 12:25:27 INFO     mini_finrl.eval.backtest: backtest[path_005]: final_value=1049715 sharpe=0.227 max_drawdown=-0.371
+2026-09-11 12:25:27 INFO     mini_finrl.agents.sb3_wrapper: loaded PPO model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/trading_ppo_seed0.zip
+2026-09-11 12:25:27 INFO     mini_finrl.eval.backtest: backtest[path_006]: final_value=1405056 sharpe=0.787 max_drawdown=-0.398
+2026-09-11 12:25:27 INFO     mini_finrl.agents.sb3_wrapper: loaded PPO model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/trading_ppo_seed0.zip
+2026-09-11 12:25:27 INFO     mini_finrl.eval.backtest: backtest[path_007]: final_value=1790717 sharpe=1.333 max_drawdown=-0.196
+2026-09-11 12:25:27 INFO     mini_finrl.agents.sb3_wrapper: loaded PPO model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/trading_ppo_seed0.zip
+2026-09-11 12:25:27 INFO     mini_finrl.eval.backtest: backtest[path_008]: final_value=1506056 sharpe=0.983 max_drawdown=-0.276
+2026-09-11 12:25:28 INFO     mini_finrl.agents.sb3_wrapper: loaded PPO model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/trading_ppo_seed0.zip
+2026-09-11 12:25:28 INFO     mini_finrl.eval.backtest: backtest[path_009]: final_value=897525 sharpe=-0.123 max_drawdown=-0.230
+2026-09-11 12:25:28 INFO     mini_finrl.agents.sb3_wrapper: loaded PPO model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/trading_ppo_seed0.zip
+2026-09-11 12:25:28 INFO     mini_finrl.eval.backtest: backtest[path_010]: final_value=1739401 sharpe=1.273 max_drawdown=-0.246
+2026-09-11 12:25:28 INFO     mini_finrl.agents.sb3_wrapper: loaded PPO model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/trading_ppo_seed0.zip
+2026-09-11 12:25:28 INFO     mini_finrl.eval.backtest: backtest[path_011]: final_value=1837843 sharpe=1.331 max_drawdown=-0.167
+2026-09-11 12:25:28 INFO     mini_finrl.agents.sb3_wrapper: loaded PPO model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/trading_ppo_seed0.zip
+2026-09-11 12:25:28 INFO     mini_finrl.eval.backtest: backtest[path_012]: final_value=1200317 sharpe=0.551 max_drawdown=-0.319
+2026-09-11 12:25:28 INFO     mini_finrl.agents.sb3_wrapper: loaded PPO model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/trading_ppo_seed0.zip
+2026-09-11 12:25:28 INFO     mini_finrl.eval.backtest: backtest[path_013]: final_value=3241978 sharpe=2.553 max_drawdown=-0.143
+2026-09-11 12:25:28 INFO     mini_finrl.agents.sb3_wrapper: loaded PPO model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/trading_ppo_seed0.zip
+2026-09-11 12:25:28 INFO     mini_finrl.eval.backtest: backtest[path_014]: final_value=1729833 sharpe=1.311 max_drawdown=-0.259
+2026-09-11 12:25:28 INFO     mini_finrl.agents.sb3_wrapper: loaded PPO model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/trading_ppo_seed0.zip
+2026-09-11 12:25:28 INFO     mini_finrl.eval.backtest: backtest[path_015]: final_value=1800025 sharpe=1.312 max_drawdown=-0.188
+2026-09-11 12:25:28 INFO     mini_finrl.agents.sb3_wrapper: loaded PPO model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/trading_ppo_seed0.zip
+2026-09-11 12:25:28 INFO     mini_finrl.eval.backtest: backtest[path_016]: final_value=1415405 sharpe=0.906 max_drawdown=-0.197
+2026-09-11 12:25:28 INFO     mini_finrl.agents.sb3_wrapper: loaded PPO model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/trading_ppo_seed0.zip
+2026-09-11 12:25:28 INFO     mini_finrl.eval.backtest: backtest[path_017]: final_value=1639536 sharpe=1.223 max_drawdown=-0.179
+2026-09-11 12:25:28 INFO     mini_finrl.agents.sb3_wrapper: loaded PPO model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/trading_ppo_seed0.zip
+2026-09-11 12:25:28 INFO     mini_finrl.eval.backtest: backtest[path_018]: final_value=1070922 sharpe=0.269 max_drawdown=-0.265
+2026-09-11 12:25:28 INFO     mini_finrl.agents.sb3_wrapper: loaded PPO model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/trading_ppo_seed0.zip
+2026-09-11 12:25:28 INFO     mini_finrl.eval.backtest: backtest[path_019]: final_value=1595336 sharpe=1.150 max_drawdown=-0.322
+2026-09-11 12:25:28 WARNING  mini_finrl.__main__: skip missing /Users/parthrait/Desktop/Mini-fin-rl/results/models/trading_ppo_seed1.zip
+2026-09-11 12:25:28 WARNING  mini_finrl.__main__: skip missing /Users/parthrait/Desktop/Mini-fin-rl/results/models/trading_ppo_seed2.zip
+2026-09-11 12:25:28 INFO     mini_finrl.meta.data: cache hit: ohlcv_2023-01-01_2026-06-30_AAPL-AMZN-GOOGL-JNJ-JPM-META-MSFT-XOM.csv
+2026-09-11 12:25:28 INFO     mini_finrl.meta.features: add_indicators: computed ['macd', 'rsi_30', 'cci_30', 'dx_30', 'close_30_sma', 'close_60_sma'] for 8 tickers, 6992 rows
+2026-09-11 12:25:28 INFO     mini_finrl.meta.features: add_turbulence: lookback=252, 622/874 days scored (rest are warm-up), max=180.18
+2026-09-11 12:25:28 INFO     mini_finrl.agents.sb3_wrapper: loaded SAC model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/trading_sac_seed0.zip
+2026-09-11 12:25:29 INFO     mini_finrl.eval.backtest: backtest[historical]: final_value=2008673 sharpe=1.234 max_drawdown=-0.218
+2026-09-11 12:25:29 INFO     mini_finrl.agents.sb3_wrapper: loaded SAC model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/trading_sac_seed0.zip
+2026-09-11 12:25:29 INFO     mini_finrl.eval.backtest: backtest[path_000]: final_value=2288522 sharpe=1.808 max_drawdown=-0.210
+2026-09-11 12:25:29 INFO     mini_finrl.agents.sb3_wrapper: loaded SAC model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/trading_sac_seed0.zip
+2026-09-11 12:25:29 INFO     mini_finrl.eval.backtest: backtest[path_001]: final_value=1977210 sharpe=1.806 max_drawdown=-0.189
+2026-09-11 12:25:29 INFO     mini_finrl.agents.sb3_wrapper: loaded SAC model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/trading_sac_seed0.zip
+2026-09-11 12:25:29 INFO     mini_finrl.eval.backtest: backtest[path_002]: final_value=1816131 sharpe=1.603 max_drawdown=-0.131
+2026-09-11 12:25:29 INFO     mini_finrl.agents.sb3_wrapper: loaded SAC model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/trading_sac_seed0.zip
+2026-09-11 12:25:29 INFO     mini_finrl.eval.backtest: backtest[path_003]: final_value=1856050 sharpe=1.485 max_drawdown=-0.205
+2026-09-11 12:25:29 INFO     mini_finrl.agents.sb3_wrapper: loaded SAC model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/trading_sac_seed0.zip
+2026-09-11 12:25:29 INFO     mini_finrl.eval.backtest: backtest[path_004]: final_value=1315336 sharpe=0.772 max_drawdown=-0.157
+2026-09-11 12:25:29 INFO     mini_finrl.agents.sb3_wrapper: loaded SAC model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/trading_sac_seed0.zip
+2026-09-11 12:25:29 INFO     mini_finrl.eval.backtest: backtest[path_005]: final_value=836737 sharpe=-0.185 max_drawdown=-0.329
+2026-09-11 12:25:29 INFO     mini_finrl.agents.sb3_wrapper: loaded SAC model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/trading_sac_seed0.zip
+2026-09-11 12:25:29 INFO     mini_finrl.eval.backtest: backtest[path_006]: final_value=1416744 sharpe=0.850 max_drawdown=-0.347
+2026-09-11 12:25:29 INFO     mini_finrl.agents.sb3_wrapper: loaded SAC model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/trading_sac_seed0.zip
+2026-09-11 12:25:29 INFO     mini_finrl.eval.backtest: backtest[path_007]: final_value=1595787 sharpe=1.118 max_drawdown=-0.184
+2026-09-11 12:25:29 INFO     mini_finrl.agents.sb3_wrapper: loaded SAC model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/trading_sac_seed0.zip
+2026-09-11 12:25:29 INFO     mini_finrl.eval.backtest: backtest[path_008]: final_value=1782638 sharpe=1.294 max_drawdown=-0.228
+2026-09-11 12:25:29 INFO     mini_finrl.agents.sb3_wrapper: loaded SAC model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/trading_sac_seed0.zip
+2026-09-11 12:25:29 INFO     mini_finrl.eval.backtest: backtest[path_009]: final_value=1362122 sharpe=0.829 max_drawdown=-0.179
+2026-09-11 12:25:29 INFO     mini_finrl.agents.sb3_wrapper: loaded SAC model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/trading_sac_seed0.zip
+2026-09-11 12:25:30 INFO     mini_finrl.eval.backtest: backtest[path_010]: final_value=1650102 sharpe=1.211 max_drawdown=-0.233
+2026-09-11 12:25:30 INFO     mini_finrl.agents.sb3_wrapper: loaded SAC model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/trading_sac_seed0.zip
+2026-09-11 12:25:30 INFO     mini_finrl.eval.backtest: backtest[path_011]: final_value=1754183 sharpe=1.293 max_drawdown=-0.214
+2026-09-11 12:25:30 INFO     mini_finrl.agents.sb3_wrapper: loaded SAC model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/trading_sac_seed0.zip
+2026-09-11 12:25:30 INFO     mini_finrl.eval.backtest: backtest[path_012]: final_value=1357861 sharpe=0.831 max_drawdown=-0.282
+2026-09-11 12:25:30 INFO     mini_finrl.agents.sb3_wrapper: loaded SAC model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/trading_sac_seed0.zip
+2026-09-11 12:25:30 INFO     mini_finrl.eval.backtest: backtest[path_013]: final_value=2544078 sharpe=2.140 max_drawdown=-0.142
+2026-09-11 12:25:30 INFO     mini_finrl.agents.sb3_wrapper: loaded SAC model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/trading_sac_seed0.zip
+2026-09-11 12:25:30 INFO     mini_finrl.eval.backtest: backtest[path_014]: final_value=1641704 sharpe=1.186 max_drawdown=-0.275
+2026-09-11 12:25:30 INFO     mini_finrl.agents.sb3_wrapper: loaded SAC model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/trading_sac_seed0.zip
+2026-09-11 12:25:30 INFO     mini_finrl.eval.backtest: backtest[path_015]: final_value=1648622 sharpe=1.163 max_drawdown=-0.202
+2026-09-11 12:25:30 INFO     mini_finrl.agents.sb3_wrapper: loaded SAC model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/trading_sac_seed0.zip
+2026-09-11 12:25:30 INFO     mini_finrl.eval.backtest: backtest[path_016]: final_value=1204820 sharpe=0.528 max_drawdown=-0.291
+2026-09-11 12:25:30 INFO     mini_finrl.agents.sb3_wrapper: loaded SAC model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/trading_sac_seed0.zip
+2026-09-11 12:25:30 INFO     mini_finrl.eval.backtest: backtest[path_017]: final_value=2772848 sharpe=2.425 max_drawdown=-0.162
+2026-09-11 12:25:30 INFO     mini_finrl.agents.sb3_wrapper: loaded SAC model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/trading_sac_seed0.zip
+2026-09-11 12:25:30 INFO     mini_finrl.eval.backtest: backtest[path_018]: final_value=1486334 sharpe=1.026 max_drawdown=-0.214
+2026-09-11 12:25:30 INFO     mini_finrl.agents.sb3_wrapper: loaded SAC model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/trading_sac_seed0.zip
+2026-09-11 12:25:30 INFO     mini_finrl.eval.backtest: backtest[path_019]: final_value=1720306 sharpe=1.327 max_drawdown=-0.324
+2026-09-11 12:25:30 WARNING  mini_finrl.__main__: skip missing /Users/parthrait/Desktop/Mini-fin-rl/results/models/trading_sac_seed1.zip
+2026-09-11 12:25:30 WARNING  mini_finrl.__main__: skip missing /Users/parthrait/Desktop/Mini-fin-rl/results/models/trading_sac_seed2.zip
+2026-09-11 12:25:30 INFO     mini_finrl.meta.data: cache hit: ohlcv_2023-01-01_2026-06-30_AAPL-AMZN-GOOGL-JNJ-JPM-META-MSFT-XOM.csv
+2026-09-11 12:25:30 INFO     mini_finrl.meta.features: add_indicators: computed ['macd', 'rsi_30', 'cci_30', 'dx_30', 'close_30_sma', 'close_60_sma'] for 8 tickers, 6992 rows
+2026-09-11 12:25:31 INFO     mini_finrl.meta.features: add_turbulence: lookback=252, 622/874 days scored (rest are warm-up), max=180.18
+2026-09-11 12:25:31 INFO     mini_finrl.agents.sb3_wrapper: loaded PPO model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/portfolio_ppo_seed0.zip
+2026-09-11 12:25:31 INFO     mini_finrl.eval.backtest: backtest[historical]: final_value=2587869 sharpe=1.769 max_drawdown=-0.193
+2026-09-11 12:25:31 INFO     mini_finrl.agents.sb3_wrapper: loaded PPO model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/portfolio_ppo_seed0.zip
+2026-09-11 12:25:31 INFO     mini_finrl.eval.backtest: backtest[path_000]: final_value=1961744 sharpe=1.602 max_drawdown=-0.212
+2026-09-11 12:25:31 INFO     mini_finrl.agents.sb3_wrapper: loaded PPO model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/portfolio_ppo_seed0.zip
+2026-09-11 12:25:31 INFO     mini_finrl.eval.backtest: backtest[path_001]: final_value=2063922 sharpe=2.045 max_drawdown=-0.139
+2026-09-11 12:25:31 INFO     mini_finrl.agents.sb3_wrapper: loaded PPO model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/portfolio_ppo_seed0.zip
+2026-09-11 12:25:31 INFO     mini_finrl.eval.backtest: backtest[path_002]: final_value=1534175 sharpe=1.217 max_drawdown=-0.152
+2026-09-11 12:25:31 INFO     mini_finrl.agents.sb3_wrapper: loaded PPO model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/portfolio_ppo_seed0.zip
+2026-09-11 12:25:31 INFO     mini_finrl.eval.backtest: backtest[path_003]: final_value=1818369 sharpe=1.539 max_drawdown=-0.202
+2026-09-11 12:25:31 INFO     mini_finrl.agents.sb3_wrapper: loaded PPO model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/portfolio_ppo_seed0.zip
+2026-09-11 12:25:31 INFO     mini_finrl.eval.backtest: backtest[path_004]: final_value=1420137 sharpe=1.013 max_drawdown=-0.132
+2026-09-11 12:25:31 INFO     mini_finrl.agents.sb3_wrapper: loaded PPO model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/portfolio_ppo_seed0.zip
+2026-09-11 12:25:31 INFO     mini_finrl.eval.backtest: backtest[path_005]: final_value=811797 sharpe=-0.279 max_drawdown=-0.338
+2026-09-11 12:25:31 INFO     mini_finrl.agents.sb3_wrapper: loaded PPO model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/portfolio_ppo_seed0.zip
+2026-09-11 12:25:31 INFO     mini_finrl.eval.backtest: backtest[path_006]: final_value=1410712 sharpe=0.864 max_drawdown=-0.347
+2026-09-11 12:25:31 INFO     mini_finrl.agents.sb3_wrapper: loaded PPO model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/portfolio_ppo_seed0.zip
+2026-09-11 12:25:31 INFO     mini_finrl.eval.backtest: backtest[path_007]: final_value=1654606 sharpe=1.270 max_drawdown=-0.151
+2026-09-11 12:25:31 INFO     mini_finrl.agents.sb3_wrapper: loaded PPO model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/portfolio_ppo_seed0.zip
+2026-09-11 12:25:31 INFO     mini_finrl.eval.backtest: backtest[path_008]: final_value=1706490 sharpe=1.306 max_drawdown=-0.216
+2026-09-11 12:25:31 INFO     mini_finrl.agents.sb3_wrapper: loaded PPO model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/portfolio_ppo_seed0.zip
+2026-09-11 12:25:31 INFO     mini_finrl.eval.backtest: backtest[path_009]: final_value=1165745 sharpe=0.489 max_drawdown=-0.168
+2026-09-11 12:25:31 INFO     mini_finrl.agents.sb3_wrapper: loaded PPO model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/portfolio_ppo_seed0.zip
+2026-09-11 12:25:31 INFO     mini_finrl.eval.backtest: backtest[path_010]: final_value=1699302 sharpe=1.332 max_drawdown=-0.215
+2026-09-11 12:25:31 INFO     mini_finrl.agents.sb3_wrapper: loaded PPO model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/portfolio_ppo_seed0.zip
+2026-09-11 12:25:31 INFO     mini_finrl.eval.backtest: backtest[path_011]: final_value=1610384 sharpe=1.189 max_drawdown=-0.181
+2026-09-11 12:25:31 INFO     mini_finrl.agents.sb3_wrapper: loaded PPO model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/portfolio_ppo_seed0.zip
+2026-09-11 12:25:31 INFO     mini_finrl.eval.backtest: backtest[path_012]: final_value=1119442 sharpe=0.388 max_drawdown=-0.336
+2026-09-11 12:25:31 INFO     mini_finrl.agents.sb3_wrapper: loaded PPO model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/portfolio_ppo_seed0.zip
+2026-09-11 12:25:31 INFO     mini_finrl.eval.backtest: backtest[path_013]: final_value=2908002 sharpe=2.614 max_drawdown=-0.109
+2026-09-11 12:25:31 INFO     mini_finrl.agents.sb3_wrapper: loaded PPO model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/portfolio_ppo_seed0.zip
+2026-09-11 12:25:31 INFO     mini_finrl.eval.backtest: backtest[path_014]: final_value=1675912 sharpe=1.333 max_drawdown=-0.224
+2026-09-11 12:25:32 INFO     mini_finrl.agents.sb3_wrapper: loaded PPO model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/portfolio_ppo_seed0.zip
+2026-09-11 12:25:32 INFO     mini_finrl.eval.backtest: backtest[path_015]: final_value=1753438 sharpe=1.381 max_drawdown=-0.185
+2026-09-11 12:25:32 INFO     mini_finrl.agents.sb3_wrapper: loaded PPO model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/portfolio_ppo_seed0.zip
+2026-09-11 12:25:32 INFO     mini_finrl.eval.backtest: backtest[path_016]: final_value=1287799 sharpe=0.696 max_drawdown=-0.244
+2026-09-11 12:25:32 INFO     mini_finrl.agents.sb3_wrapper: loaded PPO model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/portfolio_ppo_seed0.zip
+2026-09-11 12:25:32 INFO     mini_finrl.eval.backtest: backtest[path_017]: final_value=2477418 sharpe=2.296 max_drawdown=-0.154
+2026-09-11 12:25:32 INFO     mini_finrl.agents.sb3_wrapper: loaded PPO model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/portfolio_ppo_seed0.zip
+2026-09-11 12:25:32 INFO     mini_finrl.eval.backtest: backtest[path_018]: final_value=1271127 sharpe=0.692 max_drawdown=-0.184
+2026-09-11 12:25:32 INFO     mini_finrl.agents.sb3_wrapper: loaded PPO model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/portfolio_ppo_seed0.zip
+2026-09-11 12:25:32 INFO     mini_finrl.eval.backtest: backtest[path_019]: final_value=1585055 sharpe=1.180 max_drawdown=-0.313
+2026-09-11 12:25:32 WARNING  mini_finrl.__main__: skip missing /Users/parthrait/Desktop/Mini-fin-rl/results/models/portfolio_ppo_seed1.zip
+2026-09-11 12:25:32 WARNING  mini_finrl.__main__: skip missing /Users/parthrait/Desktop/Mini-fin-rl/results/models/portfolio_ppo_seed2.zip
+2026-09-11 12:25:32 INFO     mini_finrl.meta.data: cache hit: ohlcv_2023-01-01_2026-06-30_AAPL-AMZN-GOOGL-JNJ-JPM-META-MSFT-XOM.csv
+2026-09-11 12:25:32 INFO     mini_finrl.meta.features: add_indicators: computed ['macd', 'rsi_30', 'cci_30', 'dx_30', 'close_30_sma', 'close_60_sma'] for 8 tickers, 6992 rows
+2026-09-11 12:25:32 INFO     mini_finrl.meta.features: add_turbulence: lookback=252, 622/874 days scored (rest are warm-up), max=180.18
+2026-09-11 12:25:32 INFO     mini_finrl.agents.sb3_wrapper: loaded SAC model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/portfolio_sac_seed0.zip
+2026-09-11 12:25:32 INFO     mini_finrl.eval.backtest: backtest[historical]: final_value=2022006 sharpe=1.048 max_drawdown=-0.232
+2026-09-11 12:25:32 INFO     mini_finrl.agents.sb3_wrapper: loaded SAC model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/portfolio_sac_seed0.zip
+2026-09-11 12:25:32 INFO     mini_finrl.eval.backtest: backtest[path_000]: final_value=1440852 sharpe=0.819 max_drawdown=-0.247
+2026-09-11 12:25:32 INFO     mini_finrl.agents.sb3_wrapper: loaded SAC model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/portfolio_sac_seed0.zip
+2026-09-11 12:25:32 INFO     mini_finrl.eval.backtest: backtest[path_001]: final_value=1908979 sharpe=1.381 max_drawdown=-0.182
+2026-09-11 12:25:32 INFO     mini_finrl.agents.sb3_wrapper: loaded SAC model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/portfolio_sac_seed0.zip
+2026-09-11 12:25:32 INFO     mini_finrl.eval.backtest: backtest[path_002]: final_value=1078629 sharpe=0.281 max_drawdown=-0.201
+2026-09-11 12:25:32 INFO     mini_finrl.agents.sb3_wrapper: loaded SAC model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/portfolio_sac_seed0.zip
+2026-09-11 12:25:32 INFO     mini_finrl.eval.backtest: backtest[path_003]: final_value=1868394 sharpe=1.280 max_drawdown=-0.265
+2026-09-11 12:25:33 INFO     mini_finrl.agents.sb3_wrapper: loaded SAC model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/portfolio_sac_seed0.zip
+2026-09-11 12:25:33 INFO     mini_finrl.eval.backtest: backtest[path_004]: final_value=1253391 sharpe=0.593 max_drawdown=-0.218
+2026-09-11 12:25:33 INFO     mini_finrl.agents.sb3_wrapper: loaded SAC model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/portfolio_sac_seed0.zip
+2026-09-11 12:25:33 INFO     mini_finrl.eval.backtest: backtest[path_005]: final_value=596038 sharpe=-0.665 max_drawdown=-0.427
+2026-09-11 12:25:33 INFO     mini_finrl.agents.sb3_wrapper: loaded SAC model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/portfolio_sac_seed0.zip
+2026-09-11 12:25:33 INFO     mini_finrl.eval.backtest: backtest[path_006]: final_value=1299072 sharpe=0.604 max_drawdown=-0.454
+2026-09-11 12:25:33 INFO     mini_finrl.agents.sb3_wrapper: loaded SAC model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/portfolio_sac_seed0.zip
+2026-09-11 12:25:33 INFO     mini_finrl.eval.backtest: backtest[path_007]: final_value=1519910 sharpe=0.886 max_drawdown=-0.172
+2026-09-11 12:25:33 INFO     mini_finrl.agents.sb3_wrapper: loaded SAC model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/portfolio_sac_seed0.zip
+2026-09-11 12:25:33 INFO     mini_finrl.eval.backtest: backtest[path_008]: final_value=1372322 sharpe=0.721 max_drawdown=-0.344
+2026-09-11 12:25:33 INFO     mini_finrl.agents.sb3_wrapper: loaded SAC model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/portfolio_sac_seed0.zip
+2026-09-11 12:25:33 INFO     mini_finrl.eval.backtest: backtest[path_009]: final_value=1131259 sharpe=0.393 max_drawdown=-0.192
+2026-09-11 12:25:33 INFO     mini_finrl.agents.sb3_wrapper: loaded SAC model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/portfolio_sac_seed0.zip
+2026-09-11 12:25:33 INFO     mini_finrl.eval.backtest: backtest[path_010]: final_value=1902651 sharpe=1.356 max_drawdown=-0.213
+2026-09-11 12:25:33 INFO     mini_finrl.agents.sb3_wrapper: loaded SAC model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/portfolio_sac_seed0.zip
+2026-09-11 12:25:33 INFO     mini_finrl.eval.backtest: backtest[path_011]: final_value=1542342 sharpe=1.017 max_drawdown=-0.165
+2026-09-11 12:25:33 INFO     mini_finrl.agents.sb3_wrapper: loaded SAC model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/portfolio_sac_seed0.zip
+2026-09-11 12:25:33 INFO     mini_finrl.eval.backtest: backtest[path_012]: final_value=892305 sharpe=-0.099 max_drawdown=-0.402
+2026-09-11 12:25:33 INFO     mini_finrl.agents.sb3_wrapper: loaded SAC model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/portfolio_sac_seed0.zip
+2026-09-11 12:25:33 INFO     mini_finrl.eval.backtest: backtest[path_013]: final_value=2863275 sharpe=2.330 max_drawdown=-0.143
+2026-09-11 12:25:33 INFO     mini_finrl.agents.sb3_wrapper: loaded SAC model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/portfolio_sac_seed0.zip
+2026-09-11 12:25:33 INFO     mini_finrl.eval.backtest: backtest[path_014]: final_value=1707082 sharpe=1.139 max_drawdown=-0.232
+2026-09-11 12:25:33 INFO     mini_finrl.agents.sb3_wrapper: loaded SAC model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/portfolio_sac_seed0.zip
+2026-09-11 12:25:34 INFO     mini_finrl.eval.backtest: backtest[path_015]: final_value=2863085 sharpe=2.161 max_drawdown=-0.162
+2026-09-11 12:25:34 INFO     mini_finrl.agents.sb3_wrapper: loaded SAC model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/portfolio_sac_seed0.zip
+2026-09-11 12:25:34 INFO     mini_finrl.eval.backtest: backtest[path_016]: final_value=1062959 sharpe=0.253 max_drawdown=-0.389
+2026-09-11 12:25:34 INFO     mini_finrl.agents.sb3_wrapper: loaded SAC model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/portfolio_sac_seed0.zip
+2026-09-11 12:25:34 INFO     mini_finrl.eval.backtest: backtest[path_017]: final_value=2738506 sharpe=2.159 max_drawdown=-0.239
+2026-09-11 12:25:34 INFO     mini_finrl.agents.sb3_wrapper: loaded SAC model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/portfolio_sac_seed0.zip
+2026-09-11 12:25:34 INFO     mini_finrl.eval.backtest: backtest[path_018]: final_value=1375297 sharpe=0.862 max_drawdown=-0.207
+2026-09-11 12:25:34 INFO     mini_finrl.agents.sb3_wrapper: loaded SAC model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/portfolio_sac_seed0.zip
+2026-09-11 12:25:34 INFO     mini_finrl.eval.backtest: backtest[path_019]: final_value=1547680 sharpe=1.136 max_drawdown=-0.262
+2026-09-11 12:25:34 WARNING  mini_finrl.__main__: skip missing /Users/parthrait/Desktop/Mini-fin-rl/results/models/portfolio_sac_seed1.zip
+2026-09-11 12:25:34 WARNING  mini_finrl.__main__: skip missing /Users/parthrait/Desktop/Mini-fin-rl/results/models/portfolio_sac_seed2.zip
+2026-09-11 12:25:34 INFO     mini_finrl.__main__: wrote 84 backtest rows to /Users/parthrait/Desktop/Mini-fin-rl/results/logs/backtest_results.csv
+2026-09-11 12:25:41 INFO     mini_finrl.__main__: reporting on /Users/parthrait/Desktop/Mini-fin-rl/results/logs/backtest_results.csv
+2026-09-11 21:24:07 INFO     mini_finrl.meta.data: cache hit: ohlcv_2023-01-01_2026-06-30_AAPL-AMZN-GOOGL-JNJ-JPM-META-MSFT-XOM.csv
+2026-09-11 21:24:07 INFO     mini_finrl.meta.features: add_indicators: computed ['macd', 'rsi_30', 'cci_30', 'dx_30', 'close_30_sma', 'close_60_sma'] for 8 tickers, 6992 rows
+2026-09-11 21:24:07 INFO     mini_finrl.meta.features: add_turbulence: lookback=252, 622/874 days scored (rest are warm-up), max=180.18
+2026-09-11 21:24:07 INFO     mini_finrl.eval.backtest: backtest[historical]: final_value=1149371 sharpe=1.213 max_drawdown=-0.046
+2026-09-11 21:24:07 INFO     mini_finrl.eval.backtest: backtest[path_000]: final_value=1267390 sharpe=1.240 max_drawdown=-0.113
+2026-09-11 21:24:07 INFO     mini_finrl.eval.backtest: backtest[path_001]: final_value=1264668 sharpe=1.787 max_drawdown=-0.058
+2026-09-11 21:24:07 INFO     mini_finrl.eval.backtest: backtest[path_002]: final_value=1141709 sharpe=1.199 max_drawdown=-0.048
+2026-09-11 21:24:07 INFO     mini_finrl.eval.backtest: backtest[path_003]: final_value=1246828 sharpe=1.370 max_drawdown=-0.085
+2026-09-11 21:24:07 INFO     mini_finrl.eval.backtest: backtest[path_004]: final_value=1117940 sharpe=0.811 max_drawdown=-0.072
+2026-09-11 21:24:07 INFO     mini_finrl.eval.backtest: backtest[path_005]: final_value=946476 sharpe=-0.399 max_drawdown=-0.102
+2026-09-11 21:24:07 INFO     mini_finrl.eval.backtest: backtest[path_006]: final_value=1093339 sharpe=0.590 max_drawdown=-0.154
+2026-09-11 21:24:07 INFO     mini_finrl.eval.backtest: backtest[path_007]: final_value=1204244 sharpe=1.266 max_drawdown=-0.053
+2026-09-11 21:24:07 INFO     mini_finrl.eval.backtest: backtest[path_008]: final_value=1169647 sharpe=1.059 max_drawdown=-0.077
+2026-09-11 21:24:07 INFO     mini_finrl.eval.backtest: backtest[path_009]: final_value=1047071 sharpe=0.422 max_drawdown=-0.050
+2026-09-11 21:24:07 INFO     mini_finrl.eval.backtest: backtest[path_010]: final_value=1166712 sharpe=0.988 max_drawdown=-0.098
+2026-09-11 21:24:07 INFO     mini_finrl.eval.backtest: backtest[path_011]: final_value=1200979 sharpe=1.112 max_drawdown=-0.090
+2026-09-11 21:24:07 INFO     mini_finrl.eval.backtest: backtest[path_012]: final_value=1040512 sharpe=0.369 max_drawdown=-0.100
+2026-09-11 21:24:07 INFO     mini_finrl.eval.backtest: backtest[path_013]: final_value=1612402 sharpe=2.443 max_drawdown=-0.062
+2026-09-11 21:24:07 INFO     mini_finrl.eval.backtest: backtest[path_014]: final_value=1194284 sharpe=1.324 max_drawdown=-0.087
+2026-09-11 21:24:07 INFO     mini_finrl.eval.backtest: backtest[path_015]: final_value=1252831 sharpe=1.391 max_drawdown=-0.070
+2026-09-11 21:24:07 INFO     mini_finrl.eval.backtest: backtest[path_016]: final_value=1116227 sharpe=0.893 max_drawdown=-0.051
+2026-09-11 21:24:07 INFO     mini_finrl.eval.backtest: backtest[path_017]: final_value=1396962 sharpe=2.248 max_drawdown=-0.062
+2026-09-11 21:24:07 INFO     mini_finrl.eval.backtest: backtest[path_018]: final_value=1070092 sharpe=0.620 max_drawdown=-0.064
+2026-09-11 21:24:07 INFO     mini_finrl.eval.backtest: backtest[path_019]: final_value=1139476 sharpe=0.961 max_drawdown=-0.129
+2026-09-11 21:24:07 INFO     mini_finrl.meta.data: cache hit: ohlcv_2023-01-01_2026-06-30_AAPL-AMZN-GOOGL-JNJ-JPM-META-MSFT-XOM.csv
+2026-09-11 21:24:07 INFO     mini_finrl.meta.features: add_indicators: computed ['macd', 'rsi_30', 'cci_30', 'dx_30', 'close_30_sma', 'close_60_sma'] for 8 tickers, 6992 rows
+2026-09-11 21:24:08 INFO     mini_finrl.meta.features: add_turbulence: lookback=252, 622/874 days scored (rest are warm-up), max=180.18
+2026-09-11 21:24:08 INFO     mini_finrl.agents.sb3_wrapper: loaded PPO model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/trading_ppo_seed0.zip
+2026-09-11 21:24:09 INFO     mini_finrl.eval.backtest: backtest[historical]: final_value=2226481 sharpe=1.167 max_drawdown=-0.269
+2026-09-11 21:24:09 INFO     mini_finrl.agents.sb3_wrapper: loaded PPO model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/trading_ppo_seed0.zip
+2026-09-11 21:24:09 INFO     mini_finrl.eval.backtest: backtest[path_000]: final_value=1808808 sharpe=1.218 max_drawdown=-0.234
+2026-09-11 21:24:09 INFO     mini_finrl.agents.sb3_wrapper: loaded PPO model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/trading_ppo_seed0.zip
+2026-09-11 21:24:09 INFO     mini_finrl.eval.backtest: backtest[path_001]: final_value=2162801 sharpe=2.010 max_drawdown=-0.189
+2026-09-11 21:24:09 INFO     mini_finrl.agents.sb3_wrapper: loaded PPO model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/trading_ppo_seed0.zip
+2026-09-11 21:24:09 INFO     mini_finrl.eval.backtest: backtest[path_002]: final_value=1508280 sharpe=1.081 max_drawdown=-0.189
+2026-09-11 21:24:09 INFO     mini_finrl.agents.sb3_wrapper: loaded PPO model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/trading_ppo_seed0.zip
+2026-09-11 21:24:09 INFO     mini_finrl.eval.backtest: backtest[path_003]: final_value=1818079 sharpe=1.338 max_drawdown=-0.218
+2026-09-11 21:24:09 INFO     mini_finrl.agents.sb3_wrapper: loaded PPO model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/trading_ppo_seed0.zip
+2026-09-11 21:24:09 INFO     mini_finrl.eval.backtest: backtest[path_004]: final_value=1544954 sharpe=1.022 max_drawdown=-0.196
+2026-09-11 21:24:09 INFO     mini_finrl.agents.sb3_wrapper: loaded PPO model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/trading_ppo_seed0.zip
+2026-09-11 21:24:09 INFO     mini_finrl.eval.backtest: backtest[path_005]: final_value=1049715 sharpe=0.227 max_drawdown=-0.371
+2026-09-11 21:24:09 INFO     mini_finrl.agents.sb3_wrapper: loaded PPO model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/trading_ppo_seed0.zip
+2026-09-11 21:24:09 INFO     mini_finrl.eval.backtest: backtest[path_006]: final_value=1405056 sharpe=0.787 max_drawdown=-0.398
+2026-09-11 21:24:09 INFO     mini_finrl.agents.sb3_wrapper: loaded PPO model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/trading_ppo_seed0.zip
+2026-09-11 21:24:09 INFO     mini_finrl.eval.backtest: backtest[path_007]: final_value=1790717 sharpe=1.333 max_drawdown=-0.196
+2026-09-11 21:24:09 INFO     mini_finrl.agents.sb3_wrapper: loaded PPO model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/trading_ppo_seed0.zip
+2026-09-11 21:24:09 INFO     mini_finrl.eval.backtest: backtest[path_008]: final_value=1506056 sharpe=0.983 max_drawdown=-0.276
+2026-09-11 21:24:09 INFO     mini_finrl.agents.sb3_wrapper: loaded PPO model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/trading_ppo_seed0.zip
+2026-09-11 21:24:09 INFO     mini_finrl.eval.backtest: backtest[path_009]: final_value=897525 sharpe=-0.123 max_drawdown=-0.230
+2026-09-11 21:24:09 INFO     mini_finrl.agents.sb3_wrapper: loaded PPO model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/trading_ppo_seed0.zip
+2026-09-11 21:24:09 INFO     mini_finrl.eval.backtest: backtest[path_010]: final_value=1739401 sharpe=1.273 max_drawdown=-0.246
+2026-09-11 21:24:09 INFO     mini_finrl.agents.sb3_wrapper: loaded PPO model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/trading_ppo_seed0.zip
+2026-09-11 21:24:09 INFO     mini_finrl.eval.backtest: backtest[path_011]: final_value=1837843 sharpe=1.331 max_drawdown=-0.167
+2026-09-11 21:24:09 INFO     mini_finrl.agents.sb3_wrapper: loaded PPO model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/trading_ppo_seed0.zip
+2026-09-11 21:24:09 INFO     mini_finrl.eval.backtest: backtest[path_012]: final_value=1200317 sharpe=0.551 max_drawdown=-0.319
+2026-09-11 21:24:09 INFO     mini_finrl.agents.sb3_wrapper: loaded PPO model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/trading_ppo_seed0.zip
+2026-09-11 21:24:09 INFO     mini_finrl.eval.backtest: backtest[path_013]: final_value=3241978 sharpe=2.553 max_drawdown=-0.143
+2026-09-11 21:24:09 INFO     mini_finrl.agents.sb3_wrapper: loaded PPO model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/trading_ppo_seed0.zip
+2026-09-11 21:24:09 INFO     mini_finrl.eval.backtest: backtest[path_014]: final_value=1729833 sharpe=1.311 max_drawdown=-0.259
+2026-09-11 21:24:09 INFO     mini_finrl.agents.sb3_wrapper: loaded PPO model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/trading_ppo_seed0.zip
+2026-09-11 21:24:09 INFO     mini_finrl.eval.backtest: backtest[path_015]: final_value=1800025 sharpe=1.312 max_drawdown=-0.188
+2026-09-11 21:24:09 INFO     mini_finrl.agents.sb3_wrapper: loaded PPO model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/trading_ppo_seed0.zip
+2026-09-11 21:24:09 INFO     mini_finrl.eval.backtest: backtest[path_016]: final_value=1415405 sharpe=0.906 max_drawdown=-0.197
+2026-09-11 21:24:09 INFO     mini_finrl.agents.sb3_wrapper: loaded PPO model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/trading_ppo_seed0.zip
+2026-09-11 21:24:10 INFO     mini_finrl.eval.backtest: backtest[path_017]: final_value=1639536 sharpe=1.223 max_drawdown=-0.179
+2026-09-11 21:24:10 INFO     mini_finrl.agents.sb3_wrapper: loaded PPO model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/trading_ppo_seed0.zip
+2026-09-11 21:24:10 INFO     mini_finrl.eval.backtest: backtest[path_018]: final_value=1070922 sharpe=0.269 max_drawdown=-0.265
+2026-09-11 21:24:10 INFO     mini_finrl.agents.sb3_wrapper: loaded PPO model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/trading_ppo_seed0.zip
+2026-09-11 21:24:10 INFO     mini_finrl.eval.backtest: backtest[path_019]: final_value=1595336 sharpe=1.150 max_drawdown=-0.322
+2026-09-11 21:24:10 WARNING  mini_finrl.__main__: skip missing /Users/parthrait/Desktop/Mini-fin-rl/results/models/trading_ppo_seed1.zip
+2026-09-11 21:24:10 WARNING  mini_finrl.__main__: skip missing /Users/parthrait/Desktop/Mini-fin-rl/results/models/trading_ppo_seed2.zip
+2026-09-11 21:24:10 INFO     mini_finrl.meta.data: cache hit: ohlcv_2023-01-01_2026-06-30_AAPL-AMZN-GOOGL-JNJ-JPM-META-MSFT-XOM.csv
+2026-09-11 21:24:10 INFO     mini_finrl.meta.features: add_indicators: computed ['macd', 'rsi_30', 'cci_30', 'dx_30', 'close_30_sma', 'close_60_sma'] for 8 tickers, 6992 rows
+2026-09-11 21:24:10 INFO     mini_finrl.meta.features: add_turbulence: lookback=252, 622/874 days scored (rest are warm-up), max=180.18
+2026-09-11 21:24:10 INFO     mini_finrl.agents.sb3_wrapper: loaded SAC model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/trading_sac_seed0.zip
+2026-09-11 21:24:10 INFO     mini_finrl.eval.backtest: backtest[historical]: final_value=2008673 sharpe=1.234 max_drawdown=-0.218
+2026-09-11 21:24:10 INFO     mini_finrl.agents.sb3_wrapper: loaded SAC model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/trading_sac_seed0.zip
+2026-09-11 21:24:10 INFO     mini_finrl.eval.backtest: backtest[path_000]: final_value=2288522 sharpe=1.808 max_drawdown=-0.210
+2026-09-11 21:24:10 INFO     mini_finrl.agents.sb3_wrapper: loaded SAC model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/trading_sac_seed0.zip
+2026-09-11 21:24:10 INFO     mini_finrl.eval.backtest: backtest[path_001]: final_value=1977210 sharpe=1.806 max_drawdown=-0.189
+2026-09-11 21:24:10 INFO     mini_finrl.agents.sb3_wrapper: loaded SAC model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/trading_sac_seed0.zip
+2026-09-11 21:24:10 INFO     mini_finrl.eval.backtest: backtest[path_002]: final_value=1816131 sharpe=1.603 max_drawdown=-0.131
+2026-09-11 21:24:10 INFO     mini_finrl.agents.sb3_wrapper: loaded SAC model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/trading_sac_seed0.zip
+2026-09-11 21:24:10 INFO     mini_finrl.eval.backtest: backtest[path_003]: final_value=1856050 sharpe=1.485 max_drawdown=-0.205
+2026-09-11 21:24:10 INFO     mini_finrl.agents.sb3_wrapper: loaded SAC model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/trading_sac_seed0.zip
+2026-09-11 21:24:11 INFO     mini_finrl.eval.backtest: backtest[path_004]: final_value=1315336 sharpe=0.772 max_drawdown=-0.157
+2026-09-11 21:24:11 INFO     mini_finrl.agents.sb3_wrapper: loaded SAC model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/trading_sac_seed0.zip
+2026-09-11 21:24:11 INFO     mini_finrl.eval.backtest: backtest[path_005]: final_value=836737 sharpe=-0.185 max_drawdown=-0.329
+2026-09-11 21:24:11 INFO     mini_finrl.agents.sb3_wrapper: loaded SAC model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/trading_sac_seed0.zip
+2026-09-11 21:24:11 INFO     mini_finrl.eval.backtest: backtest[path_006]: final_value=1416744 sharpe=0.850 max_drawdown=-0.347
+2026-09-11 21:24:11 INFO     mini_finrl.agents.sb3_wrapper: loaded SAC model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/trading_sac_seed0.zip
+2026-09-11 21:24:11 INFO     mini_finrl.eval.backtest: backtest[path_007]: final_value=1595787 sharpe=1.118 max_drawdown=-0.184
+2026-09-11 21:24:11 INFO     mini_finrl.agents.sb3_wrapper: loaded SAC model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/trading_sac_seed0.zip
+2026-09-11 21:24:11 INFO     mini_finrl.eval.backtest: backtest[path_008]: final_value=1782638 sharpe=1.294 max_drawdown=-0.228
+2026-09-11 21:24:11 INFO     mini_finrl.agents.sb3_wrapper: loaded SAC model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/trading_sac_seed0.zip
+2026-09-11 21:24:11 INFO     mini_finrl.eval.backtest: backtest[path_009]: final_value=1362122 sharpe=0.829 max_drawdown=-0.179
+2026-09-11 21:24:11 INFO     mini_finrl.agents.sb3_wrapper: loaded SAC model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/trading_sac_seed0.zip
+2026-09-11 21:24:11 INFO     mini_finrl.eval.backtest: backtest[path_010]: final_value=1650102 sharpe=1.211 max_drawdown=-0.233
+2026-09-11 21:24:11 INFO     mini_finrl.agents.sb3_wrapper: loaded SAC model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/trading_sac_seed0.zip
+2026-09-11 21:24:11 INFO     mini_finrl.eval.backtest: backtest[path_011]: final_value=1754183 sharpe=1.293 max_drawdown=-0.214
+2026-09-11 21:24:11 INFO     mini_finrl.agents.sb3_wrapper: loaded SAC model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/trading_sac_seed0.zip
+2026-09-11 21:24:11 INFO     mini_finrl.eval.backtest: backtest[path_012]: final_value=1357861 sharpe=0.831 max_drawdown=-0.282
+2026-09-11 21:24:11 INFO     mini_finrl.agents.sb3_wrapper: loaded SAC model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/trading_sac_seed0.zip
+2026-09-11 21:24:11 INFO     mini_finrl.eval.backtest: backtest[path_013]: final_value=2544078 sharpe=2.140 max_drawdown=-0.142
+2026-09-11 21:24:11 INFO     mini_finrl.agents.sb3_wrapper: loaded SAC model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/trading_sac_seed0.zip
+2026-09-11 21:24:11 INFO     mini_finrl.eval.backtest: backtest[path_014]: final_value=1641704 sharpe=1.186 max_drawdown=-0.275
+2026-09-11 21:24:11 INFO     mini_finrl.agents.sb3_wrapper: loaded SAC model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/trading_sac_seed0.zip
+2026-09-11 21:24:12 INFO     mini_finrl.eval.backtest: backtest[path_015]: final_value=1648622 sharpe=1.163 max_drawdown=-0.202
+2026-09-11 21:24:12 INFO     mini_finrl.agents.sb3_wrapper: loaded SAC model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/trading_sac_seed0.zip
+2026-09-11 21:24:12 INFO     mini_finrl.eval.backtest: backtest[path_016]: final_value=1204820 sharpe=0.528 max_drawdown=-0.291
+2026-09-11 21:24:12 INFO     mini_finrl.agents.sb3_wrapper: loaded SAC model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/trading_sac_seed0.zip
+2026-09-11 21:24:12 INFO     mini_finrl.eval.backtest: backtest[path_017]: final_value=2772848 sharpe=2.425 max_drawdown=-0.162
+2026-09-11 21:24:12 INFO     mini_finrl.agents.sb3_wrapper: loaded SAC model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/trading_sac_seed0.zip
+2026-09-11 21:24:12 INFO     mini_finrl.eval.backtest: backtest[path_018]: final_value=1486334 sharpe=1.026 max_drawdown=-0.214
+2026-09-11 21:24:12 INFO     mini_finrl.agents.sb3_wrapper: loaded SAC model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/trading_sac_seed0.zip
+2026-09-11 21:24:12 INFO     mini_finrl.eval.backtest: backtest[path_019]: final_value=1720306 sharpe=1.327 max_drawdown=-0.324
+2026-09-11 21:24:12 WARNING  mini_finrl.__main__: skip missing /Users/parthrait/Desktop/Mini-fin-rl/results/models/trading_sac_seed1.zip
+2026-09-11 21:24:12 WARNING  mini_finrl.__main__: skip missing /Users/parthrait/Desktop/Mini-fin-rl/results/models/trading_sac_seed2.zip
+2026-09-11 21:24:12 INFO     mini_finrl.meta.data: cache hit: ohlcv_2023-01-01_2026-06-30_AAPL-AMZN-GOOGL-JNJ-JPM-META-MSFT-XOM.csv
+2026-09-11 21:24:12 INFO     mini_finrl.meta.features: add_indicators: computed ['macd', 'rsi_30', 'cci_30', 'dx_30', 'close_30_sma', 'close_60_sma'] for 8 tickers, 6992 rows
+2026-09-11 21:24:12 INFO     mini_finrl.meta.features: add_turbulence: lookback=252, 622/874 days scored (rest are warm-up), max=180.18
+2026-09-11 21:24:12 INFO     mini_finrl.eval.backtest: backtest[historical]: final_value=2622854 sharpe=1.790 max_drawdown=-0.194
+2026-09-11 21:24:12 INFO     mini_finrl.eval.backtest: backtest[path_000]: final_value=1999127 sharpe=1.637 max_drawdown=-0.210
+2026-09-11 21:24:12 INFO     mini_finrl.eval.backtest: backtest[path_001]: final_value=2081495 sharpe=2.060 max_drawdown=-0.136
+2026-09-11 21:24:12 INFO     mini_finrl.eval.backtest: backtest[path_002]: final_value=1562575 sharpe=1.265 max_drawdown=-0.151
+2026-09-11 21:24:12 INFO     mini_finrl.eval.backtest: backtest[path_003]: final_value=1840495 sharpe=1.560 max_drawdown=-0.202
+2026-09-11 21:24:12 INFO     mini_finrl.eval.backtest: backtest[path_004]: final_value=1448865 sharpe=1.058 max_drawdown=-0.132
+2026-09-11 21:24:12 INFO     mini_finrl.eval.backtest: backtest[path_005]: final_value=808982 sharpe=-0.284 max_drawdown=-0.341
+2026-09-11 21:24:12 INFO     mini_finrl.eval.backtest: backtest[path_006]: final_value=1417398 sharpe=0.871 max_drawdown=-0.348
+2026-09-11 21:24:12 INFO     mini_finrl.eval.backtest: backtest[path_007]: final_value=1683811 sharpe=1.307 max_drawdown=-0.150
+2026-09-11 21:24:12 INFO     mini_finrl.eval.backtest: backtest[path_008]: final_value=1713130 sharpe=1.306 max_drawdown=-0.219
+2026-09-11 21:24:12 INFO     mini_finrl.eval.backtest: backtest[path_009]: final_value=1173785 sharpe=0.506 max_drawdown=-0.166
+2026-09-11 21:24:12 INFO     mini_finrl.eval.backtest: backtest[path_010]: final_value=1695455 sharpe=1.319 max_drawdown=-0.215
+2026-09-11 21:24:12 INFO     mini_finrl.eval.backtest: backtest[path_011]: final_value=1644734 sharpe=1.233 max_drawdown=-0.183
+2026-09-11 21:24:12 INFO     mini_finrl.eval.backtest: backtest[path_012]: final_value=1127319 sharpe=0.406 max_drawdown=-0.333
+2026-09-11 21:24:12 INFO     mini_finrl.eval.backtest: backtest[path_013]: final_value=2946588 sharpe=2.633 max_drawdown=-0.108
+2026-09-11 21:24:12 INFO     mini_finrl.eval.backtest: backtest[path_014]: final_value=1699348 sharpe=1.358 max_drawdown=-0.228
+2026-09-11 21:24:12 INFO     mini_finrl.eval.backtest: backtest[path_015]: final_value=1759438 sharpe=1.383 max_drawdown=-0.188
+2026-09-11 21:24:12 INFO     mini_finrl.eval.backtest: backtest[path_016]: final_value=1312954 sharpe=0.738 max_drawdown=-0.236
+2026-09-11 21:24:12 INFO     mini_finrl.eval.backtest: backtest[path_017]: final_value=2489290 sharpe=2.308 max_drawdown=-0.151
+2026-09-11 21:24:12 INFO     mini_finrl.eval.backtest: backtest[path_018]: final_value=1266462 sharpe=0.682 max_drawdown=-0.183
+2026-09-11 21:24:12 INFO     mini_finrl.eval.backtest: backtest[path_019]: final_value=1594642 sharpe=1.192 max_drawdown=-0.311
+2026-09-11 21:24:12 INFO     mini_finrl.meta.data: cache hit: ohlcv_2023-01-01_2026-06-30_AAPL-AMZN-GOOGL-JNJ-JPM-META-MSFT-XOM.csv
+2026-09-11 21:24:12 INFO     mini_finrl.meta.features: add_indicators: computed ['macd', 'rsi_30', 'cci_30', 'dx_30', 'close_30_sma', 'close_60_sma'] for 8 tickers, 6992 rows
+2026-09-11 21:24:13 INFO     mini_finrl.meta.features: add_turbulence: lookback=252, 622/874 days scored (rest are warm-up), max=180.18
+2026-09-11 21:24:13 INFO     mini_finrl.agents.sb3_wrapper: loaded PPO model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/portfolio_ppo_seed0.zip
+2026-09-11 21:24:13 INFO     mini_finrl.eval.backtest: backtest[historical]: final_value=2587869 sharpe=1.769 max_drawdown=-0.193
+2026-09-11 21:24:13 INFO     mini_finrl.agents.sb3_wrapper: loaded PPO model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/portfolio_ppo_seed0.zip
+2026-09-11 21:24:13 INFO     mini_finrl.eval.backtest: backtest[path_000]: final_value=1961744 sharpe=1.602 max_drawdown=-0.212
+2026-09-11 21:24:13 INFO     mini_finrl.agents.sb3_wrapper: loaded PPO model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/portfolio_ppo_seed0.zip
+2026-09-11 21:24:13 INFO     mini_finrl.eval.backtest: backtest[path_001]: final_value=2063922 sharpe=2.045 max_drawdown=-0.139
+2026-09-11 21:24:13 INFO     mini_finrl.agents.sb3_wrapper: loaded PPO model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/portfolio_ppo_seed0.zip
+2026-09-11 21:24:13 INFO     mini_finrl.eval.backtest: backtest[path_002]: final_value=1534175 sharpe=1.217 max_drawdown=-0.152
+2026-09-11 21:24:13 INFO     mini_finrl.agents.sb3_wrapper: loaded PPO model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/portfolio_ppo_seed0.zip
+2026-09-11 21:24:13 INFO     mini_finrl.eval.backtest: backtest[path_003]: final_value=1818369 sharpe=1.539 max_drawdown=-0.202
+2026-09-11 21:24:13 INFO     mini_finrl.agents.sb3_wrapper: loaded PPO model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/portfolio_ppo_seed0.zip
+2026-09-11 21:24:13 INFO     mini_finrl.eval.backtest: backtest[path_004]: final_value=1420137 sharpe=1.013 max_drawdown=-0.132
+2026-09-11 21:24:13 INFO     mini_finrl.agents.sb3_wrapper: loaded PPO model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/portfolio_ppo_seed0.zip
+2026-09-11 21:24:13 INFO     mini_finrl.eval.backtest: backtest[path_005]: final_value=811797 sharpe=-0.279 max_drawdown=-0.338
+2026-09-11 21:24:13 INFO     mini_finrl.agents.sb3_wrapper: loaded PPO model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/portfolio_ppo_seed0.zip
+2026-09-11 21:24:13 INFO     mini_finrl.eval.backtest: backtest[path_006]: final_value=1410712 sharpe=0.864 max_drawdown=-0.347
+2026-09-11 21:24:13 INFO     mini_finrl.agents.sb3_wrapper: loaded PPO model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/portfolio_ppo_seed0.zip
+2026-09-11 21:24:13 INFO     mini_finrl.eval.backtest: backtest[path_007]: final_value=1654606 sharpe=1.270 max_drawdown=-0.151
+2026-09-11 21:24:13 INFO     mini_finrl.agents.sb3_wrapper: loaded PPO model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/portfolio_ppo_seed0.zip
+2026-09-11 21:24:13 INFO     mini_finrl.eval.backtest: backtest[path_008]: final_value=1706490 sharpe=1.306 max_drawdown=-0.216
+2026-09-11 21:24:13 INFO     mini_finrl.agents.sb3_wrapper: loaded PPO model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/portfolio_ppo_seed0.zip
+2026-09-11 21:24:13 INFO     mini_finrl.eval.backtest: backtest[path_009]: final_value=1165745 sharpe=0.489 max_drawdown=-0.168
+2026-09-11 21:24:13 INFO     mini_finrl.agents.sb3_wrapper: loaded PPO model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/portfolio_ppo_seed0.zip
+2026-09-11 21:24:13 INFO     mini_finrl.eval.backtest: backtest[path_010]: final_value=1699302 sharpe=1.332 max_drawdown=-0.215
+2026-09-11 21:24:13 INFO     mini_finrl.agents.sb3_wrapper: loaded PPO model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/portfolio_ppo_seed0.zip
+2026-09-11 21:24:13 INFO     mini_finrl.eval.backtest: backtest[path_011]: final_value=1610384 sharpe=1.189 max_drawdown=-0.181
+2026-09-11 21:24:13 INFO     mini_finrl.agents.sb3_wrapper: loaded PPO model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/portfolio_ppo_seed0.zip
+2026-09-11 21:24:14 INFO     mini_finrl.eval.backtest: backtest[path_012]: final_value=1119442 sharpe=0.388 max_drawdown=-0.336
+2026-09-11 21:24:14 INFO     mini_finrl.agents.sb3_wrapper: loaded PPO model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/portfolio_ppo_seed0.zip
+2026-09-11 21:24:14 INFO     mini_finrl.eval.backtest: backtest[path_013]: final_value=2908002 sharpe=2.614 max_drawdown=-0.109
+2026-09-11 21:24:14 INFO     mini_finrl.agents.sb3_wrapper: loaded PPO model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/portfolio_ppo_seed0.zip
+2026-09-11 21:24:14 INFO     mini_finrl.eval.backtest: backtest[path_014]: final_value=1675912 sharpe=1.333 max_drawdown=-0.224
+2026-09-11 21:24:14 INFO     mini_finrl.agents.sb3_wrapper: loaded PPO model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/portfolio_ppo_seed0.zip
+2026-09-11 21:24:14 INFO     mini_finrl.eval.backtest: backtest[path_015]: final_value=1753438 sharpe=1.381 max_drawdown=-0.185
+2026-09-11 21:24:14 INFO     mini_finrl.agents.sb3_wrapper: loaded PPO model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/portfolio_ppo_seed0.zip
+2026-09-11 21:24:14 INFO     mini_finrl.eval.backtest: backtest[path_016]: final_value=1287799 sharpe=0.696 max_drawdown=-0.244
+2026-09-11 21:24:14 INFO     mini_finrl.agents.sb3_wrapper: loaded PPO model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/portfolio_ppo_seed0.zip
+2026-09-11 21:24:14 INFO     mini_finrl.eval.backtest: backtest[path_017]: final_value=2477418 sharpe=2.296 max_drawdown=-0.154
+2026-09-11 21:24:14 INFO     mini_finrl.agents.sb3_wrapper: loaded PPO model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/portfolio_ppo_seed0.zip
+2026-09-11 21:24:14 INFO     mini_finrl.eval.backtest: backtest[path_018]: final_value=1271127 sharpe=0.692 max_drawdown=-0.184
+2026-09-11 21:24:14 INFO     mini_finrl.agents.sb3_wrapper: loaded PPO model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/portfolio_ppo_seed0.zip
+2026-09-11 21:24:14 INFO     mini_finrl.eval.backtest: backtest[path_019]: final_value=1585055 sharpe=1.180 max_drawdown=-0.313
+2026-09-11 21:24:14 WARNING  mini_finrl.__main__: skip missing /Users/parthrait/Desktop/Mini-fin-rl/results/models/portfolio_ppo_seed1.zip
+2026-09-11 21:24:14 WARNING  mini_finrl.__main__: skip missing /Users/parthrait/Desktop/Mini-fin-rl/results/models/portfolio_ppo_seed2.zip
+2026-09-11 21:24:14 INFO     mini_finrl.meta.data: cache hit: ohlcv_2023-01-01_2026-06-30_AAPL-AMZN-GOOGL-JNJ-JPM-META-MSFT-XOM.csv
+2026-09-11 21:24:14 INFO     mini_finrl.meta.features: add_indicators: computed ['macd', 'rsi_30', 'cci_30', 'dx_30', 'close_30_sma', 'close_60_sma'] for 8 tickers, 6992 rows
+2026-09-11 21:24:14 INFO     mini_finrl.meta.features: add_turbulence: lookback=252, 622/874 days scored (rest are warm-up), max=180.18
+2026-09-11 21:24:14 INFO     mini_finrl.agents.sb3_wrapper: loaded SAC model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/portfolio_sac_seed0.zip
+2026-09-11 21:24:14 INFO     mini_finrl.eval.backtest: backtest[historical]: final_value=2022006 sharpe=1.048 max_drawdown=-0.232
+2026-09-11 21:24:14 INFO     mini_finrl.agents.sb3_wrapper: loaded SAC model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/portfolio_sac_seed0.zip
+2026-09-11 21:24:14 INFO     mini_finrl.eval.backtest: backtest[path_000]: final_value=1440852 sharpe=0.819 max_drawdown=-0.247
+2026-09-11 21:24:14 INFO     mini_finrl.agents.sb3_wrapper: loaded SAC model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/portfolio_sac_seed0.zip
+2026-09-11 21:24:14 INFO     mini_finrl.eval.backtest: backtest[path_001]: final_value=1908979 sharpe=1.381 max_drawdown=-0.182
+2026-09-11 21:24:15 INFO     mini_finrl.agents.sb3_wrapper: loaded SAC model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/portfolio_sac_seed0.zip
+2026-09-11 21:24:15 INFO     mini_finrl.eval.backtest: backtest[path_002]: final_value=1078629 sharpe=0.281 max_drawdown=-0.201
+2026-09-11 21:24:15 INFO     mini_finrl.agents.sb3_wrapper: loaded SAC model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/portfolio_sac_seed0.zip
+2026-09-11 21:24:15 INFO     mini_finrl.eval.backtest: backtest[path_003]: final_value=1868394 sharpe=1.280 max_drawdown=-0.265
+2026-09-11 21:24:15 INFO     mini_finrl.agents.sb3_wrapper: loaded SAC model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/portfolio_sac_seed0.zip
+2026-09-11 21:24:15 INFO     mini_finrl.eval.backtest: backtest[path_004]: final_value=1253391 sharpe=0.593 max_drawdown=-0.218
+2026-09-11 21:24:15 INFO     mini_finrl.agents.sb3_wrapper: loaded SAC model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/portfolio_sac_seed0.zip
+2026-09-11 21:24:15 INFO     mini_finrl.eval.backtest: backtest[path_005]: final_value=596038 sharpe=-0.665 max_drawdown=-0.427
+2026-09-11 21:24:15 INFO     mini_finrl.agents.sb3_wrapper: loaded SAC model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/portfolio_sac_seed0.zip
+2026-09-11 21:24:15 INFO     mini_finrl.eval.backtest: backtest[path_006]: final_value=1299072 sharpe=0.604 max_drawdown=-0.454
+2026-09-11 21:24:15 INFO     mini_finrl.agents.sb3_wrapper: loaded SAC model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/portfolio_sac_seed0.zip
+2026-09-11 21:24:15 INFO     mini_finrl.eval.backtest: backtest[path_007]: final_value=1519910 sharpe=0.886 max_drawdown=-0.172
+2026-09-11 21:24:15 INFO     mini_finrl.agents.sb3_wrapper: loaded SAC model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/portfolio_sac_seed0.zip
+2026-09-11 21:24:15 INFO     mini_finrl.eval.backtest: backtest[path_008]: final_value=1372322 sharpe=0.721 max_drawdown=-0.344
+2026-09-11 21:24:15 INFO     mini_finrl.agents.sb3_wrapper: loaded SAC model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/portfolio_sac_seed0.zip
+2026-09-11 21:24:15 INFO     mini_finrl.eval.backtest: backtest[path_009]: final_value=1131259 sharpe=0.393 max_drawdown=-0.192
+2026-09-11 21:24:15 INFO     mini_finrl.agents.sb3_wrapper: loaded SAC model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/portfolio_sac_seed0.zip
+2026-09-11 21:24:15 INFO     mini_finrl.eval.backtest: backtest[path_010]: final_value=1902651 sharpe=1.356 max_drawdown=-0.213
+2026-09-11 21:24:15 INFO     mini_finrl.agents.sb3_wrapper: loaded SAC model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/portfolio_sac_seed0.zip
+2026-09-11 21:24:15 INFO     mini_finrl.eval.backtest: backtest[path_011]: final_value=1542342 sharpe=1.017 max_drawdown=-0.165
+2026-09-11 21:24:15 INFO     mini_finrl.agents.sb3_wrapper: loaded SAC model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/portfolio_sac_seed0.zip
+2026-09-11 21:24:15 INFO     mini_finrl.eval.backtest: backtest[path_012]: final_value=892305 sharpe=-0.099 max_drawdown=-0.402
+2026-09-11 21:24:15 INFO     mini_finrl.agents.sb3_wrapper: loaded SAC model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/portfolio_sac_seed0.zip
+2026-09-11 21:24:16 INFO     mini_finrl.eval.backtest: backtest[path_013]: final_value=2863275 sharpe=2.330 max_drawdown=-0.143
+2026-09-11 21:24:16 INFO     mini_finrl.agents.sb3_wrapper: loaded SAC model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/portfolio_sac_seed0.zip
+2026-09-11 21:24:16 INFO     mini_finrl.eval.backtest: backtest[path_014]: final_value=1707082 sharpe=1.139 max_drawdown=-0.232
+2026-09-11 21:24:16 INFO     mini_finrl.agents.sb3_wrapper: loaded SAC model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/portfolio_sac_seed0.zip
+2026-09-11 21:24:16 INFO     mini_finrl.eval.backtest: backtest[path_015]: final_value=2863085 sharpe=2.161 max_drawdown=-0.162
+2026-09-11 21:24:16 INFO     mini_finrl.agents.sb3_wrapper: loaded SAC model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/portfolio_sac_seed0.zip
+2026-09-11 21:24:16 INFO     mini_finrl.eval.backtest: backtest[path_016]: final_value=1062959 sharpe=0.253 max_drawdown=-0.389
+2026-09-11 21:24:16 INFO     mini_finrl.agents.sb3_wrapper: loaded SAC model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/portfolio_sac_seed0.zip
+2026-09-11 21:24:16 INFO     mini_finrl.eval.backtest: backtest[path_017]: final_value=2738506 sharpe=2.159 max_drawdown=-0.239
+2026-09-11 21:24:16 INFO     mini_finrl.agents.sb3_wrapper: loaded SAC model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/portfolio_sac_seed0.zip
+2026-09-11 21:24:16 INFO     mini_finrl.eval.backtest: backtest[path_018]: final_value=1375297 sharpe=0.862 max_drawdown=-0.207
+2026-09-11 21:24:16 INFO     mini_finrl.agents.sb3_wrapper: loaded SAC model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/portfolio_sac_seed0.zip
+2026-09-11 21:24:16 INFO     mini_finrl.eval.backtest: backtest[path_019]: final_value=1547680 sharpe=1.136 max_drawdown=-0.262
+2026-09-11 21:24:16 WARNING  mini_finrl.__main__: skip missing /Users/parthrait/Desktop/Mini-fin-rl/results/models/portfolio_sac_seed1.zip
+2026-09-11 21:24:16 WARNING  mini_finrl.__main__: skip missing /Users/parthrait/Desktop/Mini-fin-rl/results/models/portfolio_sac_seed2.zip
+2026-09-11 21:24:16 INFO     mini_finrl.__main__: wrote 126 backtest rows to /Users/parthrait/Desktop/Mini-fin-rl/results/logs/backtest_results.csv
+2026-09-11 21:24:34 INFO     mini_finrl.__main__: reporting on /Users/parthrait/Desktop/Mini-fin-rl/results/logs/backtest_results.csv
+2026-09-12 07:39:30 INFO     mini_finrl.meta.data: cache hit: ohlcv_2014-01-01_2026-06-30_AAPL-AMZN-GOOGL-JNJ-JPM-META-MSFT-XOM.csv
+2026-09-12 07:39:30 INFO     mini_finrl.meta.data: cache hit: vix_2014-01-01_2026-06-30.csv
+2026-09-12 07:39:30 INFO     mini_finrl.__main__: downloaded 25120 rows for 8 tickers
+2026-09-12 07:39:30 INFO     mini_finrl.__main__: downloaded 3141 VIX rows
+2026-09-12 07:43:42 INFO     mini_finrl.meta.data: cache hit: ohlcv_2014-01-01_2026-06-30_AAPL-AMZN-GOOGL-JNJ-JPM-META-MSFT-XOM.csv
+2026-09-12 07:43:42 INFO     mini_finrl.meta.data: cache hit: vix_2014-01-01_2026-06-30.csv
+2026-09-12 07:43:42 INFO     mini_finrl.__main__: downloaded 25120 rows for 8 tickers
+2026-09-12 07:43:42 INFO     mini_finrl.__main__: downloaded 3141 VIX rows
+2026-09-12 07:44:14 INFO     mini_finrl.meta.data: cache hit: ohlcv_2014-01-01_2026-06-30_AAPL-AMZN-GOOGL-JNJ-JPM-META-MSFT-XOM.csv
+2026-09-12 07:44:14 INFO     mini_finrl.meta.data: cache hit: vix_2014-01-01_2026-06-30.csv
+2026-09-12 07:44:14 INFO     mini_finrl.__main__: downloaded 25120 rows for 8 tickers
+2026-09-12 07:44:14 INFO     mini_finrl.__main__: downloaded 3141 VIX rows
+2026-09-12 07:44:27 INFO     mini_finrl.__main__: run: app=trading model=ppo seed=0 timesteps=5000
+2026-09-12 07:44:27 INFO     mini_finrl.meta.data: cache hit: ohlcv_2014-01-01_2022-12-31_AAPL-AMZN-GOOGL-JNJ-JPM-META-MSFT-XOM.csv
+2026-09-12 07:44:27 INFO     mini_finrl.meta.features: add_indicators: computed ['macd', 'rsi_30', 'cci_30', 'dx_30', 'close_30_sma', 'close_60_sma'] for 8 tickers, 18128 rows
+2026-09-12 07:44:28 INFO     mini_finrl.meta.features: add_turbulence: lookback=252, 2014/2266 days scored (rest are warm-up), max=343.12
+2026-09-12 07:44:29 INFO     mini_finrl.agents.sb3_wrapper: initialized PPO agent, seed=0, params={'n_steps': 2048, 'batch_size': 128, 'learning_rate': 0.00025, 'ent_coef': 0.005}
+2026-09-12 07:44:29 INFO     mini_finrl.agents.sb3_wrapper: training PPO (seed=0) for 5000 timesteps
+2026-09-12 07:44:30 INFO     mini_finrl.agents.sb3_wrapper: finished training PPO in 1.4s (3695 steps/s)
+2026-09-12 07:44:31 INFO     mini_finrl.agents.sb3_wrapper: saved PPO model to /Users/parthrait/Desktop/Mini-fin-rl/results/models/trading_ppo_seed0.zip
+2026-09-12 07:44:32 INFO     mini_finrl.__main__: run: app=trading model=sac seed=0 timesteps=5000
+2026-09-12 07:44:32 INFO     mini_finrl.meta.data: cache hit: ohlcv_2014-01-01_2022-12-31_AAPL-AMZN-GOOGL-JNJ-JPM-META-MSFT-XOM.csv
+2026-09-12 07:44:32 INFO     mini_finrl.meta.features: add_indicators: computed ['macd', 'rsi_30', 'cci_30', 'dx_30', 'close_30_sma', 'close_60_sma'] for 8 tickers, 18128 rows
+2026-09-12 07:44:33 INFO     mini_finrl.meta.features: add_turbulence: lookback=252, 2014/2266 days scored (rest are warm-up), max=343.12
+2026-09-12 07:44:34 INFO     mini_finrl.agents.sb3_wrapper: initialized SAC agent, seed=0, params={'batch_size': 256, 'buffer_size': 100000, 'learning_rate': 0.0003, 'learning_starts': 1000}
+2026-09-12 07:44:34 INFO     mini_finrl.agents.sb3_wrapper: training SAC (seed=0) for 5000 timesteps
+2026-09-12 07:44:53 INFO     mini_finrl.agents.sb3_wrapper: finished training SAC in 19.5s (256 steps/s)
+2026-09-12 07:44:53 INFO     mini_finrl.agents.sb3_wrapper: saved SAC model to /Users/parthrait/Desktop/Mini-fin-rl/results/models/trading_sac_seed0.zip
+2026-09-12 07:44:55 INFO     mini_finrl.__main__: run: app=portfolio model=ppo seed=0 timesteps=5000
+2026-09-12 07:44:55 INFO     mini_finrl.meta.data: cache hit: ohlcv_2014-01-01_2022-12-31_AAPL-AMZN-GOOGL-JNJ-JPM-META-MSFT-XOM.csv
+2026-09-12 07:44:55 INFO     mini_finrl.meta.features: add_indicators: computed ['macd', 'rsi_30', 'cci_30', 'dx_30', 'close_30_sma', 'close_60_sma'] for 8 tickers, 18128 rows
+2026-09-12 07:44:55 INFO     mini_finrl.meta.features: add_turbulence: lookback=252, 2014/2266 days scored (rest are warm-up), max=343.12
+2026-09-12 07:44:56 INFO     mini_finrl.agents.sb3_wrapper: initialized PPO agent, seed=0, params={'n_steps': 2048, 'batch_size': 128, 'learning_rate': 0.00025, 'ent_coef': 0.005}
+2026-09-12 07:44:56 INFO     mini_finrl.agents.sb3_wrapper: training PPO (seed=0) for 5000 timesteps
+2026-09-12 07:44:57 INFO     mini_finrl.agents.sb3_wrapper: finished training PPO in 1.2s (4267 steps/s)
+2026-09-12 07:44:57 INFO     mini_finrl.agents.sb3_wrapper: saved PPO model to /Users/parthrait/Desktop/Mini-fin-rl/results/models/portfolio_ppo_seed0.zip
+2026-09-12 07:44:58 INFO     mini_finrl.__main__: run: app=portfolio model=sac seed=0 timesteps=5000
+2026-09-12 07:44:58 INFO     mini_finrl.meta.data: cache hit: ohlcv_2014-01-01_2022-12-31_AAPL-AMZN-GOOGL-JNJ-JPM-META-MSFT-XOM.csv
+2026-09-12 07:44:58 INFO     mini_finrl.meta.features: add_indicators: computed ['macd', 'rsi_30', 'cci_30', 'dx_30', 'close_30_sma', 'close_60_sma'] for 8 tickers, 18128 rows
+2026-09-12 07:44:59 INFO     mini_finrl.meta.features: add_turbulence: lookback=252, 2014/2266 days scored (rest are warm-up), max=343.12
+2026-09-12 07:45:00 INFO     mini_finrl.agents.sb3_wrapper: initialized SAC agent, seed=0, params={'batch_size': 256, 'buffer_size': 100000, 'learning_rate': 0.0003, 'learning_starts': 1000}
+2026-09-12 07:45:00 INFO     mini_finrl.agents.sb3_wrapper: training SAC (seed=0) for 5000 timesteps
+2026-09-12 07:45:19 INFO     mini_finrl.agents.sb3_wrapper: finished training SAC in 18.9s (264 steps/s)
+2026-09-12 07:45:19 INFO     mini_finrl.agents.sb3_wrapper: saved SAC model to /Users/parthrait/Desktop/Mini-fin-rl/results/models/portfolio_sac_seed0.zip
+2026-09-12 07:45:20 INFO     mini_finrl.meta.data: cache hit: ohlcv_2023-01-01_2026-06-30_AAPL-AMZN-GOOGL-JNJ-JPM-META-MSFT-XOM.csv
+2026-09-12 07:45:20 INFO     mini_finrl.meta.features: add_indicators: computed ['macd', 'rsi_30', 'cci_30', 'dx_30', 'close_30_sma', 'close_60_sma'] for 8 tickers, 6992 rows
+2026-09-12 07:45:20 INFO     mini_finrl.meta.features: add_turbulence: lookback=252, 622/874 days scored (rest are warm-up), max=180.18
+2026-09-12 07:45:20 INFO     mini_finrl.eval.backtest: backtest[historical]: final_value=1149371 sharpe=1.213 max_drawdown=-0.046
+2026-09-12 07:45:20 INFO     mini_finrl.eval.backtest: backtest[path_000]: final_value=1267390 sharpe=1.240 max_drawdown=-0.113
+2026-09-12 07:45:20 INFO     mini_finrl.eval.backtest: backtest[path_001]: final_value=1264668 sharpe=1.787 max_drawdown=-0.058
+2026-09-12 07:45:21 INFO     mini_finrl.eval.backtest: backtest[path_002]: final_value=1141709 sharpe=1.199 max_drawdown=-0.048
+2026-09-12 07:45:21 INFO     mini_finrl.eval.backtest: backtest[path_003]: final_value=1246828 sharpe=1.370 max_drawdown=-0.085
+2026-09-12 07:45:21 INFO     mini_finrl.eval.backtest: backtest[path_004]: final_value=1117940 sharpe=0.811 max_drawdown=-0.072
+2026-09-12 07:45:21 INFO     mini_finrl.eval.backtest: backtest[path_005]: final_value=946476 sharpe=-0.399 max_drawdown=-0.102
+2026-09-12 07:45:21 INFO     mini_finrl.eval.backtest: backtest[path_006]: final_value=1093339 sharpe=0.590 max_drawdown=-0.154
+2026-09-12 07:45:21 INFO     mini_finrl.eval.backtest: backtest[path_007]: final_value=1204244 sharpe=1.266 max_drawdown=-0.053
+2026-09-12 07:45:21 INFO     mini_finrl.eval.backtest: backtest[path_008]: final_value=1169647 sharpe=1.059 max_drawdown=-0.077
+2026-09-12 07:45:21 INFO     mini_finrl.eval.backtest: backtest[path_009]: final_value=1047071 sharpe=0.422 max_drawdown=-0.050
+2026-09-12 07:45:21 INFO     mini_finrl.eval.backtest: backtest[path_010]: final_value=1166712 sharpe=0.988 max_drawdown=-0.098
+2026-09-12 07:45:21 INFO     mini_finrl.eval.backtest: backtest[path_011]: final_value=1200979 sharpe=1.112 max_drawdown=-0.090
+2026-09-12 07:45:21 INFO     mini_finrl.eval.backtest: backtest[path_012]: final_value=1040512 sharpe=0.369 max_drawdown=-0.100
+2026-09-12 07:45:21 INFO     mini_finrl.eval.backtest: backtest[path_013]: final_value=1612402 sharpe=2.443 max_drawdown=-0.062
+2026-09-12 07:45:21 INFO     mini_finrl.eval.backtest: backtest[path_014]: final_value=1194284 sharpe=1.324 max_drawdown=-0.087
+2026-09-12 07:45:21 INFO     mini_finrl.eval.backtest: backtest[path_015]: final_value=1252831 sharpe=1.391 max_drawdown=-0.070
+2026-09-12 07:45:21 INFO     mini_finrl.eval.backtest: backtest[path_016]: final_value=1116227 sharpe=0.893 max_drawdown=-0.051
+2026-09-12 07:45:21 INFO     mini_finrl.eval.backtest: backtest[path_017]: final_value=1396962 sharpe=2.248 max_drawdown=-0.062
+2026-09-12 07:45:21 INFO     mini_finrl.eval.backtest: backtest[path_018]: final_value=1070092 sharpe=0.620 max_drawdown=-0.064
+2026-09-12 07:45:21 INFO     mini_finrl.eval.backtest: backtest[path_019]: final_value=1139476 sharpe=0.961 max_drawdown=-0.129
+2026-09-12 07:45:21 INFO     mini_finrl.meta.data: cache hit: ohlcv_2023-01-01_2026-06-30_AAPL-AMZN-GOOGL-JNJ-JPM-META-MSFT-XOM.csv
+2026-09-12 07:45:21 INFO     mini_finrl.meta.features: add_indicators: computed ['macd', 'rsi_30', 'cci_30', 'dx_30', 'close_30_sma', 'close_60_sma'] for 8 tickers, 6992 rows
+2026-09-12 07:45:21 INFO     mini_finrl.meta.features: add_turbulence: lookback=252, 622/874 days scored (rest are warm-up), max=180.18
+2026-09-12 07:45:22 INFO     mini_finrl.agents.sb3_wrapper: loaded PPO model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/trading_ppo_seed0.zip
+2026-09-12 07:45:22 INFO     mini_finrl.eval.backtest: backtest[historical]: final_value=2226481 sharpe=1.167 max_drawdown=-0.269
+2026-09-12 07:45:22 INFO     mini_finrl.agents.sb3_wrapper: loaded PPO model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/trading_ppo_seed0.zip
+2026-09-12 07:45:22 INFO     mini_finrl.eval.backtest: backtest[path_000]: final_value=1808808 sharpe=1.218 max_drawdown=-0.234
+2026-09-12 07:45:22 INFO     mini_finrl.agents.sb3_wrapper: loaded PPO model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/trading_ppo_seed0.zip
+2026-09-12 07:45:22 INFO     mini_finrl.eval.backtest: backtest[path_001]: final_value=2162801 sharpe=2.010 max_drawdown=-0.189
+2026-09-12 07:45:22 INFO     mini_finrl.agents.sb3_wrapper: loaded PPO model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/trading_ppo_seed0.zip
+2026-09-12 07:45:22 INFO     mini_finrl.eval.backtest: backtest[path_002]: final_value=1508280 sharpe=1.081 max_drawdown=-0.189
+2026-09-12 07:45:22 INFO     mini_finrl.agents.sb3_wrapper: loaded PPO model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/trading_ppo_seed0.zip
+2026-09-12 07:45:22 INFO     mini_finrl.eval.backtest: backtest[path_003]: final_value=1818079 sharpe=1.338 max_drawdown=-0.218
+2026-09-12 07:45:22 INFO     mini_finrl.agents.sb3_wrapper: loaded PPO model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/trading_ppo_seed0.zip
+2026-09-12 07:45:22 INFO     mini_finrl.eval.backtest: backtest[path_004]: final_value=1544954 sharpe=1.022 max_drawdown=-0.196
+2026-09-12 07:45:22 INFO     mini_finrl.agents.sb3_wrapper: loaded PPO model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/trading_ppo_seed0.zip
+2026-09-12 07:45:22 INFO     mini_finrl.eval.backtest: backtest[path_005]: final_value=1049715 sharpe=0.227 max_drawdown=-0.371
+2026-09-12 07:45:22 INFO     mini_finrl.agents.sb3_wrapper: loaded PPO model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/trading_ppo_seed0.zip
+2026-09-12 07:45:22 INFO     mini_finrl.eval.backtest: backtest[path_006]: final_value=1405056 sharpe=0.787 max_drawdown=-0.398
+2026-09-12 07:45:22 INFO     mini_finrl.agents.sb3_wrapper: loaded PPO model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/trading_ppo_seed0.zip
+2026-09-12 07:45:22 INFO     mini_finrl.eval.backtest: backtest[path_007]: final_value=1790717 sharpe=1.333 max_drawdown=-0.196
+2026-09-12 07:45:22 INFO     mini_finrl.agents.sb3_wrapper: loaded PPO model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/trading_ppo_seed0.zip
+2026-09-12 07:45:22 INFO     mini_finrl.eval.backtest: backtest[path_008]: final_value=1506056 sharpe=0.983 max_drawdown=-0.276
+2026-09-12 07:45:22 INFO     mini_finrl.agents.sb3_wrapper: loaded PPO model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/trading_ppo_seed0.zip
+2026-09-12 07:45:22 INFO     mini_finrl.eval.backtest: backtest[path_009]: final_value=897525 sharpe=-0.123 max_drawdown=-0.230
+2026-09-12 07:45:22 INFO     mini_finrl.agents.sb3_wrapper: loaded PPO model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/trading_ppo_seed0.zip
+2026-09-12 07:45:22 INFO     mini_finrl.eval.backtest: backtest[path_010]: final_value=1739401 sharpe=1.273 max_drawdown=-0.246
+2026-09-12 07:45:23 INFO     mini_finrl.agents.sb3_wrapper: loaded PPO model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/trading_ppo_seed0.zip
+2026-09-12 07:45:23 INFO     mini_finrl.eval.backtest: backtest[path_011]: final_value=1837843 sharpe=1.331 max_drawdown=-0.167
+2026-09-12 07:45:23 INFO     mini_finrl.agents.sb3_wrapper: loaded PPO model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/trading_ppo_seed0.zip
+2026-09-12 07:45:23 INFO     mini_finrl.eval.backtest: backtest[path_012]: final_value=1200317 sharpe=0.551 max_drawdown=-0.319
+2026-09-12 07:45:23 INFO     mini_finrl.agents.sb3_wrapper: loaded PPO model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/trading_ppo_seed0.zip
+2026-09-12 07:45:23 INFO     mini_finrl.eval.backtest: backtest[path_013]: final_value=3241978 sharpe=2.553 max_drawdown=-0.143
+2026-09-12 07:45:23 INFO     mini_finrl.agents.sb3_wrapper: loaded PPO model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/trading_ppo_seed0.zip
+2026-09-12 07:45:23 INFO     mini_finrl.eval.backtest: backtest[path_014]: final_value=1729833 sharpe=1.311 max_drawdown=-0.259
+2026-09-12 07:45:23 INFO     mini_finrl.agents.sb3_wrapper: loaded PPO model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/trading_ppo_seed0.zip
+2026-09-12 07:45:23 INFO     mini_finrl.eval.backtest: backtest[path_015]: final_value=1800025 sharpe=1.312 max_drawdown=-0.188
+2026-09-12 07:45:23 INFO     mini_finrl.agents.sb3_wrapper: loaded PPO model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/trading_ppo_seed0.zip
+2026-09-12 07:45:23 INFO     mini_finrl.eval.backtest: backtest[path_016]: final_value=1415405 sharpe=0.906 max_drawdown=-0.197
+2026-09-12 07:45:23 INFO     mini_finrl.agents.sb3_wrapper: loaded PPO model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/trading_ppo_seed0.zip
+2026-09-12 07:45:23 INFO     mini_finrl.eval.backtest: backtest[path_017]: final_value=1639536 sharpe=1.223 max_drawdown=-0.179
+2026-09-12 07:45:23 INFO     mini_finrl.agents.sb3_wrapper: loaded PPO model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/trading_ppo_seed0.zip
+2026-09-12 07:45:23 INFO     mini_finrl.eval.backtest: backtest[path_018]: final_value=1070922 sharpe=0.269 max_drawdown=-0.265
+2026-09-12 07:45:23 INFO     mini_finrl.agents.sb3_wrapper: loaded PPO model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/trading_ppo_seed0.zip
+2026-09-12 07:45:23 INFO     mini_finrl.eval.backtest: backtest[path_019]: final_value=1595336 sharpe=1.150 max_drawdown=-0.322
+2026-09-12 07:45:23 WARNING  mini_finrl.__main__: skip missing /Users/parthrait/Desktop/Mini-fin-rl/results/models/trading_ppo_seed1.zip
+2026-09-12 07:45:23 WARNING  mini_finrl.__main__: skip missing /Users/parthrait/Desktop/Mini-fin-rl/results/models/trading_ppo_seed2.zip
+2026-09-12 07:45:23 INFO     mini_finrl.meta.data: cache hit: ohlcv_2023-01-01_2026-06-30_AAPL-AMZN-GOOGL-JNJ-JPM-META-MSFT-XOM.csv
+2026-09-12 07:45:23 INFO     mini_finrl.meta.features: add_indicators: computed ['macd', 'rsi_30', 'cci_30', 'dx_30', 'close_30_sma', 'close_60_sma'] for 8 tickers, 6992 rows
+2026-09-12 07:45:23 INFO     mini_finrl.meta.features: add_turbulence: lookback=252, 622/874 days scored (rest are warm-up), max=180.18
+2026-09-12 07:45:23 INFO     mini_finrl.agents.sb3_wrapper: loaded SAC model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/trading_sac_seed0.zip
+2026-09-12 07:45:23 INFO     mini_finrl.eval.backtest: backtest[historical]: final_value=2008673 sharpe=1.234 max_drawdown=-0.218
+2026-09-12 07:45:23 INFO     mini_finrl.agents.sb3_wrapper: loaded SAC model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/trading_sac_seed0.zip
+2026-09-12 07:45:24 INFO     mini_finrl.eval.backtest: backtest[path_000]: final_value=2288522 sharpe=1.808 max_drawdown=-0.210
+2026-09-12 07:45:24 INFO     mini_finrl.agents.sb3_wrapper: loaded SAC model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/trading_sac_seed0.zip
+2026-09-12 07:45:24 INFO     mini_finrl.eval.backtest: backtest[path_001]: final_value=1977210 sharpe=1.806 max_drawdown=-0.189
+2026-09-12 07:45:24 INFO     mini_finrl.agents.sb3_wrapper: loaded SAC model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/trading_sac_seed0.zip
+2026-09-12 07:45:24 INFO     mini_finrl.eval.backtest: backtest[path_002]: final_value=1816131 sharpe=1.603 max_drawdown=-0.131
+2026-09-12 07:45:24 INFO     mini_finrl.agents.sb3_wrapper: loaded SAC model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/trading_sac_seed0.zip
+2026-09-12 07:45:24 INFO     mini_finrl.eval.backtest: backtest[path_003]: final_value=1856050 sharpe=1.485 max_drawdown=-0.205
+2026-09-12 07:45:24 INFO     mini_finrl.agents.sb3_wrapper: loaded SAC model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/trading_sac_seed0.zip
+2026-09-12 07:45:24 INFO     mini_finrl.eval.backtest: backtest[path_004]: final_value=1315336 sharpe=0.772 max_drawdown=-0.157
+2026-09-12 07:45:24 INFO     mini_finrl.agents.sb3_wrapper: loaded SAC model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/trading_sac_seed0.zip
+2026-09-12 07:45:24 INFO     mini_finrl.eval.backtest: backtest[path_005]: final_value=836737 sharpe=-0.185 max_drawdown=-0.329
+2026-09-12 07:45:24 INFO     mini_finrl.agents.sb3_wrapper: loaded SAC model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/trading_sac_seed0.zip
+2026-09-12 07:45:24 INFO     mini_finrl.eval.backtest: backtest[path_006]: final_value=1416744 sharpe=0.850 max_drawdown=-0.347
+2026-09-12 07:45:24 INFO     mini_finrl.agents.sb3_wrapper: loaded SAC model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/trading_sac_seed0.zip
+2026-09-12 07:45:24 INFO     mini_finrl.eval.backtest: backtest[path_007]: final_value=1595787 sharpe=1.118 max_drawdown=-0.184
+2026-09-12 07:45:24 INFO     mini_finrl.agents.sb3_wrapper: loaded SAC model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/trading_sac_seed0.zip
+2026-09-12 07:45:24 INFO     mini_finrl.eval.backtest: backtest[path_008]: final_value=1782638 sharpe=1.294 max_drawdown=-0.228
+2026-09-12 07:45:24 INFO     mini_finrl.agents.sb3_wrapper: loaded SAC model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/trading_sac_seed0.zip
+2026-09-12 07:45:24 INFO     mini_finrl.eval.backtest: backtest[path_009]: final_value=1362122 sharpe=0.829 max_drawdown=-0.179
+2026-09-12 07:45:24 INFO     mini_finrl.agents.sb3_wrapper: loaded SAC model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/trading_sac_seed0.zip
+2026-09-12 07:45:25 INFO     mini_finrl.eval.backtest: backtest[path_010]: final_value=1650102 sharpe=1.211 max_drawdown=-0.233
+2026-09-12 07:45:25 INFO     mini_finrl.agents.sb3_wrapper: loaded SAC model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/trading_sac_seed0.zip
+2026-09-12 07:45:25 INFO     mini_finrl.eval.backtest: backtest[path_011]: final_value=1754183 sharpe=1.293 max_drawdown=-0.214
+2026-09-12 07:45:25 INFO     mini_finrl.agents.sb3_wrapper: loaded SAC model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/trading_sac_seed0.zip
+2026-09-12 07:45:25 INFO     mini_finrl.eval.backtest: backtest[path_012]: final_value=1357861 sharpe=0.831 max_drawdown=-0.282
+2026-09-12 07:45:25 INFO     mini_finrl.agents.sb3_wrapper: loaded SAC model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/trading_sac_seed0.zip
+2026-09-12 07:45:25 INFO     mini_finrl.eval.backtest: backtest[path_013]: final_value=2544078 sharpe=2.140 max_drawdown=-0.142
+2026-09-12 07:45:25 INFO     mini_finrl.agents.sb3_wrapper: loaded SAC model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/trading_sac_seed0.zip
+2026-09-12 07:45:25 INFO     mini_finrl.eval.backtest: backtest[path_014]: final_value=1641704 sharpe=1.186 max_drawdown=-0.275
+2026-09-12 07:45:25 INFO     mini_finrl.agents.sb3_wrapper: loaded SAC model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/trading_sac_seed0.zip
+2026-09-12 07:45:25 INFO     mini_finrl.eval.backtest: backtest[path_015]: final_value=1648622 sharpe=1.163 max_drawdown=-0.202
+2026-09-12 07:45:25 INFO     mini_finrl.agents.sb3_wrapper: loaded SAC model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/trading_sac_seed0.zip
+2026-09-12 07:45:25 INFO     mini_finrl.eval.backtest: backtest[path_016]: final_value=1204820 sharpe=0.528 max_drawdown=-0.291
+2026-09-12 07:45:25 INFO     mini_finrl.agents.sb3_wrapper: loaded SAC model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/trading_sac_seed0.zip
+2026-09-12 07:45:25 INFO     mini_finrl.eval.backtest: backtest[path_017]: final_value=2772848 sharpe=2.425 max_drawdown=-0.162
+2026-09-12 07:45:25 INFO     mini_finrl.agents.sb3_wrapper: loaded SAC model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/trading_sac_seed0.zip
+2026-09-12 07:45:25 INFO     mini_finrl.eval.backtest: backtest[path_018]: final_value=1486334 sharpe=1.026 max_drawdown=-0.214
+2026-09-12 07:45:25 INFO     mini_finrl.agents.sb3_wrapper: loaded SAC model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/trading_sac_seed0.zip
+2026-09-12 07:45:25 INFO     mini_finrl.eval.backtest: backtest[path_019]: final_value=1720306 sharpe=1.327 max_drawdown=-0.324
+2026-09-12 07:45:25 WARNING  mini_finrl.__main__: skip missing /Users/parthrait/Desktop/Mini-fin-rl/results/models/trading_sac_seed1.zip
+2026-09-12 07:45:25 WARNING  mini_finrl.__main__: skip missing /Users/parthrait/Desktop/Mini-fin-rl/results/models/trading_sac_seed2.zip
+2026-09-12 07:45:25 INFO     mini_finrl.meta.data: cache hit: ohlcv_2023-01-01_2026-06-30_AAPL-AMZN-GOOGL-JNJ-JPM-META-MSFT-XOM.csv
+2026-09-12 07:45:25 INFO     mini_finrl.meta.features: add_indicators: computed ['macd', 'rsi_30', 'cci_30', 'dx_30', 'close_30_sma', 'close_60_sma'] for 8 tickers, 6992 rows
+2026-09-12 07:45:26 INFO     mini_finrl.meta.features: add_turbulence: lookback=252, 622/874 days scored (rest are warm-up), max=180.18
+2026-09-12 07:45:26 INFO     mini_finrl.eval.backtest: backtest[historical]: final_value=2622854 sharpe=1.790 max_drawdown=-0.194
+2026-09-12 07:45:26 INFO     mini_finrl.eval.backtest: backtest[path_000]: final_value=1999127 sharpe=1.637 max_drawdown=-0.210
+2026-09-12 07:45:26 INFO     mini_finrl.eval.backtest: backtest[path_001]: final_value=2081495 sharpe=2.060 max_drawdown=-0.136
+2026-09-12 07:45:26 INFO     mini_finrl.eval.backtest: backtest[path_002]: final_value=1562575 sharpe=1.265 max_drawdown=-0.151
+2026-09-12 07:45:26 INFO     mini_finrl.eval.backtest: backtest[path_003]: final_value=1840495 sharpe=1.560 max_drawdown=-0.202
+2026-09-12 07:45:26 INFO     mini_finrl.eval.backtest: backtest[path_004]: final_value=1448865 sharpe=1.058 max_drawdown=-0.132
+2026-09-12 07:45:26 INFO     mini_finrl.eval.backtest: backtest[path_005]: final_value=808982 sharpe=-0.284 max_drawdown=-0.341
+2026-09-12 07:45:26 INFO     mini_finrl.eval.backtest: backtest[path_006]: final_value=1417398 sharpe=0.871 max_drawdown=-0.348
+2026-09-12 07:45:26 INFO     mini_finrl.eval.backtest: backtest[path_007]: final_value=1683811 sharpe=1.307 max_drawdown=-0.150
+2026-09-12 07:45:26 INFO     mini_finrl.eval.backtest: backtest[path_008]: final_value=1713130 sharpe=1.306 max_drawdown=-0.219
+2026-09-12 07:45:26 INFO     mini_finrl.eval.backtest: backtest[path_009]: final_value=1173785 sharpe=0.506 max_drawdown=-0.166
+2026-09-12 07:45:26 INFO     mini_finrl.eval.backtest: backtest[path_010]: final_value=1695455 sharpe=1.319 max_drawdown=-0.215
+2026-09-12 07:45:26 INFO     mini_finrl.eval.backtest: backtest[path_011]: final_value=1644734 sharpe=1.233 max_drawdown=-0.183
+2026-09-12 07:45:26 INFO     mini_finrl.eval.backtest: backtest[path_012]: final_value=1127319 sharpe=0.406 max_drawdown=-0.333
+2026-09-12 07:45:26 INFO     mini_finrl.eval.backtest: backtest[path_013]: final_value=2946588 sharpe=2.633 max_drawdown=-0.108
+2026-09-12 07:45:26 INFO     mini_finrl.eval.backtest: backtest[path_014]: final_value=1699348 sharpe=1.358 max_drawdown=-0.228
+2026-09-12 07:45:26 INFO     mini_finrl.eval.backtest: backtest[path_015]: final_value=1759438 sharpe=1.383 max_drawdown=-0.188
+2026-09-12 07:45:26 INFO     mini_finrl.eval.backtest: backtest[path_016]: final_value=1312954 sharpe=0.738 max_drawdown=-0.236
+2026-09-12 07:45:26 INFO     mini_finrl.eval.backtest: backtest[path_017]: final_value=2489290 sharpe=2.308 max_drawdown=-0.151
+2026-09-12 07:45:26 INFO     mini_finrl.eval.backtest: backtest[path_018]: final_value=1266462 sharpe=0.682 max_drawdown=-0.183
+2026-09-12 07:45:26 INFO     mini_finrl.eval.backtest: backtest[path_019]: final_value=1594642 sharpe=1.192 max_drawdown=-0.311
+2026-09-12 07:45:26 INFO     mini_finrl.meta.data: cache hit: ohlcv_2023-01-01_2026-06-30_AAPL-AMZN-GOOGL-JNJ-JPM-META-MSFT-XOM.csv
+2026-09-12 07:45:26 INFO     mini_finrl.meta.features: add_indicators: computed ['macd', 'rsi_30', 'cci_30', 'dx_30', 'close_30_sma', 'close_60_sma'] for 8 tickers, 6992 rows
+2026-09-12 07:45:26 INFO     mini_finrl.meta.features: add_turbulence: lookback=252, 622/874 days scored (rest are warm-up), max=180.18
+2026-09-12 07:45:26 INFO     mini_finrl.agents.sb3_wrapper: loaded PPO model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/portfolio_ppo_seed0.zip
+2026-09-12 07:45:26 INFO     mini_finrl.eval.backtest: backtest[historical]: final_value=2587869 sharpe=1.769 max_drawdown=-0.193
+2026-09-12 07:45:26 INFO     mini_finrl.agents.sb3_wrapper: loaded PPO model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/portfolio_ppo_seed0.zip
+2026-09-12 07:45:26 INFO     mini_finrl.eval.backtest: backtest[path_000]: final_value=1961744 sharpe=1.602 max_drawdown=-0.212
+2026-09-12 07:45:26 INFO     mini_finrl.agents.sb3_wrapper: loaded PPO model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/portfolio_ppo_seed0.zip
+2026-09-12 07:45:26 INFO     mini_finrl.eval.backtest: backtest[path_001]: final_value=2063922 sharpe=2.045 max_drawdown=-0.139
+2026-09-12 07:45:26 INFO     mini_finrl.agents.sb3_wrapper: loaded PPO model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/portfolio_ppo_seed0.zip
+2026-09-12 07:45:26 INFO     mini_finrl.eval.backtest: backtest[path_002]: final_value=1534175 sharpe=1.217 max_drawdown=-0.152
+2026-09-12 07:45:27 INFO     mini_finrl.agents.sb3_wrapper: loaded PPO model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/portfolio_ppo_seed0.zip
+2026-09-12 07:45:27 INFO     mini_finrl.eval.backtest: backtest[path_003]: final_value=1818369 sharpe=1.539 max_drawdown=-0.202
+2026-09-12 07:45:27 INFO     mini_finrl.agents.sb3_wrapper: loaded PPO model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/portfolio_ppo_seed0.zip
+2026-09-12 07:45:27 INFO     mini_finrl.eval.backtest: backtest[path_004]: final_value=1420137 sharpe=1.013 max_drawdown=-0.132
+2026-09-12 07:45:27 INFO     mini_finrl.agents.sb3_wrapper: loaded PPO model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/portfolio_ppo_seed0.zip
+2026-09-12 07:45:27 INFO     mini_finrl.eval.backtest: backtest[path_005]: final_value=811797 sharpe=-0.279 max_drawdown=-0.338
+2026-09-12 07:45:27 INFO     mini_finrl.agents.sb3_wrapper: loaded PPO model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/portfolio_ppo_seed0.zip
+2026-09-12 07:45:27 INFO     mini_finrl.eval.backtest: backtest[path_006]: final_value=1410712 sharpe=0.864 max_drawdown=-0.347
+2026-09-12 07:45:27 INFO     mini_finrl.agents.sb3_wrapper: loaded PPO model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/portfolio_ppo_seed0.zip
+2026-09-12 07:45:27 INFO     mini_finrl.eval.backtest: backtest[path_007]: final_value=1654606 sharpe=1.270 max_drawdown=-0.151
+2026-09-12 07:45:27 INFO     mini_finrl.agents.sb3_wrapper: loaded PPO model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/portfolio_ppo_seed0.zip
+2026-09-12 07:45:27 INFO     mini_finrl.eval.backtest: backtest[path_008]: final_value=1706490 sharpe=1.306 max_drawdown=-0.216
+2026-09-12 07:45:27 INFO     mini_finrl.agents.sb3_wrapper: loaded PPO model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/portfolio_ppo_seed0.zip
+2026-09-12 07:45:27 INFO     mini_finrl.eval.backtest: backtest[path_009]: final_value=1165745 sharpe=0.489 max_drawdown=-0.168
+2026-09-12 07:45:27 INFO     mini_finrl.agents.sb3_wrapper: loaded PPO model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/portfolio_ppo_seed0.zip
+2026-09-12 07:45:27 INFO     mini_finrl.eval.backtest: backtest[path_010]: final_value=1699302 sharpe=1.332 max_drawdown=-0.215
+2026-09-12 07:45:27 INFO     mini_finrl.agents.sb3_wrapper: loaded PPO model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/portfolio_ppo_seed0.zip
+2026-09-12 07:45:27 INFO     mini_finrl.eval.backtest: backtest[path_011]: final_value=1610384 sharpe=1.189 max_drawdown=-0.181
+2026-09-12 07:45:27 INFO     mini_finrl.agents.sb3_wrapper: loaded PPO model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/portfolio_ppo_seed0.zip
+2026-09-12 07:45:27 INFO     mini_finrl.eval.backtest: backtest[path_012]: final_value=1119442 sharpe=0.388 max_drawdown=-0.336
+2026-09-12 07:45:27 INFO     mini_finrl.agents.sb3_wrapper: loaded PPO model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/portfolio_ppo_seed0.zip
+2026-09-12 07:45:27 INFO     mini_finrl.eval.backtest: backtest[path_013]: final_value=2908002 sharpe=2.614 max_drawdown=-0.109
+2026-09-12 07:45:27 INFO     mini_finrl.agents.sb3_wrapper: loaded PPO model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/portfolio_ppo_seed0.zip
+2026-09-12 07:45:27 INFO     mini_finrl.eval.backtest: backtest[path_014]: final_value=1675912 sharpe=1.333 max_drawdown=-0.224
+2026-09-12 07:45:27 INFO     mini_finrl.agents.sb3_wrapper: loaded PPO model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/portfolio_ppo_seed0.zip
+2026-09-12 07:45:27 INFO     mini_finrl.eval.backtest: backtest[path_015]: final_value=1753438 sharpe=1.381 max_drawdown=-0.185
+2026-09-12 07:45:27 INFO     mini_finrl.agents.sb3_wrapper: loaded PPO model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/portfolio_ppo_seed0.zip
+2026-09-12 07:45:27 INFO     mini_finrl.eval.backtest: backtest[path_016]: final_value=1287799 sharpe=0.696 max_drawdown=-0.244
+2026-09-12 07:45:27 INFO     mini_finrl.agents.sb3_wrapper: loaded PPO model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/portfolio_ppo_seed0.zip
+2026-09-12 07:45:27 INFO     mini_finrl.eval.backtest: backtest[path_017]: final_value=2477418 sharpe=2.296 max_drawdown=-0.154
+2026-09-12 07:45:27 INFO     mini_finrl.agents.sb3_wrapper: loaded PPO model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/portfolio_ppo_seed0.zip
+2026-09-12 07:45:27 INFO     mini_finrl.eval.backtest: backtest[path_018]: final_value=1271127 sharpe=0.692 max_drawdown=-0.184
+2026-09-12 07:45:27 INFO     mini_finrl.agents.sb3_wrapper: loaded PPO model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/portfolio_ppo_seed0.zip
+2026-09-12 07:45:27 INFO     mini_finrl.eval.backtest: backtest[path_019]: final_value=1585055 sharpe=1.180 max_drawdown=-0.313
+2026-09-12 07:45:27 WARNING  mini_finrl.__main__: skip missing /Users/parthrait/Desktop/Mini-fin-rl/results/models/portfolio_ppo_seed1.zip
+2026-09-12 07:45:27 WARNING  mini_finrl.__main__: skip missing /Users/parthrait/Desktop/Mini-fin-rl/results/models/portfolio_ppo_seed2.zip
+2026-09-12 07:45:27 INFO     mini_finrl.meta.data: cache hit: ohlcv_2023-01-01_2026-06-30_AAPL-AMZN-GOOGL-JNJ-JPM-META-MSFT-XOM.csv
+2026-09-12 07:45:28 INFO     mini_finrl.meta.features: add_indicators: computed ['macd', 'rsi_30', 'cci_30', 'dx_30', 'close_30_sma', 'close_60_sma'] for 8 tickers, 6992 rows
+2026-09-12 07:45:28 INFO     mini_finrl.meta.features: add_turbulence: lookback=252, 622/874 days scored (rest are warm-up), max=180.18
+2026-09-12 07:45:28 INFO     mini_finrl.agents.sb3_wrapper: loaded SAC model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/portfolio_sac_seed0.zip
+2026-09-12 07:45:28 INFO     mini_finrl.eval.backtest: backtest[historical]: final_value=2022006 sharpe=1.048 max_drawdown=-0.232
+2026-09-12 07:45:28 INFO     mini_finrl.agents.sb3_wrapper: loaded SAC model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/portfolio_sac_seed0.zip
+2026-09-12 07:45:28 INFO     mini_finrl.eval.backtest: backtest[path_000]: final_value=1440852 sharpe=0.819 max_drawdown=-0.247
+2026-09-12 07:45:28 INFO     mini_finrl.agents.sb3_wrapper: loaded SAC model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/portfolio_sac_seed0.zip
+2026-09-12 07:45:28 INFO     mini_finrl.eval.backtest: backtest[path_001]: final_value=1908979 sharpe=1.381 max_drawdown=-0.182
+2026-09-12 07:45:28 INFO     mini_finrl.agents.sb3_wrapper: loaded SAC model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/portfolio_sac_seed0.zip
+2026-09-12 07:45:28 INFO     mini_finrl.eval.backtest: backtest[path_002]: final_value=1078629 sharpe=0.281 max_drawdown=-0.201
+2026-09-12 07:45:28 INFO     mini_finrl.agents.sb3_wrapper: loaded SAC model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/portfolio_sac_seed0.zip
+2026-09-12 07:45:28 INFO     mini_finrl.eval.backtest: backtest[path_003]: final_value=1868394 sharpe=1.280 max_drawdown=-0.265
+2026-09-12 07:45:28 INFO     mini_finrl.agents.sb3_wrapper: loaded SAC model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/portfolio_sac_seed0.zip
+2026-09-12 07:45:28 INFO     mini_finrl.eval.backtest: backtest[path_004]: final_value=1253391 sharpe=0.593 max_drawdown=-0.218
+2026-09-12 07:45:28 INFO     mini_finrl.agents.sb3_wrapper: loaded SAC model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/portfolio_sac_seed0.zip
+2026-09-12 07:45:28 INFO     mini_finrl.eval.backtest: backtest[path_005]: final_value=596038 sharpe=-0.665 max_drawdown=-0.427
+2026-09-12 07:45:28 INFO     mini_finrl.agents.sb3_wrapper: loaded SAC model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/portfolio_sac_seed0.zip
+2026-09-12 07:45:29 INFO     mini_finrl.eval.backtest: backtest[path_006]: final_value=1299072 sharpe=0.604 max_drawdown=-0.454
+2026-09-12 07:45:29 INFO     mini_finrl.agents.sb3_wrapper: loaded SAC model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/portfolio_sac_seed0.zip
+2026-09-12 07:45:29 INFO     mini_finrl.eval.backtest: backtest[path_007]: final_value=1519910 sharpe=0.886 max_drawdown=-0.172
+2026-09-12 07:45:29 INFO     mini_finrl.agents.sb3_wrapper: loaded SAC model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/portfolio_sac_seed0.zip
+2026-09-12 07:45:29 INFO     mini_finrl.eval.backtest: backtest[path_008]: final_value=1372322 sharpe=0.721 max_drawdown=-0.344
+2026-09-12 07:45:29 INFO     mini_finrl.agents.sb3_wrapper: loaded SAC model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/portfolio_sac_seed0.zip
+2026-09-12 07:45:29 INFO     mini_finrl.eval.backtest: backtest[path_009]: final_value=1131259 sharpe=0.393 max_drawdown=-0.192
+2026-09-12 07:45:29 INFO     mini_finrl.agents.sb3_wrapper: loaded SAC model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/portfolio_sac_seed0.zip
+2026-09-12 07:45:29 INFO     mini_finrl.eval.backtest: backtest[path_010]: final_value=1902651 sharpe=1.356 max_drawdown=-0.213
+2026-09-12 07:45:29 INFO     mini_finrl.agents.sb3_wrapper: loaded SAC model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/portfolio_sac_seed0.zip
+2026-09-12 07:45:29 INFO     mini_finrl.eval.backtest: backtest[path_011]: final_value=1542342 sharpe=1.017 max_drawdown=-0.165
+2026-09-12 07:45:29 INFO     mini_finrl.agents.sb3_wrapper: loaded SAC model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/portfolio_sac_seed0.zip
+2026-09-12 07:45:29 INFO     mini_finrl.eval.backtest: backtest[path_012]: final_value=892305 sharpe=-0.099 max_drawdown=-0.402
+2026-09-12 07:45:29 INFO     mini_finrl.agents.sb3_wrapper: loaded SAC model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/portfolio_sac_seed0.zip
+2026-09-12 07:45:29 INFO     mini_finrl.eval.backtest: backtest[path_013]: final_value=2863275 sharpe=2.330 max_drawdown=-0.143
+2026-09-12 07:45:29 INFO     mini_finrl.agents.sb3_wrapper: loaded SAC model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/portfolio_sac_seed0.zip
+2026-09-12 07:45:29 INFO     mini_finrl.eval.backtest: backtest[path_014]: final_value=1707082 sharpe=1.139 max_drawdown=-0.232
+2026-09-12 07:45:29 INFO     mini_finrl.agents.sb3_wrapper: loaded SAC model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/portfolio_sac_seed0.zip
+2026-09-12 07:45:29 INFO     mini_finrl.eval.backtest: backtest[path_015]: final_value=2863085 sharpe=2.161 max_drawdown=-0.162
+2026-09-12 07:45:29 INFO     mini_finrl.agents.sb3_wrapper: loaded SAC model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/portfolio_sac_seed0.zip
+2026-09-12 07:45:29 INFO     mini_finrl.eval.backtest: backtest[path_016]: final_value=1062959 sharpe=0.253 max_drawdown=-0.389
+2026-09-12 07:45:29 INFO     mini_finrl.agents.sb3_wrapper: loaded SAC model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/portfolio_sac_seed0.zip
+2026-09-12 07:45:29 INFO     mini_finrl.eval.backtest: backtest[path_017]: final_value=2738506 sharpe=2.159 max_drawdown=-0.239
+2026-09-12 07:45:30 INFO     mini_finrl.agents.sb3_wrapper: loaded SAC model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/portfolio_sac_seed0.zip
+2026-09-12 07:45:30 INFO     mini_finrl.eval.backtest: backtest[path_018]: final_value=1375297 sharpe=0.862 max_drawdown=-0.207
+2026-09-12 07:45:30 INFO     mini_finrl.agents.sb3_wrapper: loaded SAC model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/portfolio_sac_seed0.zip
+2026-09-12 07:45:30 INFO     mini_finrl.eval.backtest: backtest[path_019]: final_value=1547680 sharpe=1.136 max_drawdown=-0.262
+2026-09-12 07:45:30 WARNING  mini_finrl.__main__: skip missing /Users/parthrait/Desktop/Mini-fin-rl/results/models/portfolio_sac_seed1.zip
+2026-09-12 07:45:30 WARNING  mini_finrl.__main__: skip missing /Users/parthrait/Desktop/Mini-fin-rl/results/models/portfolio_sac_seed2.zip
+2026-09-12 07:45:30 INFO     mini_finrl.__main__: wrote 126 backtest rows to /Users/parthrait/Desktop/Mini-fin-rl/results/logs/backtest_results.csv
+2026-09-12 07:45:30 INFO     mini_finrl.__main__: reporting on /Users/parthrait/Desktop/Mini-fin-rl/results/logs/backtest_results.csv
+2026-09-12 08:21:00 INFO     mini_finrl.meta.data: cache hit: ohlcv_2014-01-01_2026-06-30_AAPL-AMZN-GOOGL-JNJ-JPM-META-MSFT-XOM.csv
+2026-09-12 08:21:00 INFO     mini_finrl.meta.data: cache hit: vix_2014-01-01_2026-06-30.csv
+2026-09-12 08:21:00 INFO     mini_finrl.__main__: downloaded 25120 rows for 8 tickers
+2026-09-12 08:21:00 INFO     mini_finrl.__main__: downloaded 3141 VIX rows
+2026-09-12 18:53:37 INFO     mini_finrl.__main__: run: app=trading model=ppo seed=0 timesteps=5000
+2026-09-12 18:53:37 INFO     mini_finrl.meta.data: cache hit: ohlcv_2014-01-01_2022-12-31_AAPL-AMZN-GOOGL-JNJ-JPM-META-MSFT-XOM.csv
+2026-09-12 18:53:37 INFO     mini_finrl.meta.features: add_indicators: computed ['macd', 'rsi_30', 'cci_30', 'dx_30', 'close_30_sma', 'close_60_sma'] for 8 tickers, 18128 rows
+2026-09-12 18:53:38 INFO     mini_finrl.meta.features: add_turbulence: lookback=252, 2014/2266 days scored (rest are warm-up), max=343.12
+2026-09-12 18:53:39 INFO     mini_finrl.agents.sb3_wrapper: initialized PPO agent, seed=0, params={'n_steps': 2048, 'batch_size': 128, 'learning_rate': 0.00025, 'ent_coef': 0.005}
+2026-09-12 18:53:39 INFO     mini_finrl.agents.sb3_wrapper: training PPO (seed=0) for 5000 timesteps
+2026-09-12 18:53:40 INFO     mini_finrl.agents.sb3_wrapper: finished training PPO in 1.3s (3923 steps/s)
+2026-09-12 18:53:40 INFO     mini_finrl.agents.sb3_wrapper: saved PPO model to /Users/parthrait/Desktop/Mini-fin-rl/results/models/trading_ppo_seed0.zip
+2026-09-12 18:53:41 INFO     mini_finrl.__main__: run: app=trading model=sac seed=0 timesteps=5000
+2026-09-12 18:53:41 INFO     mini_finrl.meta.data: cache hit: ohlcv_2014-01-01_2022-12-31_AAPL-AMZN-GOOGL-JNJ-JPM-META-MSFT-XOM.csv
+2026-09-12 18:53:41 INFO     mini_finrl.meta.features: add_indicators: computed ['macd', 'rsi_30', 'cci_30', 'dx_30', 'close_30_sma', 'close_60_sma'] for 8 tickers, 18128 rows
+2026-09-12 18:53:42 INFO     mini_finrl.meta.features: add_turbulence: lookback=252, 2014/2266 days scored (rest are warm-up), max=343.12
+2026-09-12 18:53:43 INFO     mini_finrl.agents.sb3_wrapper: initialized SAC agent, seed=0, params={'batch_size': 256, 'buffer_size': 100000, 'learning_rate': 0.0003, 'learning_starts': 1000}
+2026-09-12 18:53:43 INFO     mini_finrl.agents.sb3_wrapper: training SAC (seed=0) for 5000 timesteps
+2026-09-12 18:54:01 INFO     mini_finrl.agents.sb3_wrapper: finished training SAC in 18.5s (270 steps/s)
+2026-09-12 18:54:01 INFO     mini_finrl.agents.sb3_wrapper: saved SAC model to /Users/parthrait/Desktop/Mini-fin-rl/results/models/trading_sac_seed0.zip
+2026-09-12 18:54:03 INFO     mini_finrl.__main__: run: app=portfolio model=ppo seed=0 timesteps=5000
+2026-09-12 18:54:03 INFO     mini_finrl.meta.data: cache hit: ohlcv_2014-01-01_2022-12-31_AAPL-AMZN-GOOGL-JNJ-JPM-META-MSFT-XOM.csv
+2026-09-12 18:54:03 INFO     mini_finrl.meta.features: add_indicators: computed ['macd', 'rsi_30', 'cci_30', 'dx_30', 'close_30_sma', 'close_60_sma'] for 8 tickers, 18128 rows
+2026-09-12 18:54:03 INFO     mini_finrl.meta.features: add_turbulence: lookback=252, 2014/2266 days scored (rest are warm-up), max=343.12
+2026-09-12 18:54:04 INFO     mini_finrl.agents.sb3_wrapper: initialized PPO agent, seed=0, params={'n_steps': 2048, 'batch_size': 128, 'learning_rate': 0.00025, 'ent_coef': 0.005}
+2026-09-12 18:54:04 INFO     mini_finrl.agents.sb3_wrapper: training PPO (seed=0) for 5000 timesteps
+2026-09-12 18:54:05 INFO     mini_finrl.agents.sb3_wrapper: finished training PPO in 1.2s (4269 steps/s)
+2026-09-12 18:54:05 INFO     mini_finrl.agents.sb3_wrapper: saved PPO model to /Users/parthrait/Desktop/Mini-fin-rl/results/models/portfolio_ppo_seed0.zip
+2026-09-12 18:54:06 INFO     mini_finrl.__main__: run: app=portfolio model=sac seed=0 timesteps=5000
+2026-09-12 18:54:06 INFO     mini_finrl.meta.data: cache hit: ohlcv_2014-01-01_2022-12-31_AAPL-AMZN-GOOGL-JNJ-JPM-META-MSFT-XOM.csv
+2026-09-12 18:54:06 INFO     mini_finrl.meta.features: add_indicators: computed ['macd', 'rsi_30', 'cci_30', 'dx_30', 'close_30_sma', 'close_60_sma'] for 8 tickers, 18128 rows
+2026-09-12 18:54:07 INFO     mini_finrl.meta.features: add_turbulence: lookback=252, 2014/2266 days scored (rest are warm-up), max=343.12
+2026-09-12 18:54:08 INFO     mini_finrl.agents.sb3_wrapper: initialized SAC agent, seed=0, params={'batch_size': 256, 'buffer_size': 100000, 'learning_rate': 0.0003, 'learning_starts': 1000}
+2026-09-12 18:54:08 INFO     mini_finrl.agents.sb3_wrapper: training SAC (seed=0) for 5000 timesteps
+2026-09-12 18:54:26 INFO     mini_finrl.agents.sb3_wrapper: finished training SAC in 18.1s (277 steps/s)
+2026-09-12 18:54:26 INFO     mini_finrl.agents.sb3_wrapper: saved SAC model to /Users/parthrait/Desktop/Mini-fin-rl/results/models/portfolio_sac_seed0.zip
+2026-09-12 18:54:36 INFO     mini_finrl.meta.data: cache hit: ohlcv_2023-01-01_2026-06-30_AAPL-AMZN-GOOGL-JNJ-JPM-META-MSFT-XOM.csv
+2026-09-12 18:54:36 INFO     mini_finrl.meta.features: add_indicators: computed ['macd', 'rsi_30', 'cci_30', 'dx_30', 'close_30_sma', 'close_60_sma'] for 8 tickers, 6992 rows
+2026-09-12 18:54:36 INFO     mini_finrl.meta.features: add_turbulence: lookback=252, 622/874 days scored (rest are warm-up), max=180.18
+2026-09-12 18:54:36 INFO     mini_finrl.eval.backtest: backtest[historical]: final_value=1149371 sharpe=1.213 max_drawdown=-0.046
+2026-09-12 18:54:36 INFO     mini_finrl.eval.backtest: backtest[path_000]: final_value=1267390 sharpe=1.240 max_drawdown=-0.113
+2026-09-12 18:54:36 INFO     mini_finrl.eval.backtest: backtest[path_001]: final_value=1264668 sharpe=1.787 max_drawdown=-0.058
+2026-09-12 18:54:36 INFO     mini_finrl.eval.backtest: backtest[path_002]: final_value=1141709 sharpe=1.199 max_drawdown=-0.048
+2026-09-12 18:54:36 INFO     mini_finrl.eval.backtest: backtest[path_003]: final_value=1246828 sharpe=1.370 max_drawdown=-0.085
+2026-09-12 18:54:36 INFO     mini_finrl.eval.backtest: backtest[path_004]: final_value=1117940 sharpe=0.811 max_drawdown=-0.072
+2026-09-12 18:54:36 INFO     mini_finrl.eval.backtest: backtest[path_005]: final_value=946476 sharpe=-0.399 max_drawdown=-0.102
+2026-09-12 18:54:36 INFO     mini_finrl.eval.backtest: backtest[path_006]: final_value=1093339 sharpe=0.590 max_drawdown=-0.154
+2026-09-12 18:54:36 INFO     mini_finrl.eval.backtest: backtest[path_007]: final_value=1204244 sharpe=1.266 max_drawdown=-0.053
+2026-09-12 18:54:36 INFO     mini_finrl.eval.backtest: backtest[path_008]: final_value=1169647 sharpe=1.059 max_drawdown=-0.077
+2026-09-12 18:54:36 INFO     mini_finrl.eval.backtest: backtest[path_009]: final_value=1047071 sharpe=0.422 max_drawdown=-0.050
+2026-09-12 18:54:37 INFO     mini_finrl.eval.backtest: backtest[path_010]: final_value=1166712 sharpe=0.988 max_drawdown=-0.098
+2026-09-12 18:54:37 INFO     mini_finrl.eval.backtest: backtest[path_011]: final_value=1200979 sharpe=1.112 max_drawdown=-0.090
+2026-09-12 18:54:37 INFO     mini_finrl.eval.backtest: backtest[path_012]: final_value=1040512 sharpe=0.369 max_drawdown=-0.100
+2026-09-12 18:54:37 INFO     mini_finrl.eval.backtest: backtest[path_013]: final_value=1612402 sharpe=2.443 max_drawdown=-0.062
+2026-09-12 18:54:37 INFO     mini_finrl.eval.backtest: backtest[path_014]: final_value=1194284 sharpe=1.324 max_drawdown=-0.087
+2026-09-12 18:54:37 INFO     mini_finrl.eval.backtest: backtest[path_015]: final_value=1252831 sharpe=1.391 max_drawdown=-0.070
+2026-09-12 18:54:37 INFO     mini_finrl.eval.backtest: backtest[path_016]: final_value=1116227 sharpe=0.893 max_drawdown=-0.051
+2026-09-12 18:54:37 INFO     mini_finrl.eval.backtest: backtest[path_017]: final_value=1396962 sharpe=2.248 max_drawdown=-0.062
+2026-09-12 18:54:37 INFO     mini_finrl.eval.backtest: backtest[path_018]: final_value=1070092 sharpe=0.620 max_drawdown=-0.064
+2026-09-12 18:54:37 INFO     mini_finrl.eval.backtest: backtest[path_019]: final_value=1139476 sharpe=0.961 max_drawdown=-0.129
+2026-09-12 18:54:37 INFO     mini_finrl.meta.data: cache hit: ohlcv_2023-01-01_2026-06-30_AAPL-AMZN-GOOGL-JNJ-JPM-META-MSFT-XOM.csv
+2026-09-12 18:54:37 INFO     mini_finrl.meta.features: add_indicators: computed ['macd', 'rsi_30', 'cci_30', 'dx_30', 'close_30_sma', 'close_60_sma'] for 8 tickers, 6992 rows
+2026-09-12 18:54:37 INFO     mini_finrl.meta.features: add_turbulence: lookback=252, 622/874 days scored (rest are warm-up), max=180.18
+2026-09-12 18:54:38 INFO     mini_finrl.agents.sb3_wrapper: loaded PPO model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/trading_ppo_seed0.zip
+2026-09-12 18:54:38 INFO     mini_finrl.eval.backtest: backtest[historical]: final_value=2226481 sharpe=1.167 max_drawdown=-0.269
+2026-09-12 18:54:38 INFO     mini_finrl.agents.sb3_wrapper: loaded PPO model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/trading_ppo_seed0.zip
+2026-09-12 18:54:38 INFO     mini_finrl.eval.backtest: backtest[path_000]: final_value=1808808 sharpe=1.218 max_drawdown=-0.234
+2026-09-12 18:54:38 INFO     mini_finrl.agents.sb3_wrapper: loaded PPO model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/trading_ppo_seed0.zip
+2026-09-12 18:54:38 INFO     mini_finrl.eval.backtest: backtest[path_001]: final_value=2162801 sharpe=2.010 max_drawdown=-0.189
+2026-09-12 18:54:38 INFO     mini_finrl.agents.sb3_wrapper: loaded PPO model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/trading_ppo_seed0.zip
+2026-09-12 18:54:38 INFO     mini_finrl.eval.backtest: backtest[path_002]: final_value=1508280 sharpe=1.081 max_drawdown=-0.189
+2026-09-12 18:54:38 INFO     mini_finrl.agents.sb3_wrapper: loaded PPO model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/trading_ppo_seed0.zip
+2026-09-12 18:54:38 INFO     mini_finrl.eval.backtest: backtest[path_003]: final_value=1818079 sharpe=1.338 max_drawdown=-0.218
+2026-09-12 18:54:38 INFO     mini_finrl.agents.sb3_wrapper: loaded PPO model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/trading_ppo_seed0.zip
+2026-09-12 18:54:38 INFO     mini_finrl.eval.backtest: backtest[path_004]: final_value=1544954 sharpe=1.022 max_drawdown=-0.196
+2026-09-12 18:54:38 INFO     mini_finrl.agents.sb3_wrapper: loaded PPO model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/trading_ppo_seed0.zip
+2026-09-12 18:54:38 INFO     mini_finrl.eval.backtest: backtest[path_005]: final_value=1049715 sharpe=0.227 max_drawdown=-0.371
+2026-09-12 18:54:38 INFO     mini_finrl.agents.sb3_wrapper: loaded PPO model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/trading_ppo_seed0.zip
+2026-09-12 18:54:38 INFO     mini_finrl.eval.backtest: backtest[path_006]: final_value=1405056 sharpe=0.787 max_drawdown=-0.398
+2026-09-12 18:54:38 INFO     mini_finrl.agents.sb3_wrapper: loaded PPO model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/trading_ppo_seed0.zip
+2026-09-12 18:54:38 INFO     mini_finrl.eval.backtest: backtest[path_007]: final_value=1790717 sharpe=1.333 max_drawdown=-0.196
+2026-09-12 18:54:38 INFO     mini_finrl.agents.sb3_wrapper: loaded PPO model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/trading_ppo_seed0.zip
+2026-09-12 18:54:38 INFO     mini_finrl.eval.backtest: backtest[path_008]: final_value=1506056 sharpe=0.983 max_drawdown=-0.276
+2026-09-12 18:54:38 INFO     mini_finrl.agents.sb3_wrapper: loaded PPO model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/trading_ppo_seed0.zip
+2026-09-12 18:54:38 INFO     mini_finrl.eval.backtest: backtest[path_009]: final_value=897525 sharpe=-0.123 max_drawdown=-0.230
+2026-09-12 18:54:38 INFO     mini_finrl.agents.sb3_wrapper: loaded PPO model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/trading_ppo_seed0.zip
+2026-09-12 18:54:38 INFO     mini_finrl.eval.backtest: backtest[path_010]: final_value=1739401 sharpe=1.273 max_drawdown=-0.246
+2026-09-12 18:54:38 INFO     mini_finrl.agents.sb3_wrapper: loaded PPO model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/trading_ppo_seed0.zip
+2026-09-12 18:54:38 INFO     mini_finrl.eval.backtest: backtest[path_011]: final_value=1837843 sharpe=1.331 max_drawdown=-0.167
+2026-09-12 18:54:38 INFO     mini_finrl.agents.sb3_wrapper: loaded PPO model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/trading_ppo_seed0.zip
+2026-09-12 18:54:38 INFO     mini_finrl.eval.backtest: backtest[path_012]: final_value=1200317 sharpe=0.551 max_drawdown=-0.319
+2026-09-12 18:54:38 INFO     mini_finrl.agents.sb3_wrapper: loaded PPO model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/trading_ppo_seed0.zip
+2026-09-12 18:54:38 INFO     mini_finrl.eval.backtest: backtest[path_013]: final_value=3241978 sharpe=2.553 max_drawdown=-0.143
+2026-09-12 18:54:38 INFO     mini_finrl.agents.sb3_wrapper: loaded PPO model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/trading_ppo_seed0.zip
+2026-09-12 18:54:39 INFO     mini_finrl.eval.backtest: backtest[path_014]: final_value=1729833 sharpe=1.311 max_drawdown=-0.259
+2026-09-12 18:54:39 INFO     mini_finrl.agents.sb3_wrapper: loaded PPO model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/trading_ppo_seed0.zip
+2026-09-12 18:54:39 INFO     mini_finrl.eval.backtest: backtest[path_015]: final_value=1800025 sharpe=1.312 max_drawdown=-0.188
+2026-09-12 18:54:39 INFO     mini_finrl.agents.sb3_wrapper: loaded PPO model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/trading_ppo_seed0.zip
+2026-09-12 18:54:39 INFO     mini_finrl.eval.backtest: backtest[path_016]: final_value=1415405 sharpe=0.906 max_drawdown=-0.197
+2026-09-12 18:54:39 INFO     mini_finrl.agents.sb3_wrapper: loaded PPO model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/trading_ppo_seed0.zip
+2026-09-12 18:54:39 INFO     mini_finrl.eval.backtest: backtest[path_017]: final_value=1639536 sharpe=1.223 max_drawdown=-0.179
+2026-09-12 18:54:39 INFO     mini_finrl.agents.sb3_wrapper: loaded PPO model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/trading_ppo_seed0.zip
+2026-09-12 18:54:39 INFO     mini_finrl.eval.backtest: backtest[path_018]: final_value=1070922 sharpe=0.269 max_drawdown=-0.265
+2026-09-12 18:54:39 INFO     mini_finrl.agents.sb3_wrapper: loaded PPO model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/trading_ppo_seed0.zip
+2026-09-12 18:54:39 INFO     mini_finrl.eval.backtest: backtest[path_019]: final_value=1595336 sharpe=1.150 max_drawdown=-0.322
+2026-09-12 18:54:39 WARNING  mini_finrl.__main__: skip missing /Users/parthrait/Desktop/Mini-fin-rl/results/models/trading_ppo_seed1.zip
+2026-09-12 18:54:39 WARNING  mini_finrl.__main__: skip missing /Users/parthrait/Desktop/Mini-fin-rl/results/models/trading_ppo_seed2.zip
+2026-09-12 18:54:39 INFO     mini_finrl.meta.data: cache hit: ohlcv_2023-01-01_2026-06-30_AAPL-AMZN-GOOGL-JNJ-JPM-META-MSFT-XOM.csv
+2026-09-12 18:54:39 INFO     mini_finrl.meta.features: add_indicators: computed ['macd', 'rsi_30', 'cci_30', 'dx_30', 'close_30_sma', 'close_60_sma'] for 8 tickers, 6992 rows
+2026-09-12 18:54:39 INFO     mini_finrl.meta.features: add_turbulence: lookback=252, 622/874 days scored (rest are warm-up), max=180.18
+2026-09-12 18:54:39 INFO     mini_finrl.agents.sb3_wrapper: loaded SAC model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/trading_sac_seed0.zip
+2026-09-12 18:54:39 INFO     mini_finrl.eval.backtest: backtest[historical]: final_value=2008673 sharpe=1.234 max_drawdown=-0.218
+2026-09-12 18:54:39 INFO     mini_finrl.agents.sb3_wrapper: loaded SAC model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/trading_sac_seed0.zip
+2026-09-12 18:54:39 INFO     mini_finrl.eval.backtest: backtest[path_000]: final_value=2288522 sharpe=1.808 max_drawdown=-0.210
+2026-09-12 18:54:39 INFO     mini_finrl.agents.sb3_wrapper: loaded SAC model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/trading_sac_seed0.zip
+2026-09-12 18:54:39 INFO     mini_finrl.eval.backtest: backtest[path_001]: final_value=1977210 sharpe=1.806 max_drawdown=-0.189
+2026-09-12 18:54:39 INFO     mini_finrl.agents.sb3_wrapper: loaded SAC model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/trading_sac_seed0.zip
+2026-09-12 18:54:40 INFO     mini_finrl.eval.backtest: backtest[path_002]: final_value=1816131 sharpe=1.603 max_drawdown=-0.131
+2026-09-12 18:54:40 INFO     mini_finrl.agents.sb3_wrapper: loaded SAC model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/trading_sac_seed0.zip
+2026-09-12 18:54:40 INFO     mini_finrl.eval.backtest: backtest[path_003]: final_value=1856050 sharpe=1.485 max_drawdown=-0.205
+2026-09-12 18:54:40 INFO     mini_finrl.agents.sb3_wrapper: loaded SAC model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/trading_sac_seed0.zip
+2026-09-12 18:54:40 INFO     mini_finrl.eval.backtest: backtest[path_004]: final_value=1315336 sharpe=0.772 max_drawdown=-0.157
+2026-09-12 18:54:40 INFO     mini_finrl.agents.sb3_wrapper: loaded SAC model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/trading_sac_seed0.zip
+2026-09-12 18:54:40 INFO     mini_finrl.eval.backtest: backtest[path_005]: final_value=836737 sharpe=-0.185 max_drawdown=-0.329
+2026-09-12 18:54:40 INFO     mini_finrl.agents.sb3_wrapper: loaded SAC model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/trading_sac_seed0.zip
+2026-09-12 18:54:40 INFO     mini_finrl.eval.backtest: backtest[path_006]: final_value=1416744 sharpe=0.850 max_drawdown=-0.347
+2026-09-12 18:54:40 INFO     mini_finrl.agents.sb3_wrapper: loaded SAC model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/trading_sac_seed0.zip
+2026-09-12 18:54:40 INFO     mini_finrl.eval.backtest: backtest[path_007]: final_value=1595787 sharpe=1.118 max_drawdown=-0.184
+2026-09-12 18:54:40 INFO     mini_finrl.agents.sb3_wrapper: loaded SAC model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/trading_sac_seed0.zip
+2026-09-12 18:54:40 INFO     mini_finrl.eval.backtest: backtest[path_008]: final_value=1782638 sharpe=1.294 max_drawdown=-0.228
+2026-09-12 18:54:40 INFO     mini_finrl.agents.sb3_wrapper: loaded SAC model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/trading_sac_seed0.zip
+2026-09-12 18:54:40 INFO     mini_finrl.eval.backtest: backtest[path_009]: final_value=1362122 sharpe=0.829 max_drawdown=-0.179
+2026-09-12 18:54:40 INFO     mini_finrl.agents.sb3_wrapper: loaded SAC model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/trading_sac_seed0.zip
+2026-09-12 18:54:40 INFO     mini_finrl.eval.backtest: backtest[path_010]: final_value=1650102 sharpe=1.211 max_drawdown=-0.233
+2026-09-12 18:54:40 INFO     mini_finrl.agents.sb3_wrapper: loaded SAC model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/trading_sac_seed0.zip
+2026-09-12 18:54:40 INFO     mini_finrl.eval.backtest: backtest[path_011]: final_value=1754183 sharpe=1.293 max_drawdown=-0.214
+2026-09-12 18:54:40 INFO     mini_finrl.agents.sb3_wrapper: loaded SAC model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/trading_sac_seed0.zip
+2026-09-12 18:54:40 INFO     mini_finrl.eval.backtest: backtest[path_012]: final_value=1357861 sharpe=0.831 max_drawdown=-0.282
+2026-09-12 18:54:40 INFO     mini_finrl.agents.sb3_wrapper: loaded SAC model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/trading_sac_seed0.zip
+2026-09-12 18:54:41 INFO     mini_finrl.eval.backtest: backtest[path_013]: final_value=2544078 sharpe=2.140 max_drawdown=-0.142
+2026-09-12 18:54:41 INFO     mini_finrl.agents.sb3_wrapper: loaded SAC model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/trading_sac_seed0.zip
+2026-09-12 18:54:41 INFO     mini_finrl.eval.backtest: backtest[path_014]: final_value=1641704 sharpe=1.186 max_drawdown=-0.275
+2026-09-12 18:54:41 INFO     mini_finrl.agents.sb3_wrapper: loaded SAC model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/trading_sac_seed0.zip
+2026-09-12 18:54:41 INFO     mini_finrl.eval.backtest: backtest[path_015]: final_value=1648622 sharpe=1.163 max_drawdown=-0.202
+2026-09-12 18:54:41 INFO     mini_finrl.agents.sb3_wrapper: loaded SAC model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/trading_sac_seed0.zip
+2026-09-12 18:54:41 INFO     mini_finrl.eval.backtest: backtest[path_016]: final_value=1204820 sharpe=0.528 max_drawdown=-0.291
+2026-09-12 18:54:41 INFO     mini_finrl.agents.sb3_wrapper: loaded SAC model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/trading_sac_seed0.zip
+2026-09-12 18:54:41 INFO     mini_finrl.eval.backtest: backtest[path_017]: final_value=2772848 sharpe=2.425 max_drawdown=-0.162
+2026-09-12 18:54:41 INFO     mini_finrl.agents.sb3_wrapper: loaded SAC model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/trading_sac_seed0.zip
+2026-09-12 18:54:41 INFO     mini_finrl.eval.backtest: backtest[path_018]: final_value=1486334 sharpe=1.026 max_drawdown=-0.214
+2026-09-12 18:54:41 INFO     mini_finrl.agents.sb3_wrapper: loaded SAC model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/trading_sac_seed0.zip
+2026-09-12 18:54:41 INFO     mini_finrl.eval.backtest: backtest[path_019]: final_value=1720306 sharpe=1.327 max_drawdown=-0.324
+2026-09-12 18:54:41 WARNING  mini_finrl.__main__: skip missing /Users/parthrait/Desktop/Mini-fin-rl/results/models/trading_sac_seed1.zip
+2026-09-12 18:54:41 WARNING  mini_finrl.__main__: skip missing /Users/parthrait/Desktop/Mini-fin-rl/results/models/trading_sac_seed2.zip
+2026-09-12 18:54:41 INFO     mini_finrl.meta.data: cache hit: ohlcv_2023-01-01_2026-06-30_AAPL-AMZN-GOOGL-JNJ-JPM-META-MSFT-XOM.csv
+2026-09-12 18:54:41 INFO     mini_finrl.meta.features: add_indicators: computed ['macd', 'rsi_30', 'cci_30', 'dx_30', 'close_30_sma', 'close_60_sma'] for 8 tickers, 6992 rows
+2026-09-12 18:54:41 INFO     mini_finrl.meta.features: add_turbulence: lookback=252, 622/874 days scored (rest are warm-up), max=180.18
+2026-09-12 18:54:41 INFO     mini_finrl.eval.backtest: backtest[historical]: final_value=2622854 sharpe=1.790 max_drawdown=-0.194
+2026-09-12 18:54:41 INFO     mini_finrl.eval.backtest: backtest[path_000]: final_value=1999127 sharpe=1.637 max_drawdown=-0.210
+2026-09-12 18:54:41 INFO     mini_finrl.eval.backtest: backtest[path_001]: final_value=2081495 sharpe=2.060 max_drawdown=-0.136
+2026-09-12 18:54:41 INFO     mini_finrl.eval.backtest: backtest[path_002]: final_value=1562575 sharpe=1.265 max_drawdown=-0.151
+2026-09-12 18:54:41 INFO     mini_finrl.eval.backtest: backtest[path_003]: final_value=1840495 sharpe=1.560 max_drawdown=-0.202
+2026-09-12 18:54:41 INFO     mini_finrl.eval.backtest: backtest[path_004]: final_value=1448865 sharpe=1.058 max_drawdown=-0.132
+2026-09-12 18:54:41 INFO     mini_finrl.eval.backtest: backtest[path_005]: final_value=808982 sharpe=-0.284 max_drawdown=-0.341
+2026-09-12 18:54:41 INFO     mini_finrl.eval.backtest: backtest[path_006]: final_value=1417398 sharpe=0.871 max_drawdown=-0.348
+2026-09-12 18:54:42 INFO     mini_finrl.eval.backtest: backtest[path_007]: final_value=1683811 sharpe=1.307 max_drawdown=-0.150
+2026-09-12 18:54:42 INFO     mini_finrl.eval.backtest: backtest[path_008]: final_value=1713130 sharpe=1.306 max_drawdown=-0.219
+2026-09-12 18:54:42 INFO     mini_finrl.eval.backtest: backtest[path_009]: final_value=1173785 sharpe=0.506 max_drawdown=-0.166
+2026-09-12 18:54:42 INFO     mini_finrl.eval.backtest: backtest[path_010]: final_value=1695455 sharpe=1.319 max_drawdown=-0.215
+2026-09-12 18:54:42 INFO     mini_finrl.eval.backtest: backtest[path_011]: final_value=1644734 sharpe=1.233 max_drawdown=-0.183
+2026-09-12 18:54:42 INFO     mini_finrl.eval.backtest: backtest[path_012]: final_value=1127319 sharpe=0.406 max_drawdown=-0.333
+2026-09-12 18:54:42 INFO     mini_finrl.eval.backtest: backtest[path_013]: final_value=2946588 sharpe=2.633 max_drawdown=-0.108
+2026-09-12 18:54:42 INFO     mini_finrl.eval.backtest: backtest[path_014]: final_value=1699348 sharpe=1.358 max_drawdown=-0.228
+2026-09-12 18:54:42 INFO     mini_finrl.eval.backtest: backtest[path_015]: final_value=1759438 sharpe=1.383 max_drawdown=-0.188
+2026-09-12 18:54:42 INFO     mini_finrl.eval.backtest: backtest[path_016]: final_value=1312954 sharpe=0.738 max_drawdown=-0.236
+2026-09-12 18:54:42 INFO     mini_finrl.eval.backtest: backtest[path_017]: final_value=2489290 sharpe=2.308 max_drawdown=-0.151
+2026-09-12 18:54:42 INFO     mini_finrl.eval.backtest: backtest[path_018]: final_value=1266462 sharpe=0.682 max_drawdown=-0.183
+2026-09-12 18:54:42 INFO     mini_finrl.eval.backtest: backtest[path_019]: final_value=1594642 sharpe=1.192 max_drawdown=-0.311
+2026-09-12 18:54:42 INFO     mini_finrl.meta.data: cache hit: ohlcv_2023-01-01_2026-06-30_AAPL-AMZN-GOOGL-JNJ-JPM-META-MSFT-XOM.csv
+2026-09-12 18:54:42 INFO     mini_finrl.meta.features: add_indicators: computed ['macd', 'rsi_30', 'cci_30', 'dx_30', 'close_30_sma', 'close_60_sma'] for 8 tickers, 6992 rows
+2026-09-12 18:54:42 INFO     mini_finrl.meta.features: add_turbulence: lookback=252, 622/874 days scored (rest are warm-up), max=180.18
+2026-09-12 18:54:42 INFO     mini_finrl.agents.sb3_wrapper: loaded PPO model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/portfolio_ppo_seed0.zip
+2026-09-12 18:54:42 INFO     mini_finrl.eval.backtest: backtest[historical]: final_value=2587869 sharpe=1.769 max_drawdown=-0.193
+2026-09-12 18:54:42 INFO     mini_finrl.agents.sb3_wrapper: loaded PPO model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/portfolio_ppo_seed0.zip
+2026-09-12 18:54:42 INFO     mini_finrl.eval.backtest: backtest[path_000]: final_value=1961744 sharpe=1.602 max_drawdown=-0.212
+2026-09-12 18:54:42 INFO     mini_finrl.agents.sb3_wrapper: loaded PPO model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/portfolio_ppo_seed0.zip
+2026-09-12 18:54:42 INFO     mini_finrl.eval.backtest: backtest[path_001]: final_value=2063922 sharpe=2.045 max_drawdown=-0.139
+2026-09-12 18:54:42 INFO     mini_finrl.agents.sb3_wrapper: loaded PPO model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/portfolio_ppo_seed0.zip
+2026-09-12 18:54:42 INFO     mini_finrl.eval.backtest: backtest[path_002]: final_value=1534175 sharpe=1.217 max_drawdown=-0.152
+2026-09-12 18:54:42 INFO     mini_finrl.agents.sb3_wrapper: loaded PPO model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/portfolio_ppo_seed0.zip
+2026-09-12 18:54:42 INFO     mini_finrl.eval.backtest: backtest[path_003]: final_value=1818369 sharpe=1.539 max_drawdown=-0.202
+2026-09-12 18:54:42 INFO     mini_finrl.agents.sb3_wrapper: loaded PPO model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/portfolio_ppo_seed0.zip
+2026-09-12 18:54:42 INFO     mini_finrl.eval.backtest: backtest[path_004]: final_value=1420137 sharpe=1.013 max_drawdown=-0.132
+2026-09-12 18:54:42 INFO     mini_finrl.agents.sb3_wrapper: loaded PPO model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/portfolio_ppo_seed0.zip
+2026-09-12 18:54:42 INFO     mini_finrl.eval.backtest: backtest[path_005]: final_value=811797 sharpe=-0.279 max_drawdown=-0.338
+2026-09-12 18:54:42 INFO     mini_finrl.agents.sb3_wrapper: loaded PPO model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/portfolio_ppo_seed0.zip
+2026-09-12 18:54:42 INFO     mini_finrl.eval.backtest: backtest[path_006]: final_value=1410712 sharpe=0.864 max_drawdown=-0.347
+2026-09-12 18:54:42 INFO     mini_finrl.agents.sb3_wrapper: loaded PPO model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/portfolio_ppo_seed0.zip
+2026-09-12 18:54:42 INFO     mini_finrl.eval.backtest: backtest[path_007]: final_value=1654606 sharpe=1.270 max_drawdown=-0.151
+2026-09-12 18:54:43 INFO     mini_finrl.agents.sb3_wrapper: loaded PPO model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/portfolio_ppo_seed0.zip
+2026-09-12 18:54:43 INFO     mini_finrl.eval.backtest: backtest[path_008]: final_value=1706490 sharpe=1.306 max_drawdown=-0.216
+2026-09-12 18:54:43 INFO     mini_finrl.agents.sb3_wrapper: loaded PPO model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/portfolio_ppo_seed0.zip
+2026-09-12 18:54:43 INFO     mini_finrl.eval.backtest: backtest[path_009]: final_value=1165745 sharpe=0.489 max_drawdown=-0.168
+2026-09-12 18:54:43 INFO     mini_finrl.agents.sb3_wrapper: loaded PPO model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/portfolio_ppo_seed0.zip
+2026-09-12 18:54:43 INFO     mini_finrl.eval.backtest: backtest[path_010]: final_value=1699302 sharpe=1.332 max_drawdown=-0.215
+2026-09-12 18:54:43 INFO     mini_finrl.agents.sb3_wrapper: loaded PPO model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/portfolio_ppo_seed0.zip
+2026-09-12 18:54:43 INFO     mini_finrl.eval.backtest: backtest[path_011]: final_value=1610384 sharpe=1.189 max_drawdown=-0.181
+2026-09-12 18:54:43 INFO     mini_finrl.agents.sb3_wrapper: loaded PPO model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/portfolio_ppo_seed0.zip
+2026-09-12 18:54:43 INFO     mini_finrl.eval.backtest: backtest[path_012]: final_value=1119442 sharpe=0.388 max_drawdown=-0.336
+2026-09-12 18:54:43 INFO     mini_finrl.agents.sb3_wrapper: loaded PPO model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/portfolio_ppo_seed0.zip
+2026-09-12 18:54:43 INFO     mini_finrl.eval.backtest: backtest[path_013]: final_value=2908002 sharpe=2.614 max_drawdown=-0.109
+2026-09-12 18:54:43 INFO     mini_finrl.agents.sb3_wrapper: loaded PPO model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/portfolio_ppo_seed0.zip
+2026-09-12 18:54:43 INFO     mini_finrl.eval.backtest: backtest[path_014]: final_value=1675912 sharpe=1.333 max_drawdown=-0.224
+2026-09-12 18:54:43 INFO     mini_finrl.agents.sb3_wrapper: loaded PPO model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/portfolio_ppo_seed0.zip
+2026-09-12 18:54:43 INFO     mini_finrl.eval.backtest: backtest[path_015]: final_value=1753438 sharpe=1.381 max_drawdown=-0.185
+2026-09-12 18:54:43 INFO     mini_finrl.agents.sb3_wrapper: loaded PPO model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/portfolio_ppo_seed0.zip
+2026-09-12 18:54:43 INFO     mini_finrl.eval.backtest: backtest[path_016]: final_value=1287799 sharpe=0.696 max_drawdown=-0.244
+2026-09-12 18:54:43 INFO     mini_finrl.agents.sb3_wrapper: loaded PPO model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/portfolio_ppo_seed0.zip
+2026-09-12 18:54:43 INFO     mini_finrl.eval.backtest: backtest[path_017]: final_value=2477418 sharpe=2.296 max_drawdown=-0.154
+2026-09-12 18:54:43 INFO     mini_finrl.agents.sb3_wrapper: loaded PPO model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/portfolio_ppo_seed0.zip
+2026-09-12 18:54:43 INFO     mini_finrl.eval.backtest: backtest[path_018]: final_value=1271127 sharpe=0.692 max_drawdown=-0.184
+2026-09-12 18:54:43 INFO     mini_finrl.agents.sb3_wrapper: loaded PPO model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/portfolio_ppo_seed0.zip
+2026-09-12 18:54:43 INFO     mini_finrl.eval.backtest: backtest[path_019]: final_value=1585055 sharpe=1.180 max_drawdown=-0.313
+2026-09-12 18:54:43 WARNING  mini_finrl.__main__: skip missing /Users/parthrait/Desktop/Mini-fin-rl/results/models/portfolio_ppo_seed1.zip
+2026-09-12 18:54:43 WARNING  mini_finrl.__main__: skip missing /Users/parthrait/Desktop/Mini-fin-rl/results/models/portfolio_ppo_seed2.zip
+2026-09-12 18:54:43 INFO     mini_finrl.meta.data: cache hit: ohlcv_2023-01-01_2026-06-30_AAPL-AMZN-GOOGL-JNJ-JPM-META-MSFT-XOM.csv
+2026-09-12 18:54:43 INFO     mini_finrl.meta.features: add_indicators: computed ['macd', 'rsi_30', 'cci_30', 'dx_30', 'close_30_sma', 'close_60_sma'] for 8 tickers, 6992 rows
+2026-09-12 18:54:43 INFO     mini_finrl.meta.features: add_turbulence: lookback=252, 622/874 days scored (rest are warm-up), max=180.18
+2026-09-12 18:54:43 INFO     mini_finrl.agents.sb3_wrapper: loaded SAC model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/portfolio_sac_seed0.zip
+2026-09-12 18:54:44 INFO     mini_finrl.eval.backtest: backtest[historical]: final_value=2022006 sharpe=1.048 max_drawdown=-0.232
+2026-09-12 18:54:44 INFO     mini_finrl.agents.sb3_wrapper: loaded SAC model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/portfolio_sac_seed0.zip
+2026-09-12 18:54:44 INFO     mini_finrl.eval.backtest: backtest[path_000]: final_value=1440852 sharpe=0.819 max_drawdown=-0.247
+2026-09-12 18:54:44 INFO     mini_finrl.agents.sb3_wrapper: loaded SAC model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/portfolio_sac_seed0.zip
+2026-09-12 18:54:44 INFO     mini_finrl.eval.backtest: backtest[path_001]: final_value=1908979 sharpe=1.381 max_drawdown=-0.182
+2026-09-12 18:54:44 INFO     mini_finrl.agents.sb3_wrapper: loaded SAC model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/portfolio_sac_seed0.zip
+2026-09-12 18:54:44 INFO     mini_finrl.eval.backtest: backtest[path_002]: final_value=1078629 sharpe=0.281 max_drawdown=-0.201
+2026-09-12 18:54:44 INFO     mini_finrl.agents.sb3_wrapper: loaded SAC model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/portfolio_sac_seed0.zip
+2026-09-12 18:54:44 INFO     mini_finrl.eval.backtest: backtest[path_003]: final_value=1868394 sharpe=1.280 max_drawdown=-0.265
+2026-09-12 18:54:44 INFO     mini_finrl.agents.sb3_wrapper: loaded SAC model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/portfolio_sac_seed0.zip
+2026-09-12 18:54:44 INFO     mini_finrl.eval.backtest: backtest[path_004]: final_value=1253391 sharpe=0.593 max_drawdown=-0.218
+2026-09-12 18:54:44 INFO     mini_finrl.agents.sb3_wrapper: loaded SAC model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/portfolio_sac_seed0.zip
+2026-09-12 18:54:44 INFO     mini_finrl.eval.backtest: backtest[path_005]: final_value=596038 sharpe=-0.665 max_drawdown=-0.427
+2026-09-12 18:54:44 INFO     mini_finrl.agents.sb3_wrapper: loaded SAC model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/portfolio_sac_seed0.zip
+2026-09-12 18:54:44 INFO     mini_finrl.eval.backtest: backtest[path_006]: final_value=1299072 sharpe=0.604 max_drawdown=-0.454
+2026-09-12 18:54:44 INFO     mini_finrl.agents.sb3_wrapper: loaded SAC model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/portfolio_sac_seed0.zip
+2026-09-12 18:54:44 INFO     mini_finrl.eval.backtest: backtest[path_007]: final_value=1519910 sharpe=0.886 max_drawdown=-0.172
+2026-09-12 18:54:44 INFO     mini_finrl.agents.sb3_wrapper: loaded SAC model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/portfolio_sac_seed0.zip
+2026-09-12 18:54:44 INFO     mini_finrl.eval.backtest: backtest[path_008]: final_value=1372322 sharpe=0.721 max_drawdown=-0.344
+2026-09-12 18:54:44 INFO     mini_finrl.agents.sb3_wrapper: loaded SAC model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/portfolio_sac_seed0.zip
+2026-09-12 18:54:44 INFO     mini_finrl.eval.backtest: backtest[path_009]: final_value=1131259 sharpe=0.393 max_drawdown=-0.192
+2026-09-12 18:54:45 INFO     mini_finrl.agents.sb3_wrapper: loaded SAC model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/portfolio_sac_seed0.zip
+2026-09-12 18:54:45 INFO     mini_finrl.eval.backtest: backtest[path_010]: final_value=1902651 sharpe=1.356 max_drawdown=-0.213
+2026-09-12 18:54:45 INFO     mini_finrl.agents.sb3_wrapper: loaded SAC model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/portfolio_sac_seed0.zip
+2026-09-12 18:54:45 INFO     mini_finrl.eval.backtest: backtest[path_011]: final_value=1542342 sharpe=1.017 max_drawdown=-0.165
+2026-09-12 18:54:45 INFO     mini_finrl.agents.sb3_wrapper: loaded SAC model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/portfolio_sac_seed0.zip
+2026-09-12 18:54:45 INFO     mini_finrl.eval.backtest: backtest[path_012]: final_value=892305 sharpe=-0.099 max_drawdown=-0.402
+2026-09-12 18:54:45 INFO     mini_finrl.agents.sb3_wrapper: loaded SAC model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/portfolio_sac_seed0.zip
+2026-09-12 18:54:45 INFO     mini_finrl.eval.backtest: backtest[path_013]: final_value=2863275 sharpe=2.330 max_drawdown=-0.143
+2026-09-12 18:54:45 INFO     mini_finrl.agents.sb3_wrapper: loaded SAC model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/portfolio_sac_seed0.zip
+2026-09-12 18:54:45 INFO     mini_finrl.eval.backtest: backtest[path_014]: final_value=1707082 sharpe=1.139 max_drawdown=-0.232
+2026-09-12 18:54:45 INFO     mini_finrl.agents.sb3_wrapper: loaded SAC model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/portfolio_sac_seed0.zip
+2026-09-12 18:54:45 INFO     mini_finrl.eval.backtest: backtest[path_015]: final_value=2863085 sharpe=2.161 max_drawdown=-0.162
+2026-09-12 18:54:45 INFO     mini_finrl.agents.sb3_wrapper: loaded SAC model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/portfolio_sac_seed0.zip
+2026-09-12 18:54:45 INFO     mini_finrl.eval.backtest: backtest[path_016]: final_value=1062959 sharpe=0.253 max_drawdown=-0.389
+2026-09-12 18:54:45 INFO     mini_finrl.agents.sb3_wrapper: loaded SAC model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/portfolio_sac_seed0.zip
+2026-09-12 18:54:45 INFO     mini_finrl.eval.backtest: backtest[path_017]: final_value=2738506 sharpe=2.159 max_drawdown=-0.239
+2026-09-12 18:54:45 INFO     mini_finrl.agents.sb3_wrapper: loaded SAC model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/portfolio_sac_seed0.zip
+2026-09-12 18:54:45 INFO     mini_finrl.eval.backtest: backtest[path_018]: final_value=1375297 sharpe=0.862 max_drawdown=-0.207
+2026-09-12 18:54:45 INFO     mini_finrl.agents.sb3_wrapper: loaded SAC model from /Users/parthrait/Desktop/Mini-fin-rl/results/models/portfolio_sac_seed0.zip
+2026-09-12 18:54:45 INFO     mini_finrl.eval.backtest: backtest[path_019]: final_value=1547680 sharpe=1.136 max_drawdown=-0.262
+2026-09-12 18:54:45 WARNING  mini_finrl.__main__: skip missing /Users/parthrait/Desktop/Mini-fin-rl/results/models/portfolio_sac_seed1.zip
+2026-09-12 18:54:45 WARNING  mini_finrl.__main__: skip missing /Users/parthrait/Desktop/Mini-fin-rl/results/models/portfolio_sac_seed2.zip
+2026-09-12 18:54:45 INFO     mini_finrl.__main__: wrote 126 backtest rows to /Users/parthrait/Desktop/Mini-fin-rl/results/logs/backtest_results.csv
+2026-09-12 18:54:53 INFO     mini_finrl.__main__: reporting on /Users/parthrait/Desktop/Mini-fin-rl/results/logs/backtest_results.csv
