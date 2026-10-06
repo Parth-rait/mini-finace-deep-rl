@@ -1,5 +1,6 @@
-"""Fetch raw OHLCV for the configured universe plus VIX, for the full
-train+test date range, and cache both to data/raw/.
+"""Fetch through the incremental store, validate, and write a provenance
+manifest. The new-data-layer counterpart of 01_download_data.py, which is
+left as-is so the existing results stay reproducible.
 
 Thin shell: same as `python -m minifinrl fetch-data ...` (all flags pass through).
 """
