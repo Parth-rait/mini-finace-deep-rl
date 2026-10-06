@@ -8,11 +8,11 @@ that's gone once the window closes.
 
 Usage: any module just does
 
-    from configs.logging_config import get_logger
+    from minifinrl.core.configs.logging_config import get_logger
     log = get_logger(__name__)
     log.info("...")
 
-`get_logger` configures handlers on first call (idempotent — safe to call
+`get_logger` configures handlers on first call (idempotent - safe to call
 from many modules without producing duplicate log lines) so there's no
 separate "call setup_logging() in main()" step to forget.
 """
@@ -23,7 +23,7 @@ import logging
 import logging.handlers
 from pathlib import Path
 
-from configs.settings import LOG_DIR
+from minifinrl.core.configs.settings import LOG_DIR
 
 _CONFIGURED = False
 

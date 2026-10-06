@@ -1,0 +1,49 @@
+# mini-FinRL as an installable package. From another project:
+#
+#   pip install "minifinrl @ git+https://github.com/<you>/Mini-fin-rl.git@v0.2.0"
+#
+# Here (development): pip install -r requirements.txt
+# (= editable install of this package, pinned by requirements.lock).
+#
+# Installed copies keep data/ and results/ under $MINIFINRL_HOME (see
+# minifinrl/core/configs/settings.py), never inside site-packages.
+
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "minifinrl"
+version = "0.2.0"   # keep in step with minifinrl/__init__.py
+description = "Deep-RL trading and portfolio allocation, evaluated across regime-model synthetic market histories"
+requires-python = ">=3.11,<3.15"
+# Lower bounds = the versions everything is tested on (requirements.lock);
+# upper bounds stop the next major (SB3, gymnasium and pandas have all
+# broken APIs across majors).
+dependencies = [
+    "numpy>=2.0,<3",
+    "pandas>=3.0,<4",
+    "scipy>=1.13",
+    "yfinance>=1.0,<2",
+    "stockstats>=0.6.2,<0.7",
+    "gymnasium>=1.0,<2",
+    "stable-baselines3>=2.4,<3",
+    "hmmlearn>=0.3.2,<0.4",
+    "torch>=2.2",
+    "pydantic>=2.9,<3",   # capability input/output schemas (minifinrl/capabilities.py)
+]
+
+[project.optional-dependencies]
+service = ["fastapi>=0.115", "uvicorn>=0.32"]
+# the aip toolkit, imported only by minifinrl/adapters (PLAN_SHIPPABLE.md 1.6).
+# Needs the aip-v1.0.0 tag to exist in lab1_ai_in_prac.
+llm = ["aip @ git+https://github.com/Parth-rait/lab1_ai_in_prac.git@aip-v1.0.0"]
+dev = ["pytest>=8.3"]
+
+[tool.setuptools.packages.find]
+include = ["minifinrl*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+# hmmlearn 0.3.3 sets ndarray.shape, deprecated in NumPy 2.5 (works until NumPy 3, which numpy<3 excludes)
+filterwarnings = ["ignore:Setting the shape on a NumPy array:DeprecationWarning"]
