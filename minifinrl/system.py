@@ -38,8 +38,13 @@ def _rules_bias() -> BiasClassifier:
     return RulesBiasClassifier()
 
 
-# Phase F2 adds "aip": minifinrl.adapters.aip_bias.AipBiasClassifier
-BIAS_BACKENDS: dict[str, Callable[[], BiasClassifier]] = {"rules": _rules_bias}
+def _aip_bias() -> BiasClassifier:
+    from minifinrl.adapters.aip_bias import AipBiasClassifier
+
+    return AipBiasClassifier(tier=os.environ.get("MINIFINRL_BIAS_TIER", "SMALL"))
+
+
+BIAS_BACKENDS: dict[str, Callable[[], BiasClassifier]] = {"rules": _rules_bias, "aip": _aip_bias}
 
 
 @dataclass(frozen=True)
@@ -107,6 +112,17 @@ def configure_aip_env(cfg: SystemConfig) -> None:
     aip. Values already in the environment win, except that `ci` always
     forces offline. If aip was imported earlier with different paths, the
     import order is wrong: fail rather than write to the wrong place."""
+    # API keys live in this repo's .env (gitignored). aip only searches for a
+    # .env next to its own installed files, so load ours first; values
+    # already in the environment win.
+    env_file = ROOT / ".env"
+    if env_file.exists():
+        try:
+            from dotenv import load_dotenv
+        except ImportError:  # python-dotenv comes with the [llm] extra
+            pass
+        else:
+            load_dotenv(env_file, override=False)
     os.environ.setdefault("AIP_CACHE_DIR", str(cfg.aip_cache_dir))
     os.environ.setdefault("AIP_TRACE_DIR", str(cfg.aip_trace_dir))
     if cfg.aip_offline:

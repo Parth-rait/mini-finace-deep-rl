@@ -310,3 +310,27 @@ everything else identical to E05; validation: 37,680 rows = 3,140 days x 12, 0 e
 
 
 ---
+
+## E08: LLM bias classifier against the rules baseline
+
+*2026-10-06T11:28:12+00:00, commit `a2f5e62-dirty`, data ``, results sha256 ``*
+
+**Change.** First evaluation of the bias classifiers on 50 hand-labelled StockTwits posts (labelled by the author, single labeller). Rules baseline (keyword patterns, rules-v1) against an LLM classifier through aip (Gemini 3.5 flash-lite, SMALL tier, temperature 0) whose instructions are the definitions and four rules in corpus/LABELLING.md. No labelled text appears in the prompt. Signals whose quoted evidence is not in the post are dropped. Backtest results are unchanged and not part of this entry.
+
+**Definition.**
+
+```
+per label, over the 50 texts as yes/no: precision = TP/(TP+FP), recall = TP/(TP+FN), F1 = 2TP/(2TP+FP+FN)
+Cohen kappa = (p_o - p_e)/(1 - p_e), p_e from the two sides' yes-rates
+macro = mean over labels with a defined value; exact match = predicted label set equals the reference set
+```
+
+**Hypothesis.** Keyword rules miss most bias signals in informal posts; an LLM given the written definitions should reach moderate agreement with the labels.
+
+**Files.** `minifinrl/adapters/aip_bias.py`, `minifinrl/bias_eval.py`, `minifinrl/system.py`, `corpus/LABELLING.md`
+
+
+**Conclusion.** Confirmed. Rules: macro F1 0.04, macro kappa 0.02 (finds 2 of 19 overconfidence labels and nothing else). LLM: macro F1 0.46, macro kappa 0.42, exact match 0.54, no failures, no evidence dropped, total cost about 1.3 cents for 50 posts. Per label the LLM does best on herding (kappa 0.65) and fomo (0.54), is conservative on overconfidence (precision 0.78, recall 0.37) and finds no anchoring (0 of 5): four of those five are the 2018-analogy and future-target cases, where the written rule (anchoring needs a past price reference) and the labels differ. It labels three sarcastic posts that the rules say are not biases (st-0066, st-0079, st-0125). Revenge trading has no reference examples and loss aversion one, so those scores are not meaningful. With one labeller and 50 texts these are indicative only; a second labeller would give the human-agreement ceiling.
+
+
+---

@@ -24,6 +24,12 @@ class BudgetExhausted(RuntimeError):
     engine layer never has to import that library."""
 
 
+class ClassificationFailed(RuntimeError):
+    """The classifier could not produce a valid answer for one text (e.g. an
+    LLM's output failed validation after its repair attempts). Evaluation
+    counts these instead of treating them as "no bias"."""
+
+
 class BiasLabel(str, Enum):
     """Named biases from behavioural finance, each with a literature
     definition to label against."""
@@ -53,3 +59,37 @@ class BiasClassifier(Protocol):
     name: str
 
     def classify(self, text: str) -> BiasClassification: ...
+
+
+# ---- trade review: reading a free-text trade, and explaining the result ----------------
+
+
+class ParsedTrade(BaseModel):
+    """What a parser understood from a free-text trade. Anything it could not
+    read with confidence stays None; it never guesses."""
+
+    ticker: str | None = Field(default=None, description="exchange symbol, e.g. TSLA, if stated or unambiguous")
+    company: str | None = Field(default=None, description="company or asset name as written, e.g. 'tesla'")
+    date: str | None = Field(default=None, description="entry date as YYYY-MM-DD, relative dates resolved against today")
+    direction: str | None = Field(default=None, description="long (bought) or short (shorted, bought puts)")
+    horizon_days: int | None = Field(default=None, ge=1, le=260, description="trading days held: a week is 5, a month 21")
+    sell_date: str | None = Field(default=None, description="exit date as YYYY-MM-DD, if stated")
+    still_holding: bool | None = Field(default=None, description="true if they say they still hold it")
+    reasoning: str | None = Field(default=None, description="the author's stated reason, copied from the text")
+    unclear: list[str] = Field(default_factory=list, description="short notes on anything ambiguous")
+
+
+@runtime_checkable
+class TradeParser(Protocol):
+    name: str
+
+    def parse(self, text: str, today: str) -> ParsedTrade: ...
+
+
+@runtime_checkable
+class TradeExplainer(Protocol):
+    """Writes a short plain-language explanation from computed results only."""
+
+    name: str
+
+    def explain(self, facts: dict) -> str: ...

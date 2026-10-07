@@ -31,6 +31,21 @@ FOMO and herding often appear together. Label `fomo` when the reason given is
 fear of missing gains, `herding` when the reason given is what other people
 are doing, and both when the text gives both reasons.
 
+Four rules, settled while labelling the first 50 texts:
+
+- Only the author's own reasoning counts. A bias the author describes in, or
+  attributes to, other people ("most people here need a 1000% pump to get back
+  to even") is not labelled.
+- Sarcasm or mockery of an attitude is not that attitude ("buy the dip bro,
+  trust me bro" is `[]`).
+- Going against the crowd is not herding ("too many bears here, perfect time
+  to buy").
+- A future price target is not anchoring. Anchoring needs a past reference:
+  a past price, the purchase price, a previous high.
+
+The LLM classifier is given these same definitions and rules, and none of the
+labelled texts.
+
 References: Kahneman and Tversky (1979) for loss aversion; Tversky and
 Kahneman (1974) for anchoring; Shefrin and Statman (1985) for the disposition
 effect; Bikhchandani, Hirshleifer and Welch (1992) for herding; Barber and

@@ -23,7 +23,7 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
-from minifinrl.ports import BiasClassifier, BiasLabel
+from minifinrl.ports import BiasClassifier, BiasLabel, ClassificationFailed
 
 LABELS = [b.value for b in BiasLabel]
 
@@ -75,8 +75,18 @@ def _mean(xs: list) -> float | None:
     return sum(xs) / len(xs) if xs else None
 
 
+def _predict(classifier: BiasClassifier, text: str) -> set[str] | None:
+    try:
+        return {s.label.value for s in classifier.classify(text).signals}
+    except ClassificationFailed:
+        return None
+
+
 def evaluate(rows: list[dict], classifier: BiasClassifier) -> dict:
-    preds = [{s.label.value for s in classifier.classify(r["text"]).signals} for r in rows]
+    raw = [_predict(classifier, r["text"]) for r in rows]
+    failures = [r["id"] for r, p in zip(rows, raw) if p is None]
+    # a failed text counts as "predicted nothing" in the scores, and is reported
+    preds = [p if p is not None else set() for p in raw]
     refs = [set(r["labels"]) for r in rows]
     second = [set(r["labels_b"]) for r in rows if "labels_b" in r]
     per_label = []
@@ -91,6 +101,7 @@ def evaluate(rows: list[dict], classifier: BiasClassifier) -> dict:
     return {
         "classifier": classifier.name,
         "texts": len(rows),
+        "failures": failures,
         "double_labelled": len(second),
         "exact_match": sum(p == r for p, r in zip(preds, refs)) / len(rows),
         "macro_f1": _mean([r["f1"] for r in per_label]),
