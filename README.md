@@ -66,6 +66,38 @@ python -m minifinrl train --app trading --model sac --seed 1
 python -m minifinrl health --profile ci           # offline profile, no network
 ```
 
+## Website: Trade Review
+
+Pick a stock from a search over every US-listed stock and ETF (the NASDAQ Trader
+symbol directory, refreshed daily), pick the buy date and the sell date (or tick
+"still holding"), and optionally say why you made the trade. The site:
+
+1. counts the trading days between the dates on the exchange calendar (a holiday buy
+   moves to the next session, a weekend sell uses the Friday close);
+2. checks where the outcome falls among 1,000 paths simulated from the market regime on
+   the entry day, shown as a 3D surface with your trade's path drawn across it;
+3. marks the bias signals in your reasoning, quoting your words;
+4. compares the trade with the S&P 500 over the same days, and explains the result in
+   plain words (the model writes placeholders, the code fills in the numbers).
+
+You can also describe the trade in words; the LLM fills the form and you check it.
+Dates that read two ways (03/04/2025), dates that don't exist, and days the text never
+gave ("in 2023") are left for you to pick rather than guessed. Renamed tickers (FB) are
+followed, delisted ones (TWTR) and listings that started after the buy date are
+explained, recent listings work once they have 60 days of history, and options are
+reviewed as the underlying with a note. Crypto, individual bonds and non-US listings
+are declined with a pointer to what does work (bond ETFs, US-listed ADRs).
+
+```bash
+MINIFINRL_BIAS=aip python -m minifinrl.interfaces.api     # http://127.0.0.1:8000
+PORT=8077 MINIFINRL_BIAS=aip python -m minifinrl.interfaces.api   # if 8000 is taken
+```
+
+With `GEMINI_API_KEY` in `.env` the LLM reads the trade, finds bias signals and writes
+the explanation (`MINIFINRL_BIAS=aip`); with `MINIFINRL_BIAS=rules`, or no key, the
+rules versions run.
+Paper analysis only: nothing here places orders or gives advice.
+
 ## HTTP API
 
 The same capabilities are served over HTTP (paper analysis only; nothing places orders):

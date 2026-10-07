@@ -3,7 +3,8 @@ HTTP API, generated from the capability registry.
 
     uvicorn minifinrl.interfaces.api:create_app --factory --port 8000
     python -m minifinrl.interfaces.api              # same, on 127.0.0.1:8000
-    curl -s localhost:8000/ | jq                    # index of routes
+    open http://localhost:8000/                     # the website
+    curl -s localhost:8000/api | jq                 # index of routes
     curl -s -X POST localhost:8000/luck-test -H 'content-type: application/json' \\
          -d '{"ticker": "META", "date": "2023-02-01", "horizon_days": 5}' | jq
 
@@ -20,7 +21,7 @@ traceback goes to the log, not the response.
 
 Configuration comes from the environment so the same factory serves any
 setup: MINIFINRL_PROFILE (research | live | ci), MINIFINRL_UNIVERSE,
-MINIFINRL_WORKSPACE.
+MINIFINRL_WORKSPACE, MINIFINRL_BIAS (rules | aip), PORT.
 """
 
 from __future__ import annotations
@@ -32,7 +33,11 @@ import os
 import time
 import uuid
 
+from pathlib import Path
+
 from fastapi import FastAPI, HTTPException, Request
+from fastapi.responses import FileResponse
+from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
 
 import minifinrl
@@ -41,6 +46,7 @@ from minifinrl.system import System, build_system
 
 log = logging.getLogger("mini_finrl.api")
 
+WEB = Path(__file__).resolve().parent / "web"
 STATUS = {"bad_input": 422, "forbidden": 403, "not_found": 404, "unavailable": 503, "budget": 429}
 RETRY_AFTER_S = 30
 _request_id: contextvars.ContextVar[str] = contextvars.ContextVar("request_id", default="-")
@@ -91,10 +97,12 @@ def create_app(system: System | None = None) -> FastAPI:
     """Build the app. Pass a System (tests do); otherwise one is built from
     the MINIFINRL_* environment variables, once, here."""
     if system is None:
+        extra = {"bias_backend": os.environ["MINIFINRL_BIAS"]} if os.environ.get("MINIFINRL_BIAS") else {}
         system = build_system(
             os.environ.get("MINIFINRL_PROFILE", "research"),
             universe=os.environ.get("MINIFINRL_UNIVERSE") or None,
             workspace=os.environ.get("MINIFINRL_WORKSPACE") or None,
+            **extra,
         )
     app = FastAPI(title="mini-FinRL", version=minifinrl.__version__,
                   description="Paper analysis only: backtests, rank stability, luck test. No order execution.")
@@ -128,7 +136,13 @@ def create_app(system: System | None = None) -> FastAPI:
                               response_model=spec.output)
         routes.append({"path": path, "methods": methods, "effect": spec.effect, "summary": spec.summary})
 
-    @app.get("/", summary="Index of routes")
+    @app.get("/", include_in_schema=False)
+    def site():
+        return FileResponse(WEB / "index.html")
+
+    app.mount("/static", StaticFiles(directory=WEB), name="static")
+
+    @app.get("/api", summary="Index of routes")
     def index():
         return {"service": "mini-FinRL", "version": minifinrl.__version__, "profile": system.config.profile,
                 "tickers": list(system.config.engine.spec.tickers), "routes": routes,

@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Trade Review</title>
+<meta name="description" content="Pick a stock and your dates. See whether the outcome was luck, which biases show in your reasoning, and how the market did.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rozha+One&family=Mukta:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="/static/style.css">
+<script src="https://cdn.jsdelivr.net/npm/plotly.js-gl3d-dist-min@2.35.2/plotly-gl3d.min.js" defer></script>
+<script src="/static/app.js" defer></script>
+</head>
+<body>
+<div class="jaali-band" aria-hidden="true"></div>
+<header class="top">
+  <a class="brand" href="#review">
+    <span class="brand-mark" aria-hidden="true">
+      <svg viewBox="0 0 32 36" width="28" height="32"><path d="M2 35V16C2 7.7 8.3 2 16 2s14 5.7 14 14v19z" fill="none" stroke="currentColor" stroke-width="2.4"/><path d="M9 35V18c0-4 3.1-7 7-7s7 3 7 7v17" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>
+    </span>
+    <span>
+      <span class="brand-name">Trade Review</span>
+      <span class="brand-sub">luck, bias and context for a past trade</span>
+    </span>
+  </a>
+  <nav aria-label="Sections">
+    <button class="tab" data-view="review" aria-current="page">Review</button>
+    <button class="tab" data-view="research">Research</button>
+    <button class="tab" data-view="method">How it works</button>
+  </nav>
+</header>
+
+<main>
+  <section id="view-review" class="view">
+    <div class="hero">
+      <h1>Was it skill, or the market's mood that week?</h1>
+      <p>Pick the stock and your dates. The review places your result among a thousand paths the market could have taken, and reads your reasoning for bias signals.</p>
+    </div>
+
+    <form id="review-form" class="desk" novalidate autocomplete="off">
+      <ol class="steps">
+        <li class="step" id="step-stock">
+          <span class="step-no" aria-hidden="true">1</span>
+          <div class="step-body">
+            <label class="step-title" for="f-ticker">Which stock or ETF?</label>
+            <div class="combo" id="combo">
+              <input id="f-ticker" name="ticker" type="text" role="combobox" aria-autocomplete="list" aria-expanded="false"
+                aria-controls="ticker-list" placeholder="Search a company or symbol: tesla, NVDA, berkshire" maxlength="60" spellcheck="false">
+              <ul id="ticker-list" class="listbox" role="listbox" hidden></ul>
+            </div>
+            <p id="ticker-picked" class="picked" hidden></p>
+            <p id="ticker-note" class="hint" hidden></p>
+          </div>
+        </li>
+
+        <li class="step" id="step-dates">
+          <span class="step-no" aria-hidden="true">2</span>
+          <div class="step-body">
+            <span class="step-title">What did you do, and when?</span>
+            <div class="seg" role="radiogroup" aria-label="Side">
+              <label><input type="radio" name="direction" value="long" checked><span>Bought</span></label>
+              <label><input type="radio" name="direction" value="short"><span>Shorted</span></label>
+            </div>
+            <div class="dates">
+              <label class="field" id="field-date"><span id="lbl-buy">Buy date</span><input id="f-date" type="date" required></label>
+              <label class="field" id="field-sell"><span id="lbl-sell">Sell date</span><input id="f-sell" type="date"></label>
+              <label class="check"><input id="f-holding" type="checkbox"><span>Still holding</span></label>
+            </div>
+            <p id="days-line" class="days-line" aria-live="polite"></p>
+          </div>
+        </li>
+
+        <li class="step" id="step-why">
+          <span class="step-no" aria-hidden="true">3</span>
+          <div class="step-body">
+            <label class="step-title" for="f-why">Why did you make the trade? <span class="opt">optional</span></label>
+            <textarea id="f-why" rows="3" maxlength="2000" placeholder="In your own words. For example: everyone on reddit said it would moon and I couldn't miss it again."></textarea>
+            <p class="hint">Only this text is checked for bias signals. Leave it empty to skip that part.</p>
+          </div>
+        </li>
+      </ol>
+
+      <div class="desk-actions">
+        <button type="submit" id="submit" class="primary">Review the trade</button>
+        <span id="busy" class="busy" hidden><span class="spinner" aria-hidden="true"></span>Running the luck check on 1,000 paths…</span>
+      </div>
+
+      <details id="words" class="words">
+        <summary>Rather describe it in words? <span class="muted">We'll fill the form for you to check.</span></summary>
+        <div class="words-body">
+          <textarea id="f-text" rows="3" maxlength="2000" placeholder="Bought Tesla on 3 March 2025 and sold on the 21st because everyone was buying"></textarea>
+          <div class="examples" aria-label="Examples">
+            <button type="button" class="chip" data-example="aped into tesla on 3 march 2025, sold 21 march 2025 cuz everyone on reddit was saying it would moon and i can't lose on this one lol">A rough fortnight on Tesla</button>
+            <button type="button" class="chip" data-example="Bought META on 1 Feb 2023 and sold on 8 Feb 2023 because the earnings call was coming and the stock was cheap compared to its 2021 high">META into earnings</button>
+            <button type="button" class="chip" data-example="shorted nvidia on 3 march 2025 for two weeks because the chart looked toppy">A short on Nvidia</button>
+            <button type="button" class="chip" data-example="bought apple hospitality on 03/04/2025 and still holding">An ambiguous date</button>
+          </div>
+          <button type="button" id="fill" class="secondary">Fill the form</button>
+          <div id="fill-notes" class="hint" hidden></div>
+        </div>
+      </details>
+    </form>
+
+    <div id="notice" class="notice" hidden></div>
+    <div id="result" class="result" hidden></div>
+  </section>
+
+  <section id="view-research" class="view" hidden>
+    <div id="research" class="research"><p class="muted">Loading the recorded results…</p></div>
+  </section>
+
+  <section id="view-method" class="view prose" hidden>
+    <h1>How a review works</h1>
+    <ol class="method">
+      <li><b>You pick the trade.</b> The stock comes from the daily list of every US-listed stock and ETF (NASDAQ, NYSE, NYSE Arca, Cboe). The dates come from a calendar. Trading days between them are counted by code on the exchange calendar: a buy on a holiday moves to the next session, a sell on a weekend uses the Friday close. If you describe the trade in words instead, a language model fills the form and you check it; a date that could be read two ways, or a day the text never gave, is left for you to pick.</li>
+      <li><b>Check the data.</b> Daily prices come from Yahoo Finance through a validated cache. Unknown or delisted symbols, renamed tickers, listings that started after your buy date, too little history, and future dates are explained rather than worked around.</li>
+      <li><b>Luck check.</b> A regime model (calm, normal or crisis) is fitted on market data up to your buy date only and simulates 1,000 paths from that day's regime. Your result is placed among them. The 3D view shows those outcomes for every day you could have held, with your actual path drawn across.</li>
+      <li><b>Bias signals.</b> Your stated reasoning is checked for six behavioural biases from the finance literature: FOMO, herding, overconfidence, anchoring, loss aversion and revenge trading. Every signal must quote your own words.</li>
+      <li><b>Context.</b> What the S&amp;P 500 and the research stocks did over the same days.</li>
+      <li><b>Explanation.</b> A language model writes a short summary with placeholders where numbers go; the code fills them in from the computed results, and any number it can't account for sends the summary back to a plain template.</li>
+    </ol>
+    <h2>Not covered</h2>
+    <ul>
+      <li>Crypto, individual bonds and non-US listings. Bond ETFs (TLT, IEF, SHY, AGG) and US-listed ADRs work.</li>
+      <li>Options are reviewed as the underlying stock, with a note: leverage, strike and time decay are not modelled.</li>
+      <li>Holds longer than 252 trading days (about a year), and trades opened and closed on the same day.</li>
+    </ul>
+    <h2>Limits</h2>
+    <ul>
+      <li>The luck check measures where an outcome sits within a model's range of luck. It is not a forecast and not a measure of skill.</li>
+      <li>The regime model is single-factor and understates tail risk. Daily closes, no slippage.</li>
+      <li>The bias classifier agrees moderately with human labels (Cohen's kappa 0.42 on 50 posts) and misreads sarcasm.</li>
+      <li>Nothing here is investment advice, and this site never places orders.</li>
+    </ul>
+  </section>
+</main>
+
+<footer class="foot">
+  <span>Paper analysis of past trades. Not investment advice, not a forecast, not a judgement of the person.</span>
+  <span id="status" class="status">connecting…</span>
+  <a href="/docs">API</a>
+</footer>
+</body>
+</html>

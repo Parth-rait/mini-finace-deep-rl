@@ -43,6 +43,9 @@ dev = ["pytest>=8.3", "fastapi>=0.115", "uvicorn>=0.32", "httpx2>=2.13"]  # test
 [tool.setuptools.packages.find]
 include = ["minifinrl*"]
 
+[tool.setuptools.package-data]
+"minifinrl.interfaces" = ["web/*"]  # the website ships with the package
+
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 # hmmlearn 0.3.3 sets ndarray.shape, deprecated in NumPy 2.5 (works until NumPy 3, which numpy<3 excludes)

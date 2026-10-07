@@ -19,7 +19,7 @@ def client(rw_engine):
 
 def test_index_lists_api_capabilities_only(client):
     c, _ = client
-    r = c.get("/")
+    r = c.get("/api")
     assert r.status_code == 200
     paths = {x["path"] for x in r.json()["routes"]}
     assert {"/health", "/luck-test", "/rank-stability", "/classify-biases", "/place-order"} <= paths
@@ -92,3 +92,20 @@ def test_openapi_has_typed_schemas(client):
     body = spec["paths"]["/luck-test"]["post"]["requestBody"]["content"]["application/json"]["schema"]
     assert body["$ref"].endswith("/LuckTestIn")
     assert "LuckTestOut" in spec["components"]["schemas"]
+
+
+def test_website_is_served(client):
+    c, _ = client
+    page = c.get("/")
+    assert page.status_code == 200 and "text/html" in page.headers["content-type"] and "Trade Review" in page.text
+    for asset in ("/static/app.js", "/static/style.css"):
+        assert c.get(asset).status_code == 200
+    assert "/review-trade" in {x["path"] for x in c.get("/api").json()["routes"]}
+
+
+def test_env_selects_the_bias_backend(monkeypatch):
+    monkeypatch.setenv("MINIFINRL_PROFILE", "ci")
+    monkeypatch.setenv("MINIFINRL_BIAS", "aip")
+    app = create_app()
+    assert app.state.system.engine.bias.name == "aip-small-v1"
+    assert app.state.system.engine.parser is not None and app.state.system.engine.explainer is not None
