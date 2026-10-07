@@ -39,6 +39,8 @@ from minifinrl.core.configs.settings import HMM_N_STATES, HMM_SEED
 
 log = get_logger(__name__)
 
+MIN_TICKER_RETURNS = 60  # trading days a ticker needs in the fit window to get its own model
+
 
 @dataclass
 class _TickerResidualModel:
@@ -70,15 +72,26 @@ class RegimeSyntheticGenerator:
         self._ticker_models: dict[str, _TickerResidualModel] = {}
         self._fitted = False
 
-    def fit(self, prices: pd.DataFrame, vix: pd.Series) -> "RegimeSyntheticGenerator":
+    def fit(self, prices: pd.DataFrame, vix: pd.Series, *, market_columns: list[str] | None = None) -> "RegimeSyntheticGenerator":
         """`prices`: (T, N) close price DataFrame indexed by date, columns
         = tickers. `vix`: VIX level Series indexed by the same dates
-        (or a superset - it's reindexed and forward-filled)."""
-        returns = prices.pct_change().dropna()
+        (or a superset - it's reindexed and forward-filled).
+
+        `market_columns`: the tickers that define the market factor (their
+        equal-weight return). Default: all columns. Passing the research
+        universe lets an outside ticker (a user's trade) get its own beta
+        and residuals without being mixed into the market it is measured
+        against."""
+        all_returns = prices.pct_change(fill_method=None).iloc[1:]
+        market_cols = list(market_columns) if market_columns else list(prices.columns)
+        # the market factor and the regimes come from days when every market
+        # ticker traded; a ticker outside the market with a shorter history
+        # (a recent IPO) doesn't truncate them
+        returns = all_returns.loc[all_returns[market_cols].notna().all(axis=1)]
         vix = vix.reindex(returns.index).ffill()
         vix_change = np.log(vix / vix.shift(1)).fillna(0.0)
 
-        market_return = returns.mean(axis=1)
+        market_return = returns[market_cols].mean(axis=1)
         obs = np.column_stack([market_return.values, vix_change.values])
 
         log.info("fitting %d-state HMM on %d observations", self.n_states, len(obs))
@@ -102,11 +115,16 @@ class RegimeSyntheticGenerator:
 
         market_var = float(np.var(market_return.values))
         for tic in prices.columns:
-            r = returns[tic].values
-            beta = float(np.cov(r, market_return.values)[0, 1] / market_var) if market_var > 0 else 0.0
-            resid = r - beta * market_return.values
+            ok = returns[tic].notna().values  # all True for market tickers
+            if ok.sum() < MIN_TICKER_RETURNS:
+                log.warning("%s: only %d returns in the fit window; no model fitted for it", tic, int(ok.sum()))
+                continue
+            r, m, st = returns[tic].values[ok], market_return.values[ok], states[ok]
+            m_var = float(np.var(m)) if not ok.all() else market_var
+            beta = float(np.cov(r, m)[0, 1] / m_var) if m_var > 0 else 0.0
+            resid = r - beta * m
             by_state = {
-                s: resid[states == s] for s in range(self.n_states) if (states == s).any()
+                s: resid[st == s] for s in range(self.n_states) if (st == s).any()
             }
             self._ticker_models[tic] = _TickerResidualModel(
                 beta=beta, residuals_by_state=by_state, last_price=float(prices[tic].iloc[-1])
