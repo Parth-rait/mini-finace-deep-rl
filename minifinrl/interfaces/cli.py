@@ -30,7 +30,7 @@ import pandas as pd
 from pydantic import BaseModel
 
 from minifinrl.capabilities import error_kind
-from minifinrl.system import PROFILES, build_system
+from minifinrl.system import BIAS_BACKENDS, PROFILES, build_system
 
 EXIT = {"bad_input": 64, "not_found": 66, "unavailable": 2, "budget": 75, "forbidden": 77}
 
@@ -46,12 +46,17 @@ def _unwrap_optional(ann: Any) -> Any:
     return ann
 
 
+def _help(text: str | None) -> str | None:
+    """argparse treats % in help text as a format code ("95% interval" crashed --help)."""
+    return text.replace("%", "%%") if text else text
+
+
 def _add_flags(parser: argparse.ArgumentParser, model: type[BaseModel]) -> None:
     for name, f in model.model_fields.items():
         flag = "--" + name.replace("_", "-")
         ann = _unwrap_optional(f.annotation)
         origin = typing.get_origin(ann)
-        kw: dict[str, Any] = {"dest": name, "help": f.description}
+        kw: dict[str, Any] = {"dest": name, "help": _help(f.description)}
         if ann is bool:
             parser.add_argument(flag, action="store_true", **kw)
             continue
@@ -115,16 +120,18 @@ def _parser(registry) -> argparse.ArgumentParser:
     p.add_argument("--json", action="store_true", help="always print JSON, even where a renderer exists")
     p.add_argument("--universe", default=None, help="ticker universe from configs/tickers.UNIVERSES")
     p.add_argument("--workspace", default=None, help="experiment id: isolate models/paths/results under results/experiments/<id>/")
+    p.add_argument("--bias", choices=sorted(BIAS_BACKENDS), default=None, help="bias classifier: rules (default) or aip (LLM)")
     sub = p.add_subparsers(dest="capability", required=True, metavar="CAPABILITY")
     sub.add_parser("list", help="list every capability and its effect class")
     for spec in registry.list("cli"):
         if spec.effect == "forbidden":
             continue
-        sp = sub.add_parser(spec.name.replace("_", "-"), aliases=[spec.name], help=spec.summary)
+        sp = sub.add_parser(spec.name.replace("_", "-"), aliases=[spec.name], help=_help(spec.summary))
         sp.add_argument("--profile", choices=sorted(PROFILES), default=argparse.SUPPRESS)
         sp.add_argument("--json", action="store_true", default=argparse.SUPPRESS)
         sp.add_argument("--universe", default=argparse.SUPPRESS)
         sp.add_argument("--workspace", default=argparse.SUPPRESS)
+        sp.add_argument("--bias", choices=sorted(BIAS_BACKENDS), default=argparse.SUPPRESS)
         _add_flags(sp, spec.input)
     return p
 
@@ -136,14 +143,16 @@ def main(argv: list[str] | None = None) -> int:
     pre.add_argument("--profile", choices=sorted(PROFILES), default="research")
     pre.add_argument("--universe", default=None)
     pre.add_argument("--workspace", default=None)
+    pre.add_argument("--bias", choices=sorted(BIAS_BACKENDS), default=None)
     known = pre.parse_known_args(argv)[0]
 
-    system = build_system(known.profile, universe=known.universe, workspace=known.workspace)
+    extra = {"bias_backend": known.bias} if known.bias else {}
+    system = build_system(known.profile, universe=known.universe, workspace=known.workspace, **extra)
     registry = system.capabilities
     args = vars(_parser(registry).parse_args(argv))
     name = args.pop("capability").replace("-", "_")
     as_json = args.pop("json", False)
-    for k in ("profile", "universe", "workspace"):
+    for k in ("profile", "universe", "workspace", "bias"):
         args.pop(k, None)
 
     if name == "list":

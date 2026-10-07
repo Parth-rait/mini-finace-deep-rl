@@ -15,6 +15,7 @@ environment. That is system.py's job.
 from __future__ import annotations
 
 import math
+import re
 import threading
 from collections import OrderedDict
 from dataclasses import dataclass, field
@@ -24,7 +25,7 @@ import numpy as np
 import pandas as pd
 
 import minifinrl
-from minifinrl import bias_eval
+from minifinrl import bias_eval, review
 from minifinrl.capabilities import CapabilityForbidden, CapabilityRegistry, CapabilityUnavailable, capability
 from minifinrl.core import pipeline
 from minifinrl.core.configs.logging_config import get_logger
@@ -33,15 +34,27 @@ from minifinrl.core.configs.settings import HMM_N_PATHS, HMM_PATH_LENGTH, ROOT, 
 from minifinrl.core import experiments, walkforward
 from minifinrl.core.meta.crosscheck import crosscheck
 from minifinrl.core.eval.report import rank_stability as rank_table
-from minifinrl.core.luck.luck_test import LuckTestError, luck_test
+from minifinrl.core.luck.luck_test import LuckTestError, luck_test, outcome_surface
+from minifinrl.core.meta import symbols
+from minifinrl.core.meta import validate as checks
+from minifinrl.core.meta.providers import ProviderError, get_vix_provider
+from minifinrl.core.meta.store import SeriesStore
 from minifinrl.core.meta.panel import build_panel
-from minifinrl.core.meta.synthetic import RegimeSyntheticGenerator
+from minifinrl.core.meta.synthetic import MIN_TICKER_RETURNS, RegimeSyntheticGenerator
 from minifinrl.core.eval.report import wilson  # noqa: F401  (re-exported for callers)
 from minifinrl.core.meta.market_data import MANIFEST_DIR, latest_manifest, load_market_data
 from minifinrl.core.meta.panel import DataSpec
 from minifinrl.core.meta.providers import get_price_provider
 from minifinrl.core.meta.store import PriceStore, market_today
-from minifinrl.ports import BiasClassification, BiasClassifier
+from minifinrl.ports import (
+    BiasClassification,
+    BiasClassifier,
+    BudgetExhausted,
+    ClassificationFailed,
+    ParsedTrade,
+    TradeExplainer,
+    TradeParser,
+)
 from minifinrl.schemas import (
     AppReport,
     BacktestQuery,
@@ -64,8 +77,15 @@ from minifinrl.schemas import (
     ExperimentOut,
     WalkForwardIn,
     WalkForwardOut,
+    BiasSpan,
     Health,
     LuckTestIn,
+    MarketContext,
+    ResearchSummary,
+    ReviewIn,
+    ReviewOut,
+    Surface,
+    Understood,
     LuckTestOut,
     ModelInfo,
     ModelsOut,
@@ -73,6 +93,13 @@ from minifinrl.schemas import (
     ModelWinRate,
     OrderIn,
     OrderOut,
+    ParseIn,
+    ParseOut,
+    SymbolHit,
+    SymbolIn,
+    SymbolsOut,
+    TradingDaysIn,
+    TradingDaysOut,
     RankStability,
     RankStabilityIn,
     ReportOut,
@@ -99,6 +126,7 @@ class EngineConfig:
     experiment_dir: Path = experiments.EXPERIMENT_DIR
     experiments_md: Path = experiments.EXPERIMENTS_MD
     today: str | None = None  # pinned in tests/ci; None = real market date
+    symbols_dir: Path = symbols.CACHE
 
 
 def _none_if_nan(v):
@@ -108,11 +136,18 @@ def _none_if_nan(v):
 class Engine:
     LUCK_CACHE_SIZE = 32  # fitted regime models, one per entry day (~1 s to fit each)
 
-    def __init__(self, cfg: EngineConfig, *, bias: BiasClassifier | None = None):
+    def __init__(self, cfg: EngineConfig, *, bias: BiasClassifier | None = None,
+                 bias_fallback: BiasClassifier | None = None, parser: TradeParser | None = None,
+                 parser_fallback: TradeParser | None = None, explainer: TradeExplainer | None = None):
         self.cfg = cfg
         self.bias = bias
+        self.bias_fallback = bias_fallback
+        self.parser = parser
+        self.parser_fallback = parser_fallback
+        self.explainer = explainer
         self._luck_fits: OrderedDict[str, RegimeSyntheticGenerator] = OrderedDict()
         self._luck_lock = threading.Lock()
+        self._symbols: tuple[str, list[symbols.Listing]] | None = None
 
     # ---- helpers (not capabilities) ------------------------------------------------
 
@@ -218,6 +253,28 @@ class Engine:
         ]
         return RankStability(app=req.app, metric=req.metric, n_paths=int(table["n_paths"].iloc[0]), models=models)
 
+    @capability("research_summary", Empty, ResearchSummary, effect="read", budget_ms=1000)
+    def research_summary(self, req: Empty) -> ResearchSummary:
+        """The recorded research results: strategy comparison, walk-forward study and bias classifier evaluation."""
+        import json
+
+        log_ = {r["id"]: r for r in experiments.load_log(self.cfg.experiment_dir)}
+        if "E05" not in log_:
+            raise CapabilityUnavailable("no recorded experiments yet: see EXPERIMENTS.md")
+        base = Path(self.cfg.experiment_dir)
+
+        def read(path: Path):
+            return json.loads(path.read_text()) if path.exists() else None
+
+        clf = None
+        if (base / "E08").exists():
+            clf = {k: read(base / "E08" / f"{k}_eval.json") for k in ("rules", "aip")}
+        return ResearchSummary(
+            experiments=[{"id": r["id"], "title": r["title"], "conclusion": r["conclusion"]} for r in log_.values()],
+            main=log_["E05"]["summary"], etf=log_.get("E06", {}).get("summary"),
+            walk_forward=read(base / "E07" / "walkforward_study.json"), classifier=clf,
+        )
+
     @capability("list_models", Empty, ModelsOut, effect="read", budget_ms=500)
     def list_models(self, req: Empty) -> ModelsOut:
         """Saved policies with their metadata cards: what each was trained on, for how long, on which data."""
@@ -257,6 +314,373 @@ class Engine:
         except LuckTestError as exc:
             raise CapabilityUnavailable(str(exc)) from exc
         return LuckTestOut(**vars(r))
+
+    # ---- trade review ---------------------------------------------------------------------------
+
+    def _review_fit(self, universe: list[str]):
+        def fit(prices: pd.DataFrame, vix: pd.Series) -> RegimeSyntheticGenerator:
+            key = f"{prices.index[-1]}|{','.join(prices.columns)}"
+            with self._luck_lock:
+                if key in self._luck_fits:
+                    self._luck_fits.move_to_end(key)
+                    return self._luck_fits[key]
+            gen = RegimeSyntheticGenerator().fit(prices, vix, market_columns=universe)
+            with self._luck_lock:
+                self._luck_fits[key] = gen
+                while len(self._luck_fits) > self.LUCK_CACHE_SIZE:
+                    self._luck_fits.popitem(last=False)
+            return gen
+        return fit
+
+    def _closes(self, tickers: list[str], end: str) -> pd.DataFrame:
+        spec = self.cfg.spec
+        panel = self._store().get(tickers, spec.start, end, refresh=spec.refresh)
+        if panel.empty:
+            return pd.DataFrame()
+        return panel.pivot(index="date", columns="tic", values="close")
+
+    def _market_closes(self, today: str) -> tuple[pd.DataFrame, list[str]]:
+        """The research universe's closes and its trading days (days every
+        universe ticker traded): the calendar every holding window is counted on."""
+        universe = list(self.cfg.spec.tickers)
+        try:
+            closes = self._closes(universe, today)
+        except ProviderError as exc:
+            raise CapabilityUnavailable(f"price data is unavailable right now: {exc}") from exc
+        if closes.empty:
+            raise CapabilityUnavailable("price data is unavailable right now")
+        return closes, list(closes.index[closes[universe].notna().all(axis=1)])
+
+    def _listings(self) -> list[symbols.Listing] | None:
+        """The US symbol directory, reloaded once a day. None if it can't be had:
+        the review then runs without the directory checks."""
+        today = self._today()
+        if self._symbols is None or self._symbols[0] != today:
+            try:
+                self._symbols = (today, symbols.load(self.cfg.symbols_dir, refresh=self.cfg.spec.refresh))
+            except ProviderError as exc:
+                log.warning("symbol directory unavailable: %s", exc)
+                return None
+        return self._symbols[1]
+
+    def _parse(self, text: str, today: str, overrides: dict) -> tuple[ParsedTrade, str, list[str]]:
+        notes, primary, name = [], None, None
+        if self.parser is not None and text.strip():
+            try:
+                primary, name = self.parser.parse(text, today), self.parser.name
+            except (ClassificationFailed, BudgetExhausted, ProviderError) as exc:
+                notes.append(f"The language model could not read the trade ({type(exc).__name__}); used the simple parser instead.")
+            except Exception as exc:  # network errors from the model provider surface as many types
+                log.warning("LLM parser failed: %s: %s", type(exc).__name__, exc)
+                notes.append("The language model was unavailable; used the simple parser instead.")
+        fallback = (self.parser_fallback.parse(text, today) if self.parser_fallback else ParsedTrade())
+        name = name or (self.parser_fallback.name if self.parser_fallback else "form")
+        parsed = review.merge(primary, fallback, overrides)
+        # dates that can't be read without guessing are dropped, whatever the parsers made of them
+        problems = review.date_problems(text)
+        dropped = False
+        for f in ("date", "sell_date"):
+            if problems and f not in overrides and getattr(parsed, f):
+                setattr(parsed, f, None)
+                dropped = True
+        if problems and (dropped or "date" not in overrides):
+            notes += [f"Dates: {p}." for p in problems]
+            parsed.unclear = [u for u in parsed.unclear if "date" not in u.lower()]  # said once, above
+        return parsed, name, notes
+
+    def _check_symbol(self, symbol: str, company: str | None, from_form: bool) -> tuple[str, str | None, list[str], str | None]:
+        """(symbol, listing name, notes, reason it can't be reviewed). Follows
+        renames, refuses delisted symbols, and corrects a parser that matched
+        only part of the name ("apple hospitality" read as AAPL)."""
+        notes = []
+        if symbol in symbols.DELISTED:
+            return symbol, None, notes, (f"{symbol} no longer trades: {symbols.DELISTED[symbol]}. Its old prices aren't "
+                                         "available from the data source, so the trade can't be checked.")
+        if symbol in symbols.RENAMED:
+            new = symbols.RENAMED[symbol]
+            notes.append(f"{symbol} now trades as {new}, with the same price history; reviewed {new}.")
+            symbol = new
+        listings = self._listings()
+        if not listings:
+            return symbol, None, notes, None
+        hit = symbols.lookup(listings, symbol)
+        words = [w for w in re.split(r"\W+", (company or "").lower()) if w and w not in ("inc", "the", "shares", "stock")]
+        if words and hit and not from_form:
+            name_words = re.split(r"\W+", hit.name.lower())
+            matched = [w for w in words if any(nw.startswith(w) for nw in name_words)]
+            if matched and len(matched) < len(words):
+                top = symbols.search(listings, company, 1)
+                if top and top[0].symbol != symbol and all(
+                        any(nw.startswith(w) for nw in re.split(r"\W+", top[0].name.lower())) for w in words):
+                    notes.append(f"Read '{company}' as {top[0].symbol} ({top[0].name}), not {symbol} ({hit.name}).")
+                    symbol, hit = top[0].symbol, top[0]
+        return symbol, (hit.name if hit else None), notes, None
+
+    def _suggest(self, text: str) -> list[str]:
+        listings = self._listings()
+        if listings and text:
+            return [f"{l.name} ({l.symbol})" for l in symbols.search(listings, text, 4)]
+        return review.suggest(text)
+
+    @capability("search_symbols", SymbolIn, SymbolsOut, effect="read", budget_ms=1500)
+    def search_symbols(self, req: SymbolIn) -> SymbolsOut:
+        """Find a US-listed stock or ETF by symbol or company name."""
+        listings = self._listings()
+        if listings is None:
+            raise CapabilityUnavailable("the symbol directory is unavailable right now")
+        q, note, first = req.q.strip(), None, []
+        sym = symbols.yahoo_symbol(q)
+        if review.is_bond_query(q):
+            note, first = review.BOND_MESSAGE, [symbols.lookup(listings, s) for s in review.BOND_ETFS]
+        elif review.scope_problem(q, q if "." in q else None) or review.scope_problem(q, None):
+            note = review.FOREIGN_MESSAGE
+        elif sym in symbols.RENAMED:
+            note, first = f"{sym} now trades as {symbols.RENAMED[sym]}.", [symbols.lookup(listings, symbols.RENAMED[sym])]
+        elif sym in symbols.DELISTED:
+            note = f"{sym} no longer trades: {symbols.DELISTED[sym]}."
+        hits = [h for h in first if h] + symbols.search(listings, q, req.limit)
+        hits = list(dict.fromkeys(hits))[: req.limit]
+        if not hits and note is None:
+            note = f"No US-listed stock or ETF matches '{q}'."
+        return SymbolsOut(results=[SymbolHit(**vars(h)) for h in hits], note=note)
+
+    @capability("trading_days", TradingDaysIn, TradingDaysOut, effect="read", budget_ms=3000)
+    def trading_days(self, req: TradingDaysIn) -> TradingDaysOut:
+        """Trading days between a buy date and a sell date (or the latest close), counted on the exchange calendar."""
+        today = self._today()
+        _, dates = self._market_closes(today)
+        try:
+            w = review.trading_window(dates, today, req.date, req.sell_date, still_holding=not req.sell_date, max_days=None)
+        except review.WindowProblem as exc:
+            return TradingDaysOut(entry_date=None, exit_date=None, days=None, notes=[exc.message])
+        if w.days > review.MAX_HORIZON:
+            w.notes.append(f"The luck check covers holds of up to {review.MAX_HORIZON} trading days (about a year).")
+        return TradingDaysOut(entry_date=dates[w.i], exit_date=dates[w.j], days=w.days, notes=w.notes)
+
+    @capability("parse_trade", ParseIn, ParseOut, effect="llm", budget_ms=10000)
+    def parse_trade(self, req: ParseIn) -> ParseOut:
+        """Read a trade written in words into form fields, for the person to check before the review."""
+        parsed, parser_name, notes = self._parse(req.text, self._today(), {})
+        notes += [f"Unclear: {u}" for u in parsed.unclear]
+        symbol, problem, _ = review.resolve_ticker(parsed.ticker, parsed.company)
+        name = None
+        if problem == "crypto":
+            notes.append(review.CRYPTO_MESSAGE)
+        elif msg := review.scope_problem(f"{req.text} {parsed.company or ''}", parsed.ticker if symbol else None):
+            notes.append(msg)
+        elif symbol:
+            symbol, name, more, refusal = self._check_symbol(symbol, parsed.company, from_form=False)
+            notes += more + ([refusal] if refusal else [])
+        if review.mentions_options(req.text):
+            notes.append(review.OPTIONS_MESSAGE)
+        return ParseOut(ticker=symbol, name=name, date=parsed.date, sell_date=parsed.sell_date,
+                        still_holding=parsed.still_holding, direction=parsed.direction, horizon_days=parsed.horizon_days,
+                        reasoning=parsed.reasoning, notes=notes, parser=parser_name)
+
+    def _classify(self, reasoning: str) -> tuple[list[BiasSpan], str | None, str | None]:
+        if len(reasoning.split()) < 3:
+            return [], None, "No reasoning was given, so there was nothing to check for bias signals."
+        result, source = None, None
+        for clf in (self.bias, self.bias_fallback):
+            if clf is None:
+                continue
+            try:
+                result, source = clf.classify(reasoning), clf.name
+                break
+            except Exception as exc:  # LLM down or out of budget: fall back to the rules classifier
+                log.warning("bias classifier %s failed: %s: %s", clf.name, type(exc).__name__, exc)
+        if result is None:
+            return [], None, "No bias classifier was available."
+        if source != (self.bias.name if self.bias else source):
+            source += " (fallback: the language model was unavailable)"
+        spans = []
+        for sig in result.signals:
+            span = review.evidence_span(reasoning, sig.evidence)
+            spans.append(BiasSpan(label=sig.label.value, evidence=sig.evidence, confidence=sig.confidence,
+                                  start=span[0] if span else None, end=span[1] if span else None))
+        note = None if spans else "No bias signals were found in your reasoning."
+        return spans, source, note
+
+    @capability("review_trade", ReviewIn, ReviewOut, effect="llm", budget_ms=20000)
+    def review_trade(self, req: ReviewIn) -> ReviewOut:
+        """Check whether a trade's outcome was luck, point out bias signals in the reasoning, and put it in market context."""
+        today = self._today()
+        overrides = {k: v for k, v in req.model_dump().items() if k != "text" and v is not None}
+        form_complete = set(overrides) >= {"ticker", "date", "direction"} and bool(
+            overrides.keys() & {"sell_date", "still_holding", "horizon_days"})
+        if form_complete:  # the form carries the trade, so the text is only the reasoning
+            parsed, parser_name, messages = ParsedTrade(**overrides, reasoning=req.text.strip() or None), "form", []
+        else:
+            parsed, parser_name, messages = self._parse(req.text, today, overrides)
+        und = Understood(**{k: getattr(parsed, k) for k in ("ticker", "company", "date", "direction", "horizon_days",
+                                                            "reasoning", "sell_date", "still_holding")},
+                         parser=parser_name)
+        messages += [f"Unclear: {u}" for u in parsed.unclear]
+
+        def stop(status: str, *msgs: str, **extra) -> ReviewOut:
+            return ReviewOut(status=status, messages=messages + list(msgs), understood=und, **extra)
+
+        symbol, problem, suggestions = review.resolve_ticker(parsed.ticker, parsed.company)
+        if problem == "crypto":
+            return stop("unsupported", review.CRYPTO_MESSAGE)
+        if msg := review.scope_problem(f"{req.text} {parsed.company or ''}", parsed.ticker if symbol else None):
+            return stop("unsupported", msg)
+        if symbol:
+            symbol, und.name, more, refusal = self._check_symbol(symbol, parsed.company, from_form="ticker" in overrides)
+            messages += more
+            if refusal:
+                und.ticker = symbol
+                return stop("rejected", refusal)
+        und.ticker = symbol
+        missing = [f for f in review.REQUIRED if getattr(und, f) in (None, "")]
+        if "date" in missing and und.sell_date and und.horizon_days:
+            missing.remove("date")  # counted back from the sell date
+        if not (und.sell_date or und.still_holding or und.horizon_days):
+            missing.append("sell_date")
+        if missing:
+            if not symbol and parsed.company:
+                suggestions = self._suggest(parsed.company)
+                listings = self._listings()
+                words = [w for w in re.split(r"\W+", parsed.company.lower()) if w]
+                if listings and words and not any(all(w in h.name.lower() for w in words)
+                                                  for h in symbols.search(listings, parsed.company, 8)):
+                    messages.append(f"No US-listed stock or ETF is named '{parsed.company}'. " + review.FOREIGN_MESSAGE)
+            return stop("needs_input", "Some details of the trade are missing. Fill them in to run the review.",
+                        missing=missing, suggestions=suggestions)
+        if und.direction not in ("long", "short"):
+            return stop("needs_input", f"Direction '{und.direction}' should be long or short.", missing=["direction"])
+        if review.mentions_options(req.text):
+            messages.append(review.OPTIONS_MESSAGE)
+
+        universe = list(self.cfg.spec.tickers)
+        closes, dates = self._market_closes(today)  # the market reference must load, or nothing can be judged
+        try:
+            w = review.trading_window(dates, today, und.date, und.sell_date, und.still_holding, und.horizon_days)
+        except review.WindowProblem as exc:
+            return stop(exc.status, exc.message, missing=exc.missing)
+        messages += w.notes
+        entry, exit_ = dates[w.i], dates[w.j]
+        und.date = und.date or entry
+        und.horizon_days = w.days
+        if symbol not in universe:
+            # an unknown symbol and a provider hiccup both come back empty from
+            # Yahoo, so a failure here is reported as "no history", not an outage
+            try:
+                extra = self._closes([symbol], today)
+            except ProviderError:
+                extra = pd.DataFrame()
+            if symbol not in extra.columns or extra[symbol].dropna().empty:
+                return stop("rejected", f"No price history found for '{symbol}'. Check the symbol, or try again "
+                            "later if the data source is busy.", suggestions=self._suggest(parsed.company or symbol))
+            closes = closes.join(extra[[symbol]], how="outer")
+        own = closes[symbol].dropna()
+        if own.index[0] > entry:
+            return stop("rejected", f"{symbol}'s price history starts on {own.index[0]}, after the buy date {entry}. "
+                        "Check the date, or whether the symbol belonged to a different company then.")
+        if exit_ not in own.index:
+            return stop("rejected", f"There is no {symbol} price on {exit_} (its data ends {own.index[-1]}).")
+        n_hist = int((own.index <= entry).sum()) - 1
+        if n_hist < MIN_TICKER_RETURNS:
+            return stop("rejected", f"{symbol} had only {n_hist} trading days of history before {entry}. The luck check "
+                        f"needs at least {MIN_TICKER_RETURNS} to learn how the stock moves.")
+        if symbol != "SPY":
+            try:  # context only: without it the review still runs
+                spy_px = self._closes(["SPY"], today)
+                closes = closes.join(spy_px[["SPY"]], how="left") if "SPY" in spy_px.columns else closes
+            except ProviderError:
+                messages.append("The S&P 500 comparison is unavailable right now.")
+        target = own.reset_index().rename(columns={symbol: "close"}).assign(tic=symbol)
+        target[["open", "high", "low"]] = target[["close"]].values.repeat(3, axis=1)
+        target["volume"] = 0
+        problems = checks.check_prices(target) + checks.check_gaps(target)
+        if problems:
+            return stop("rejected", f"The price data for {symbol} failed quality checks: {'; '.join(problems)}")
+        # Daily moves above 50% are almost always bad data in the large-cap research
+        # universe, but real for meme and small-cap stocks (AMC rose ~301% on
+        # 2021-01-27). For a reviewed trade they are a warning, not a rejection.
+        moves = own.pct_change()
+        big = moves.abs()[moves.abs() > 0.5]
+        if len(big):
+            worst = big.idxmax()
+            messages.append(
+                f"{symbol} has {len(big)} daily move{'s' if len(big) > 1 else ''} above 50% in its history (largest "
+                f"{review.pct(float(moves[worst]), 0)} on {worst}). The luck check assumes "
+                "ordinary daily moves, so read its range with care for a stock like this."
+            )
+
+        market_cols = universe + [symbol] if symbol not in universe else universe
+        close = closes.loc[dates, market_cols]  # a recent listing is NaN before its first day; the fit allows that
+        vix = SeriesStore(get_vix_provider(self.cfg.spec.vix_provider), key="VIX", root=self.cfg.spec.store_root,
+                          today=self.cfg.today).get(self.cfg.spec.start, today, refresh=self.cfg.spec.refresh)
+        fit = self._review_fit(universe)
+        try:
+            r = luck_test(close, vix, symbol, entry, und.direction, w.days, n_paths=1000, seed=0, fit=fit)
+            surf = outcome_surface(close, vix, symbol, entry, und.direction, w.days, n_paths=1000, seed=0, fit=fit)
+        except LuckTestError as exc:
+            return stop("rejected", f"The luck check can't run for this trade: {exc}.")
+        und.entry_date, und.exit_date = r.entry_date, r.exit_date
+        verb = "bought" if und.direction == "long" else "shorted"
+        if und.sell_date:
+            what = (f"You {verb} {symbol} on {r.entry_date} and {'sold' if und.direction == 'long' else 'covered'} "
+                    f"on {r.exit_date}, {w.days} trading days later.")
+        elif und.still_holding:
+            what = (f"You {verb} {symbol} on {r.entry_date} and still hold it; measured to the latest close on "
+                    f"{r.exit_date}, {w.days} trading days later.")
+        else:
+            what = (f"You {verb} {symbol} on {r.entry_date} and held it for {w.days} trading days, "
+                    f"closing on {r.exit_date}.")
+
+        spans, bias_source, bias_note = self._classify(und.reasoning or "")
+        spy = None
+        if "SPY" in closes.columns and symbol != "SPY":
+            s_ = closes["SPY"].dropna()
+            if r.entry_date in s_.index and r.exit_date in s_.index:
+                spy = float(s_[r.exit_date] / s_[r.entry_date] - 1)
+        uni = closes.loc[dates, universe]
+        uni_ret = float((uni.loc[r.exit_date] / uni.loc[r.entry_date] - 1).mean())
+
+        verdict = {"unusually_good": "unusually good, better than the model's normal range of luck",
+                   "unusually_bad": "unusually bad, worse than the model's normal range of luck",
+                   "within_luck_range": "within the normal range of luck"}[r.verdict]
+        # plain-English keys: the model copies wording from the facts, so no
+        # code-style names may appear here (an earlier version leaked "spy_return")
+        facts = {review.F_WHAT: what,
+                 review.F_OUTCOME: {review.F_RETURN: review.pct(r.realized_return), review.F_LOW: review.pct(r.band_low),
+                                    review.F_HIGH: review.pct(r.band_high), review.F_PCT: review.ordinal(r.percentile),
+                                    review.F_VERDICT: verdict, review.F_REGIME: r.regime},
+                 review.F_BIASES: [{"bias": b.label.replace("_", " "), "your words": b.evidence} for b in spans]}
+        if bias_note:
+            facts[review.F_BIAS_NOTE] = bias_note
+        if spy is not None:
+            facts[review.F_SPY] = review.pct(spy)
+        explanation, source = review.template_explanation(facts), "template"
+        if self.explainer is not None:
+            # the model writes {placeholders} instead of numbers; the code fills them in
+            slots = {"ticker": symbol, "entry_date": r.entry_date, "exit_date": r.exit_date,
+                     "days": str(w.days), "your_return": review.pct(r.realized_return),
+                     "low": review.pct(r.band_low), "high": review.pct(r.band_high),
+                     "percentile": review.ordinal(r.percentile), "research_stocks_return": review.pct(uni_ret)}
+            if spy is not None:
+                slots["spy_return"] = review.pct(spy)
+            text = ""
+            try:
+                text = self.explainer.explain({**facts, "placeholders": dict(slots)})
+                filled = review.fill_slots(text, slots, [b.evidence for b in spans], und.reasoning or req.text)
+                bad = review.unsupported_numbers(filled, {**facts, "s": slots})  # second, independent check
+                if bad:
+                    log.warning("explanation rejected: numbers %s are not computed values", bad)
+                else:
+                    explanation, source = filled, "llm"
+            except review.SlotError as exc:
+                log.warning("explanation rejected: %s | text: %.300s", exc, text)
+            except Exception as exc:  # model unavailable: the template explanation stands
+                log.warning("explainer failed: %s: %s", type(exc).__name__, exc)
+        return ReviewOut(
+            status="ok", messages=messages, understood=und, what_you_did=what, outcome=LuckTestOut(**vars(r)),
+            surface=Surface(**vars(surf)), biases=spans, bias_source=bias_source,
+            market=MarketContext(spy_return=spy, universe_return=uni_ret), explanation=explanation,
+            explanation_source=source,
+        )
 
     # ---- llm (through a port) -------------------------------------------------------------
 

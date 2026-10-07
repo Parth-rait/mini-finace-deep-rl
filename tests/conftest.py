@@ -120,9 +120,23 @@ class RandomWalkProvider:
             r = 0.8 * market + rng.normal(0, 0.012, len(self.CAL))
             self._close[t] = (100 + 20 * k) * np.cumprod(1 + r)
         self._vix = 15 * np.exp(np.cumsum(rng.normal(0, 0.03, len(self.CAL))) * 0.3)
+        # outside the research universe: a trade target and the market proxy
+        self._close["OUT"] = 50 * np.cumprod(1 + 1.4 * market + rng.normal(0, 0.02, len(self.CAL)))
+        self._close["SPY"] = 300 * np.cumprod(1 + market)
+        meme = 1 + 1.5 * market + rng.normal(0, 0.03, len(self.CAL))
+        meme[self.CAL.get_loc(pd.Timestamp("2021-01-27"))] = 4.0  # a real-looking +300% day
+        self._close["MEME"] = 5 * np.cumprod(meme)
+        self._close["META"] = 80 * np.cumprod(1 + 1.2 * market + rng.normal(0, 0.018, len(self.CAL)))
+        self._close["BRK-B"] = 200 * np.cumprod(1 + 0.9 * market + rng.normal(0, 0.008, len(self.CAL)))
+        # recent listings: NEW starts trading 2020-01-02, LATE on 2021-06-01
+        self._listed = {"NEW": "2020-01-02", "LATE": "2021-06-01"}
+        self._close["NEW"] = 20 * np.cumprod(1 + 1.3 * market + rng.normal(0, 0.025, len(self.CAL)))
+        self._close["LATE"] = 30 * np.cumprod(1 + market + rng.normal(0, 0.02, len(self.CAL)))
 
     def fetch(self, tic, start, end):
-        m = (self.CAL >= start) & (self.CAL < end)
+        if tic not in self._close:  # like Yahoo: an unknown symbol comes back empty
+            return pd.DataFrame(columns=["date", "open", "high", "low", "close", "adj_close", "volume"])
+        m = (self.CAL >= max(start, self._listed.get(tic, start))) & (self.CAL < end)
         c = self._close[tic][m]
         return pd.DataFrame({
             "date": self.CAL[m].strftime("%Y-%m-%d"), "open": c * 0.998, "high": c * 1.01,
@@ -156,6 +170,30 @@ class ConstantRates:
         return s
 
 
+SYMBOLS_NASDAQ = """Symbol|Security Name|Market Category|Test Issue|Financial Status|Round Lot Size|ETF|NextShares
+AAPL|Apple Inc. - Common Stock|Q|N|N|40|N|N
+META|Meta Platforms, Inc. - Class A Common Stock|Q|N|N|40|N|N
+NEW|Newco Holdings Inc. - Common Stock|Q|N|N|100|N|N
+LATE|Lateco Inc. - Common Stock|Q|N|N|100|N|N
+TLT|iShares 20+ Year Treasury Bond ETF|G|N|N|100|Y|N
+ZZZT|Test Issue Corp|Q|Y|N|100|N|N
+File Creation Time: 1007202600:00|||||||
+"""
+SYMBOLS_OTHER = """ACT Symbol|Security Name|Exchange|CQS Symbol|ETF|Round Lot Size|Test Issue|NASDAQ Symbol
+AAA|Alpha Industries Inc. Common Stock|N|AAA|N|100|N|AAA
+BBB|Beta Corp Common Stock|N|BBB|N|100|N|BBB
+CCC|Gamma Co Common Stock|N|CCC|N|100|N|CCC
+OUT|Outside Systems Inc. Common Stock|N|OUT|N|100|N|OUT
+MEME|Meme Entertainment Holdings Inc. Class A Common Stock|N|MEME|N|100|N|MEME
+APLE|Apple Hospitality REIT, Inc. Common Shares|N|APLE|N|100|N|APLE
+BRK.B|Berkshire Hathaway Inc. New Common Stock|N|BRK.B|N|40|N|BRK.B
+SPY|State Street SPDR S&P 500 ETF Trust|P|SPY|Y|40|N|SPY
+AGG|iShares Core U.S. Aggregate Bond ETF|P|AGG|Y|100|N|AGG
+AGG$A|Preferred Thing|N|AGGpA|N|100|N|AGG-A
+File Creation Time: 1007202600:00|||||||
+"""
+
+
 @pytest.fixture
 def rw_engine(monkeypatch, tmp_path):
     """An Engine wired entirely to tmp_path and random-walk providers."""
@@ -172,6 +210,10 @@ def rw_engine(monkeypatch, tmp_path):
                     store_root=str(tmp_path / "store"), manifest_dir=str(tmp_path / "manifests"), today="2027-01-01")
     paths = pipeline.Paths(model_dir=tmp_path / "models", synthetic_dir=tmp_path / "synthetic",
                            processed_dir=tmp_path / "processed", results_path=tmp_path / "results" / "backtest_results.csv")
+    sym = tmp_path / "symbols"  # fresh files, so the directory never downloads in tests
+    sym.mkdir()
+    (sym / "nasdaqlisted.txt").write_text(SYMBOLS_NASDAQ)
+    (sym / "otherlisted.txt").write_text(SYMBOLS_OTHER)
     cfg = EngineConfig(profile="test", spec=spec, paths=paths, manifest_dir=tmp_path / "manifests", today="2027-01-01",
-                       experiment_dir=tmp_path / "experiments", experiments_md=tmp_path / "EXPERIMENTS.md")
+                       experiment_dir=tmp_path / "experiments", experiments_md=tmp_path / "EXPERIMENTS.md", symbols_dir=sym)
     return Engine(cfg, bias=RulesBiasClassifier())

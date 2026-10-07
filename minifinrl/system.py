@@ -47,6 +47,21 @@ def _aip_bias() -> BiasClassifier:
 BIAS_BACKENDS: dict[str, Callable[[], BiasClassifier]] = {"rules": _rules_bias, "aip": _aip_bias}
 
 
+def _review_parts(backend: str | None) -> dict:
+    """Trade-review helpers matching the bias backend. With the LLM backend the
+    parser and explainer are LLM-based, with the rules versions (and the
+    template explanation) as fallbacks; otherwise rules only."""
+    from minifinrl.adapters.rules_parse import RulesTradeParser
+
+    parts = {"parser_fallback": RulesTradeParser()}
+    if backend == "aip":
+        from minifinrl.adapters.aip_review import AipTradeExplainer, AipTradeParser
+
+        tier = os.environ.get("MINIFINRL_BIAS_TIER", "SMALL")
+        parts.update(parser=AipTradeParser(tier), explainer=AipTradeExplainer(tier), bias_fallback=_rules_bias())
+    return parts
+
+
 @dataclass(frozen=True)
 class SystemConfig:
     """Everything a profile decides. `engine` is what the finance side sees;
@@ -153,7 +168,7 @@ def build_system(profile: str = "research", *, universe: str | None = None, work
         if cfg.bias_backend not in BIAS_BACKENDS:
             raise ValueError(f"unknown bias backend '{cfg.bias_backend}', expected one of {sorted(BIAS_BACKENDS)}")
         bias = BIAS_BACKENDS[cfg.bias_backend]()
-    engine = Engine(cfg.engine, bias=bias)
+    engine = Engine(cfg.engine, bias=bias, **_review_parts(cfg.bias_backend))
     system = System(config=cfg, engine=engine, capabilities=CapabilityRegistry.from_engine(engine))
     log.info(
         "system built: profile=%s mode=%s universe=%d tickers workspace=%s bias=%s capabilities=%d",

@@ -68,3 +68,14 @@ def test_list_of_choices_flag(rw_cli, capsys, monkeypatch):
     with pytest.raises(SystemExit) as e:
         cli.main(["walk-forward", "--apps", "crypto"])
     assert e.value.code == 64
+
+
+def test_help_lists_every_capability(capsys):
+    """Summaries contain '%' ("95% interval"), which argparse would treat as a format code."""
+    with pytest.raises(SystemExit) as e:
+        cli.main(["--help"])
+    out = capsys.readouterr().out
+    assert e.value.code == 0 and "rank-stability" in out and "luck-test" in out and "--bias" in out
+    with pytest.raises(SystemExit) as e:
+        cli.main(["rank-stability", "--help"])
+    assert e.value.code == 0
