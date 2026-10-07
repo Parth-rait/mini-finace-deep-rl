@@ -16,3 +16,10 @@ dist/
 # labelling texts come from third-party posts: kept local
 corpus/candidates.jsonl
 corpus/bias_labels.jsonl
+
+# API keys for the LLM classifier (GEMINI_API_KEY=...): never committed
+.env
+
+# aip cache and traces (model responses quote the labelled posts): kept local
+.aip_cache/
+.aip_traces/
