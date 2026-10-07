@@ -145,3 +145,51 @@ def luck_test(
         result.verdict, result.regime,
     )
     return result
+
+
+@dataclass(frozen=True)
+class OutcomeSurface:
+    """The data behind the 3D view: for every holding day 1..H, how likely
+    each return bucket was under the regime model, plus the realized path."""
+
+    days: list[int]
+    returns: list[float]  # bucket centres (directional return)
+    density: list[list[float]]  # [day][bucket], each row sums to 1
+    p05: list[float]
+    p50: list[float]
+    p95: list[float]
+    realized: list[float]  # directional cumulative return on each day held
+
+
+def outcome_surface(
+    close: pd.DataFrame, vix: pd.Series, ticker: str, date: str, direction: Direction, horizon_days: int, *,
+    n_paths: int = 1000, seed: int = 0, n_buckets: int = 41, min_history: int = MIN_HISTORY_DAYS,
+    fit: Callable[[pd.DataFrame, pd.Series], RegimeSyntheticGenerator] | None = None,
+) -> OutcomeSurface:
+    """Same model, data cut-off and starting regime as luck_test, sampled once
+    for the whole horizon so every day's distribution comes from the same paths."""
+    dates = list(close.index)
+    i = int(np.searchsorted(dates, date))
+    if i >= len(dates) or i + 1 < min_history or i + horizon_days >= len(dates):
+        raise LuckTestError("not enough data around the entry date for the outcome surface")
+    sign = 1.0 if direction == "long" else -1.0
+    gen = (fit or (lambda p, v: RegimeSyntheticGenerator().fit(p, v)))(close.iloc[: i + 1], vix)
+    start = gen.regime_probs_last() @ gen.hmm.transmat_
+    daily = gen.sample_ticker_returns(ticker, horizon_days, n_paths, start, seed)
+    paths = sign * (np.cumprod(1.0 + daily, axis=1) - 1.0)  # (n_paths, H)
+    lo, hi = np.quantile(paths, [0.005, 0.995])
+    realized_px = close[ticker].iloc[i: i + horizon_days + 1].to_numpy()
+    realized = sign * (realized_px[1:] / realized_px[0] - 1.0)
+    lo, hi = min(lo, realized.min()), max(hi, realized.max())
+    edges = np.linspace(lo, hi, n_buckets + 1)
+    # the axis spans the 0.5-99.5% range (and the realized path) so a few extreme
+    # paths don't flatten the picture; values beyond it are counted in the edge
+    # buckets, so every day's row still sums to 1
+    clipped = np.clip(paths, edges[0], edges[-1])
+    density = [np.histogram(clipped[:, d], bins=edges)[0] / n_paths for d in range(horizon_days)]
+    q = np.quantile(paths, [0.05, 0.5, 0.95], axis=0)
+    return OutcomeSurface(
+        days=list(range(1, horizon_days + 1)), returns=((edges[:-1] + edges[1:]) / 2).tolist(),
+        density=[row.tolist() for row in density], p05=q[0].tolist(), p50=q[1].tolist(), p95=q[2].tolist(),
+        realized=realized.tolist(),
+    )
