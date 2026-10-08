@@ -283,10 +283,12 @@ def run(svc, req: ReviewIn) -> ReviewOut:
         return ReviewOut(status=stop.status, messages=rv.messages + [stop.message], understood=rv.und, **stop.extra)
     what = what_you_did(rv, r)
     spans, bias_source, bias_note = svc.classify(rv.und.reasoning or "")
+    reasoning = (rv.und.reasoning or "").strip()
+    state = svc.sentiment.read_state_with_fallback(reasoning) if len(reasoning.split()) >= 3 else None
     spy, uni_ret = market_context(rv, r)
     text, source = explanation(svc, rv, r, what, spans, bias_note, spy, uni_ret)
     return ReviewOut(
         status="ok", messages=rv.messages, understood=rv.und, what_you_did=what, outcome=LuckTestOut(**vars(r)),
-        surface=Surface(**vars(surf)), biases=spans, bias_source=bias_source,
+        surface=Surface(**vars(surf)), biases=spans, bias_source=bias_source, state=state,
         market=MarketContext(spy_return=spy, universe_return=uni_ret), explanation=text, explanation_source=source,
     )

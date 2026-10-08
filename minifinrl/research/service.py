@@ -134,10 +134,13 @@ class ResearchService:
         clf = None
         if (base / "E08").exists():
             clf = {k: read(base / "E08" / f"{k}_eval.json") for k in ("rules", "aip")}
+        mood = None
+        if (base / "E09").exists():
+            mood = {k: read(base / "E09" / f"{k}_eval.json") for k in ("rules", "aip")}
         return ResearchSummary(
             experiments=[{"id": r["id"], "title": r["title"], "conclusion": r["conclusion"]} for r in log_.values()],
             main=log_["E05"]["summary"], etf=log_.get("E06", {}).get("summary"),
-            walk_forward=read(base / "E07" / "walkforward_study.json"), classifier=clf,
+            walk_forward=read(base / "E07" / "walkforward_study.json"), classifier=clf, mood=mood,
         )
 
     @capability("list_models", Empty, ModelsOut, effect="read", budget_ms=500)

@@ -47,9 +47,13 @@ class BrokenClassifier:
         raise TimeoutError("model timed out")
 
 
-def engine(rw_engine, **parts) -> CapabilityRegistry:
+def engine(rw_engine, sentiment_state=False, **parts) -> CapabilityRegistry:
     parts.setdefault("parser_fallback", RulesTradeParser())
     parts.setdefault("bias", RulesBiasClassifier())
+    if sentiment_state:
+        from minifinrl.sentiment.state_rules import RulesStateReader
+
+        parts.setdefault("state_reader", RulesStateReader())
     return CapabilityRegistry.from_engine(Engine(rw_engine.cfg, **parts))
 
 
@@ -413,3 +417,10 @@ def test_company_with_no_us_listing_says_so(rw_engine):
     llm = ParsedTrade(company="reliance industries", date="2020-03-02", direction="long", horizon_days=5)
     out = review(engine(rw_engine, parser=FakeParser(llm)), "bought reliance industries on 2 march 2020 for a week")
     assert out.status == "needs_input" and any("No US-listed stock or ETF is named" in m for m in out.messages)
+
+
+def test_review_reads_the_writers_state(rw_engine):
+    out = review(engine(rw_engine, sentiment_state=True), GOOD)
+    assert out.status == "ok" and out.state is not None
+    assert {"herd", "certainty"} <= {s.kind.value for s in out.state.signals} and out.state.level in ("warm", "hot")
+    assert review(engine(rw_engine, sentiment_state=True), "bought $AAA on 2020-03-02 held 5 days").state is None  # no reasoning

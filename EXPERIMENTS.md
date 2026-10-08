@@ -334,3 +334,27 @@ macro = mean over labels with a defined value; exact match = predicted label set
 
 
 ---
+
+## E09: Reading mood: LLM state reader against the rules baseline
+
+*2026-10-08T08:08:32+00:00, commit `f58dfb0-dirty`, data ``, results sha256 ``*
+
+**Change.** First evaluation of the state readers' mood (bullish, bearish, neutral) on 300 StockTwits posts from the dataset's held-out test files, 100 per mood, seed 0. The label is the author's own Bullish/Bearish tag; untagged posts count as neutral. Rules baseline (word and emoji lists, rules-state-v1) against an LLM reader through aip (Gemini 3.5 flash-lite, SMALL tier, temperature 0) whose instructions define each mood and signal. No labelled post appears in the prompt. Only mood is scored: the state signals (fear, greed, regret, frustration, certainty, urgency, herd) have no labels yet. Backtest results are unchanged.
+
+**Definition.**
+
+```
+accuracy = share of posts whose mood equals the label; per mood precision, recall, F1; macro F1 = mean over the three moods
+direction accuracy = over posts labelled bullish or bearish, share read as that side (a neutral answer counts as wrong)
+side precision = of the answers that took a side on those posts, share on the right side
+```
+
+**Hypothesis.** Word lists catch obvious cues (rockets, 'crash') but miss most stances; an LLM should read the side well. Neutral should be hard for both, because untagged posts are often opinionated.
+
+**Files.** `minifinrl/sentiment/state_rules.py`, `minifinrl/sentiment/adapters/aip_state.py`, `minifinrl/sentiment/mood_eval.py`, `minifinrl/sentiment/corpus.py`
+
+
+**Conclusion.** Confirmed. LLM: accuracy 0.57, macro F1 0.56; on posts tagged bullish or bearish it reads the right side 70% of the time, and when it takes a side it is right 89% of the time (bullish F1 0.65, bearish 0.66). Rules: accuracy 0.38, macro F1 0.36, right side on 27% of tagged posts (62% when it takes a side). Both are weak on neutral (LLM F1 0.36): the LLM gives a side to 69 of 100 untagged posts, many of which do have an opinion, so this is partly label noise. No failures; 4 LLM signals dropped because their quoted evidence was not in the post. Crypto posts from 2021 to 2022 only. Mood is good enough to show next to a trade; the state signals need hand labels before their accuracy can be claimed.
+
+
+---

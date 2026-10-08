@@ -49,17 +49,21 @@ BIAS_BACKENDS: dict[str, Callable[[], BiasClassifier]] = {"rules": _rules_bias, 
 
 
 def _review_parts(backend: str | None) -> dict:
-    """Trade-review helpers matching the bias backend. With the LLM backend the
-    parser and explainer are LLM-based, with the rules versions (and the
-    template explanation) as fallbacks; otherwise rules only."""
+    """Trade-review and state-reading helpers matching the bias backend. With
+    the LLM backend the parser, explainer and state reader are LLM-based, with
+    the rules versions (and the template explanation) as fallbacks; otherwise
+    rules only."""
     from minifinrl.review.parse_rules import RulesTradeParser
+    from minifinrl.sentiment.state_rules import RulesStateReader
 
-    parts = {"parser_fallback": RulesTradeParser()}
+    parts = {"parser_fallback": RulesTradeParser(), "state_reader": RulesStateReader()}
     if backend == "aip":
         from minifinrl.review.adapters.aip import AipTradeExplainer, AipTradeParser
+        from minifinrl.sentiment.adapters.aip_state import AipStateReader
 
         tier = os.environ.get("MINIFINRL_BIAS_TIER", "SMALL")
-        parts.update(parser=AipTradeParser(tier), explainer=AipTradeExplainer(tier), bias_fallback=_rules_bias())
+        parts.update(parser=AipTradeParser(tier), explainer=AipTradeExplainer(tier), bias_fallback=_rules_bias(),
+                     state_reader=AipStateReader(tier), state_fallback=RulesStateReader())
     return parts
 
 

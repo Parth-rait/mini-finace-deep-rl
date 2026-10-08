@@ -35,7 +35,7 @@ from minifinrl.research.agents.registry import ModelRegistry
 from minifinrl.research.service import ResearchService
 from minifinrl.review.ports import TradeExplainer, TradeParser
 from minifinrl.review.service import ReviewService
-from minifinrl.sentiment.ports import BiasClassifier
+from minifinrl.sentiment.ports import BiasClassifier, StateReader
 from minifinrl.sentiment.service import SentimentService
 
 
@@ -56,12 +56,13 @@ class EngineConfig:
 class Engine:
     def __init__(self, cfg: EngineConfig, *, bias: BiasClassifier | None = None,
                  bias_fallback: BiasClassifier | None = None, parser: TradeParser | None = None,
-                 parser_fallback: TradeParser | None = None, explainer: TradeExplainer | None = None):
+                 parser_fallback: TradeParser | None = None, explainer: TradeExplainer | None = None,
+                 state_reader: StateReader | None = None, state_fallback: StateReader | None = None):
         self.cfg = cfg
         self.market = MarketService(cfg)
         self.regime = RegimeService(cfg)
         self.research = ResearchService(cfg)
-        self.sentiment = SentimentService(cfg, bias, bias_fallback)
+        self.sentiment = SentimentService(cfg, bias, bias_fallback, state_reader, state_fallback)
         self.review = ReviewService(cfg, self.market, self.regime, self.sentiment, parser=parser,
                                     parser_fallback=parser_fallback, explainer=explainer)
         self.journal = JournalService(cfg, self.review)

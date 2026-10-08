@@ -9,6 +9,7 @@ from pydantic import BaseModel, Field
 from minifinrl.platform.schemas import ISO_DATE, Input
 from minifinrl.regime.schemas import LuckTestOut
 from minifinrl.review.settings import MAX_STATED_DAYS
+from minifinrl.sentiment.ports import StateReading
 
 
 class ReviewIn(Input):
@@ -89,6 +90,7 @@ class ReviewOut(BaseModel):
     outcome: LuckTestOut | None = None
     surface: Surface | None = None
     biases: list[BiasSpan] = Field(default_factory=list)
+    state: StateReading | None = Field(default=None, description="mood and emotional state read from the reasoning")
     bias_source: str | None = None
     market: MarketContext | None = None
     explanation: str | None = None

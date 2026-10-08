@@ -96,6 +96,7 @@ class ResearchSummary(BaseModel):
     etf: dict | None = Field(default=None, description="E06: the same on the 12-ETF universe")
     walk_forward: dict | None = Field(default=None, description="E07: Sharpe per test year and selection rules")
     classifier: dict | None = Field(default=None, description="E08: rules vs LLM bias classifier")
+    mood: dict | None = Field(default=None, description="E09: rules vs LLM mood reader")
 
 
 class FitIn(Input):
