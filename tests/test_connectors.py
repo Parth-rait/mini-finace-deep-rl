@@ -9,11 +9,11 @@ import numpy as np
 import pandas as pd
 import pytest
 
-from minifinrl.capabilities import CapabilityRegistry
-from minifinrl.core.meta import providers
-from minifinrl.core.meta.crosscheck import crosscheck
-from minifinrl.core.meta.providers import AlpacaProvider, ProviderNotConfigured, TiingoProvider
-from minifinrl.core.meta.store import PriceStore
+from minifinrl.platform.capabilities import CapabilityRegistry
+from minifinrl.market import providers
+from minifinrl.market.crosscheck import crosscheck
+from minifinrl.market.providers import AlpacaProvider, ProviderNotConfigured, TiingoProvider
+from minifinrl.market.store import PriceStore
 
 TIINGO = [  # shape of api.tiingo.com/tiingo/daily/<t>/prices
     {"date": "2024-06-07T00:00:00.000Z", "open": 194.65, "high": 196.94, "low": 194.14, "close": 196.89,

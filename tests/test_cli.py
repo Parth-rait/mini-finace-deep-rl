@@ -7,7 +7,7 @@ import json
 import pytest
 
 import minifinrl.interfaces.cli as cli
-from minifinrl.capabilities import CapabilityRegistry
+from minifinrl.platform.capabilities import CapabilityRegistry
 from minifinrl.system import System, SystemConfig
 
 

@@ -6,7 +6,7 @@ from __future__ import annotations
 import pytest
 from fastapi.testclient import TestClient
 
-from minifinrl.capabilities import CapabilityRegistry
+from minifinrl.platform.capabilities import CapabilityRegistry
 from minifinrl.interfaces.api import create_app
 from minifinrl.system import System, SystemConfig
 

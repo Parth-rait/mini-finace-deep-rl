@@ -9,8 +9,8 @@ import numpy as np
 import pandas as pd
 import pytest
 
-from minifinrl.core.meta.providers import ProviderError
-from minifinrl.core.meta.store import PriceStore, SeriesStore, adjust
+from minifinrl.market.providers import ProviderError
+from minifinrl.market.store import PriceStore, SeriesStore, adjust
 from tests.conftest import FakePriceProvider, FakeSeriesProvider
 
 TODAY = "2025-01-01"

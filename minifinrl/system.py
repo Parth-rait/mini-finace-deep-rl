@@ -8,7 +8,7 @@ The composition root: the one place the whole system is assembled.
 Every interface (CLI, API, agent, gate) starts with build_system() and
 talks to `system.capabilities`, so this file is where to look to see how
 everything fits: which data source, which store, which bias classifier,
-which aip settings. Nothing constructs core objects or adapters anywhere
+which aip settings. Nothing constructs feature services or adapters anywhere
 else (tests/test_architecture.py enforces that for interfaces/).
 """
 
@@ -20,26 +20,27 @@ from dataclasses import dataclass, field, replace
 from pathlib import Path
 from typing import Callable
 
-from minifinrl.capabilities import CapabilityRegistry
-from minifinrl.core.configs.logging_config import get_logger
-from minifinrl.core import pipeline
-from minifinrl.core.configs.settings import RESULTS, ROOT
-from minifinrl.core.configs.tickers import UNIVERSES
-from minifinrl.core.meta.panel import DataSpec
+from minifinrl.platform.capabilities import CapabilityRegistry
+from minifinrl.platform.log import get_logger
+from minifinrl.research import paths as research_paths
+from minifinrl.platform.settings import RESULTS
+from minifinrl.platform.settings import ROOT
+from minifinrl.market.universe import UNIVERSES
+from minifinrl.market.panel import DataSpec
 from minifinrl.engine import Engine, EngineConfig
-from minifinrl.ports import BiasClassifier
+from minifinrl.sentiment.ports import BiasClassifier
 
 log = get_logger(__name__)
 
 
 def _rules_bias() -> BiasClassifier:
-    from minifinrl.adapters.rules_bias import RulesBiasClassifier
+    from minifinrl.sentiment.rules import RulesBiasClassifier
 
     return RulesBiasClassifier()
 
 
 def _aip_bias() -> BiasClassifier:
-    from minifinrl.adapters.aip_bias import AipBiasClassifier
+    from minifinrl.sentiment.adapters.aip import AipBiasClassifier
 
     return AipBiasClassifier(tier=os.environ.get("MINIFINRL_BIAS_TIER", "SMALL"))
 
@@ -51,11 +52,11 @@ def _review_parts(backend: str | None) -> dict:
     """Trade-review helpers matching the bias backend. With the LLM backend the
     parser and explainer are LLM-based, with the rules versions (and the
     template explanation) as fallbacks; otherwise rules only."""
-    from minifinrl.adapters.rules_parse import RulesTradeParser
+    from minifinrl.review.parse_rules import RulesTradeParser
 
     parts = {"parser_fallback": RulesTradeParser()}
     if backend == "aip":
-        from minifinrl.adapters.aip_review import AipTradeExplainer, AipTradeParser
+        from minifinrl.review.adapters.aip import AipTradeExplainer, AipTradeParser
 
         tier = os.environ.get("MINIFINRL_BIAS_TIER", "SMALL")
         parts.update(parser=AipTradeParser(tier), explainer=AipTradeExplainer(tier), bias_fallback=_rules_bias())
@@ -77,7 +78,7 @@ class SystemConfig:
     @classmethod
     def from_profile(cls, profile: str = "research", *, universe: str | None = None, workspace: str | None = None,
                      **overrides) -> "SystemConfig":
-        """`universe`: a name in configs/tickers.UNIVERSES. `workspace`: an
+        """`universe`: a name in market/universe.UNIVERSES. `workspace`: an
         experiment id; models, synthetic paths and results then live under
         results/experiments/<workspace>/, so the run can't touch anything else."""
         if profile not in PROFILES:
@@ -90,7 +91,7 @@ class SystemConfig:
             eng = replace(eng, spec=replace(eng.spec, tickers=tuple(UNIVERSES[universe])))
         if workspace is not None:
             ws = RESULTS / "experiments" / workspace / "workspace"
-            eng = replace(eng, paths=pipeline.Paths(model_dir=ws / "models", synthetic_dir=ws / "synthetic",
+            eng = replace(eng, paths=research_paths.Paths(model_dir=ws / "models", synthetic_dir=ws / "synthetic",
                                                     processed_dir=ws / "processed",
                                                     results_path=ws / "backtest_results.csv"))
         return replace(cfg, engine=eng, **overrides)

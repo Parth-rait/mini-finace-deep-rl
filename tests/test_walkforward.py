@@ -6,7 +6,7 @@ import numpy as np
 import pandas as pd
 import pytest
 
-from minifinrl.core.walkforward import fold_table, make_folds, persistence, selection_study, strategy_returns
+from minifinrl.research.walkforward import fold_table, make_folds, persistence, selection_study, strategy_returns
 
 
 def test_folds():
@@ -72,7 +72,7 @@ def test_last_fold_only_absorbs_a_partial_final_year():
 
 
 def test_walk_forward_end_to_end(rw_engine):
-    from minifinrl.capabilities import CapabilityRegistry
+    from minifinrl.platform.capabilities import CapabilityRegistry
 
     reg = CapabilityRegistry.from_engine(rw_engine)
     reg.invoke("fetch_data", {}, interface="cli")
@@ -85,6 +85,6 @@ def test_walk_forward_end_to_end(rw_engine):
     assert {"follow_winner", "hindsight_best", "mix_classical", "static:equal_weight", "static:ppo"} <= rules
     assert len(st["persistence"]) == 1
     # each fold's PPO model was trained only on that fold's window
-    from minifinrl.core.agents.registry import read_card
+    from minifinrl.research.agents.registry import read_card
     card = read_card(rw_engine.cfg.paths.model_dir / "2021" / "portfolio_ppo_seed0.zip")
     assert (card.train_start, card.train_end) == ("2019-01-01", "2020-12-31")

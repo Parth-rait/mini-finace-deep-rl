@@ -8,11 +8,11 @@ from __future__ import annotations
 import pytest
 from fastapi.testclient import TestClient
 
-from minifinrl.adapters.rules_bias import RulesBiasClassifier
-from minifinrl.adapters.rules_parse import RulesTradeParser
-from minifinrl.capabilities import CapabilityRegistry
+from minifinrl.sentiment.rules import RulesBiasClassifier
+from minifinrl.review.parse_rules import RulesTradeParser
+from minifinrl.platform.capabilities import CapabilityRegistry
 from minifinrl.engine import Engine
-from minifinrl.ports import BiasClassification, ParsedTrade
+from minifinrl.review.ports import ParsedTrade
 
 
 class FakeParser:
@@ -206,7 +206,7 @@ def test_fact_keys_are_plain_english(rw_engine):
 
 
 def test_number_check_accepts_numbers_from_fact_names():
-    from minifinrl import review as rv
+    from minifinrl.review import explain as rv
 
     facts = {rv.F_WHAT: "You bought AAA.", rv.F_SPY: "-4.0%", rv.F_OUTCOME: {rv.F_HIGH: "+15.9%"}}
     ok = "The S&P 500 returned -4.0%; the 95th percentile was +15.9%."
@@ -215,7 +215,7 @@ def test_number_check_accepts_numbers_from_fact_names():
 
 
 def test_placeholder_rules():
-    from minifinrl.review import SlotError, fill_slots
+    from minifinrl.review.explain import SlotError, fill_slots
 
     slots = {"your_return": "-22.0%", "days": "5"}
     assert fill_slots("You lost {your_return} in {days} days.", slots, []) == "You lost -22.0% in 5 days."
@@ -395,7 +395,7 @@ def test_unambiguous_numeric_date(rw_engine):
 
 
 def test_merge_conflict_on_a_sell_date():
-    from minifinrl import review as rv
+    from minifinrl.review import intake as rv
 
     llm = ParsedTrade(ticker="AAPL", date="2025-03-03", horizon_days=5)
     rules = ParsedTrade(ticker="AAPL", sell_date="2025-03-03", horizon_days=5)

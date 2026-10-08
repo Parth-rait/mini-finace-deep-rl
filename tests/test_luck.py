@@ -8,9 +8,9 @@ import pandas as pd
 import pytest
 from scipy import stats
 
-from minifinrl.capabilities import CapabilityRegistry, CapabilityUnavailable
-from minifinrl.core.luck.luck_test import LuckTestError, luck_test, percentile_of, verdict_for
-from minifinrl.core.meta.synthetic import RegimeSyntheticGenerator
+from minifinrl.platform.capabilities import CapabilityRegistry, CapabilityUnavailable
+from minifinrl.regime.luck import LuckTestError, luck_test, percentile_of, verdict_for
+from minifinrl.regime.model import RegimeSyntheticGenerator
 
 
 def regime_market(n_days=1500, block=150, seed=3):
@@ -128,7 +128,7 @@ def test_capability_caches_fit_per_entry_day(rw_engine, monkeypatch):
     reg.invoke("fetch_data", {}, interface="cli")
     fits = []
     real_fit = RegimeSyntheticGenerator.fit
-    monkeypatch.setattr(RegimeSyntheticGenerator, "fit", lambda self, p, v: fits.append(1) or real_fit(self, p, v))
+    monkeypatch.setattr(RegimeSyntheticGenerator, "fit", lambda self, p, v, **kw: fits.append(1) or real_fit(self, p, v, **kw))
     a = reg.invoke("luck_test", {"ticker": "AAA", "date": "2020-03-02", "horizon_days": 10})
     b = reg.invoke("luck_test", {"ticker": "BBB", "date": "2020-03-02", "direction": "short", "horizon_days": 5})
     assert len(fits) == 1  # same entry day -> one fit, any ticker/direction

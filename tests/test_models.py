@@ -9,8 +9,8 @@ import logging
 import pandas as pd
 import pytest
 
-from minifinrl.capabilities import CapabilityRegistry
-from minifinrl.core.agents.registry import (
+from minifinrl.platform.capabilities import CapabilityRegistry
+from minifinrl.research.agents.registry import (
     ModelCard,
     ModelMismatch,
     ModelRegistry,
@@ -20,12 +20,13 @@ from minifinrl.core.agents.registry import (
     read_card,
     verify,
 )
-from minifinrl.core.agents.sb3_wrapper import DRLAgentWrapper
-from minifinrl.core.configs.settings import INDICATORS, PPO_PARAMS
-from minifinrl.core.envs.stock_trading import StockTradingEnv
-from minifinrl.core.eval.report import rank_stability
-from minifinrl.core.meta.features import to_array
-from minifinrl.core.meta.panel import compute_features
+from minifinrl.research.agents.sb3_wrapper import DRLAgentWrapper
+from minifinrl.market.settings import INDICATORS
+from minifinrl.research.settings import PPO_PARAMS
+from minifinrl.research.envs.stock_trading import StockTradingEnv
+from minifinrl.research.evaluation.report import rank_stability
+from minifinrl.market.indicators import to_array
+from minifinrl.market.panel import compute_features
 from tests.conftest import random_walk_panel
 
 

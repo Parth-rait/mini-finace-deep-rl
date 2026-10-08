@@ -9,9 +9,10 @@ import sys
 
 import pytest
 
-from minifinrl.adapters.aip_bias import SYSTEM, AipBiasClassifier, _Answer, _Signal
-from minifinrl.bias_eval import evaluate
-from minifinrl.ports import BiasLabel, BudgetExhausted, ClassificationFailed
+from minifinrl.sentiment.adapters.aip import SYSTEM, AipBiasClassifier, _Answer, _Signal
+from minifinrl.sentiment.evaluation import evaluate
+from minifinrl.sentiment.ports import BiasLabel
+from minifinrl.platform.errors import BudgetExhausted, ClassificationFailed
 
 
 class Budget(Exception):

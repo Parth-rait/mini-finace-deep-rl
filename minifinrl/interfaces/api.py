@@ -41,7 +41,7 @@ from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
 
 import minifinrl
-from minifinrl.capabilities import CapabilitySpec, error_kind
+from minifinrl.platform.capabilities import CapabilitySpec, error_kind
 from minifinrl.system import System, build_system
 
 log = logging.getLogger("mini_finrl.api")

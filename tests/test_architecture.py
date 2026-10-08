@@ -1,18 +1,21 @@
-"""The dependency rule from PLAN_SHIPPABLE.md section 1.2, enforced.
+"""The package layout, enforced (see ARCHITECTURE.md).
 
-    interfaces -> system -> engine -> core
-                    |          ^
-                    +-> adapters -> aip
+    interfaces -> system -> engine -> feature services
+                                         |
+    features:  market  regime  research  sentiment  review  orders
+    shared:    platform (settings, logging, errors, the capability registry)
 
 Parses every module's imports with `ast` (no importing, so it runs in any
-environment). The point: the finance core stays the centre. It never
-learns about the LLM, the web layer or the wiring, and only adapters touch
-aip, so replacing aip later touches adapters/ only.
+environment). The rules keep features independent, so a new feature is a
+new package rather than edits across old ones, and no file grows into a
+god module again.
 """
 
 from __future__ import annotations
 
 import ast
+import subprocess
+import sys
 from pathlib import Path
 
 import pytest
@@ -21,7 +24,18 @@ PKG = Path(__file__).resolve().parents[1] / "minifinrl"
 
 WEB = {"fastapi", "starlette", "uvicorn", "sse_starlette"}
 LLM = {"aip", "litellm", "openai", "anthropic"}
-ENGINE_LAYER = {"minifinrl.engine", "minifinrl.capabilities", "minifinrl.ports", "minifinrl.schemas", "minifinrl.bias_eval", "minifinrl.review"}
+TRAINING = {"torch", "stable_baselines3", "gymnasium"}
+MAX_LINES = 400  # split a module before it passes this
+
+# feature -> the features it may import (besides itself and platform). Acyclic.
+FEATURES = {
+    "market": set(),
+    "regime": {"market"},
+    "research": {"market", "regime"},
+    "sentiment": set(),
+    "review": {"market", "regime"},
+    "orders": set(),
+}
 
 
 def _imports(path: Path) -> set[str]:
@@ -33,8 +47,8 @@ def _imports(path: Path) -> set[str]:
             out.update(a.name for a in node.names)
         elif isinstance(node, ast.ImportFrom) and node.module and node.level == 0:
             out.add(node.module)
-            # `from minifinrl import system` names a module too
-            out.update(f"{node.module}.{a.name}" for a in node.names if node.module == "minifinrl")
+            # `from minifinrl.market import symbols` names a module too
+            out.update(f"{node.module}.{a.name}" for a in node.names if node.module.count(".") <= 1)
     return out
 
 
@@ -42,8 +56,9 @@ def _top(mod: str) -> str:
     return mod.split(".")[0]
 
 
-def _is(mod: str, prefix: str) -> bool:
-    return mod == prefix or mod.startswith(prefix + ".")
+def _part(mod: str, i: int) -> str | None:
+    parts = mod.split(".")
+    return parts[i] if len(parts) > i else None
 
 
 def _files(sub: str) -> list[Path]:
@@ -51,66 +66,109 @@ def _files(sub: str) -> list[Path]:
     return sorted(base.rglob("*.py")) if base.is_dir() else ([base] if base.exists() else [])
 
 
+def _all() -> list[Path]:
+    return sorted(f for f in PKG.rglob("*.py") if "__pycache__" not in f.parts)
+
+
 def _label(f: Path) -> str:
     return str(f.relative_to(PKG.parent)) if f.is_relative_to(PKG.parent) else f.name
 
 
-def _violations(files: list[Path], allowed_minifinrl: list[str], banned_top: set[str]) -> list[str]:
+def _feature_violations(feature: str, files: list[Path]) -> list[str]:
+    allowed = {feature, "platform"} | FEATURES.get(feature, set())
     bad = []
     for f in files:
         for mod in sorted(_imports(f)):
-            if _top(mod) in banned_top:
-                bad.append(f"{_label(f)} imports {mod}")
-            elif _top(mod) == "minifinrl" and mod != "minifinrl":
-                if not any(_is(mod, a) for a in allowed_minifinrl):
-                    bad.append(f"{_label(f)} imports {mod}")
+            if _top(mod) != "minifinrl" or mod == "minifinrl":
+                continue
+            other = _part(mod, 1)
+            if other not in allowed:
+                bad.append(f"{_label(f)} imports {mod} ({feature} may use {sorted(allowed)})")
+            elif other != feature and _part(mod, 2) in ("service", "adapters"):
+                bad.append(f"{_label(f)} imports {mod}: services and adapters are wired by engine/system only")
     return bad
 
 
-def test_package_exists():
-    assert (PKG / "core").is_dir()
+def test_every_feature_is_known():
+    """A new feature package gets an entry in FEATURES (its allowed dependencies)."""
+    packages = {p.name for p in PKG.iterdir() if p.is_dir() and (p / "__init__.py").exists()}
+    assert packages - {"platform", "interfaces"} == set(FEATURES)
 
 
-def test_core_is_self_contained():
-    """core/ = finance logic only: no LLM, no web, nothing from outer layers."""
-    bad = _violations(_files("core"), ["minifinrl.core"], WEB | LLM | {"pydantic"})
+@pytest.mark.parametrize("feature", sorted(FEATURES))
+def test_features_depend_only_downwards(feature):
+    bad = _feature_violations(feature, _files(feature))
     assert not bad, "\n".join(bad)
 
 
-def test_engine_layer_never_sees_adapters_web_or_llm():
-    files = [f for name in ("engine.py", "capabilities.py", "ports.py", "schemas.py", "bias_eval.py", "review.py") for f in _files(name)]
-    bad = _violations(files, ["minifinrl.core", *ENGINE_LAYER], WEB | LLM)
+def test_platform_depends_on_no_feature():
+    bad = [f"{_label(f)} imports {m}" for f in _files("platform") for m in _imports(f)
+           if _top(m) == "minifinrl" and m != "minifinrl" and _part(m, 1) != "platform"]
     assert not bad, "\n".join(bad)
 
 
-def test_adapters_implement_ports_only():
-    """adapters may use aip, but not the engine, the wiring or the web."""
-    bad = _violations(_files("adapters"), ["minifinrl.core", "minifinrl.ports", "minifinrl.schemas"], WEB)
+@pytest.mark.parametrize("feature", sorted(FEATURES))
+def test_feature_layout(feature):
+    """Every feature has the same shape: capabilities in service.py, their
+    input and output models in schemas.py."""
+    assert (PKG / feature / "service.py").exists() and (PKG / feature / "schemas.py").exists()
+
+
+def test_engine_registers_every_feature_service():
+    from minifinrl.engine import Engine, EngineConfig
+
+    engine = Engine(EngineConfig(profile="test"))
+    registered = {type(s).__module__.split(".")[1] for s in engine.services}
+    assert registered == set(FEATURES)
+
+
+def test_only_adapters_import_llm_libraries():
+    bad = [f"{_label(f)} imports {m}" for f in _all() if "adapters" not in f.relative_to(PKG).parts
+           for m in _imports(f) if _top(m) in LLM]
     assert not bad, "\n".join(bad)
 
 
-def test_only_adapters_import_aip():
-    offenders = [
-        f"{f.relative_to(PKG.parent)} imports {m}"
-        for f in PKG.rglob("*.py")
-        if "adapters" not in f.relative_to(PKG).parts
-        for m in _imports(f)
-        if _top(m) in LLM
-    ]
-    assert not offenders, "\n".join(offenders)
-
-
-def test_system_is_not_a_web_app():
-    bad = _violations(_files("system.py"), ["minifinrl"], WEB)
+def test_only_interfaces_import_web_libraries():
+    bad = [f"{_label(f)} imports {m}" for f in _all() if f.relative_to(PKG).parts[0] != "interfaces"
+           for m in _imports(f) if _top(m) in WEB]
     assert not bad, "\n".join(bad)
+
+
+def test_only_research_imports_the_training_stack():
+    bad = [f"{_label(f)} imports {m}" for f in _all() if f.relative_to(PKG).parts[0] != "research"
+           for m in _imports(f) if _top(m) in TRAINING]
+    assert not bad, "\n".join(bad)
+
+
+def test_serving_never_loads_the_training_stack():
+    """The API and website start without torch: about half the memory, so
+    they fit a small server. Training code is imported inside batch methods."""
+    code = ("import sys\nfrom minifinrl.interfaces.api import create_app\nfrom minifinrl.system import build_system\n"
+            "create_app(build_system('ci'))\nprint(sorted(m for m in sys.modules if m.split('.')[0] in %r))" % (TRAINING,))
+    out = subprocess.run([sys.executable, "-c", code], capture_output=True, text=True, cwd=PKG.parent, check=True)
+    assert out.stdout.strip() == "[]", out.stdout
 
 
 def test_interfaces_only_go_through_system():
-    """interfaces/ reach the engine through build_system() and the capability
-    registry, never by constructing core objects themselves."""
+    """interfaces/ reach features through build_system() and the capability
+    registry, never by constructing feature objects themselves."""
+    allowed = ("minifinrl.system", "minifinrl.platform.capabilities", "minifinrl.interfaces")
     files = _files("interfaces") + _files("__main__.py")
-    bad = _violations(files, ["minifinrl.system", "minifinrl.capabilities", "minifinrl.interfaces"], LLM)
+    bad = [f"{_label(f)} imports {m}" for f in files for m in _imports(f)
+           if (_top(m) == "minifinrl" and m != "minifinrl" and not m.startswith(allowed)) or _top(m) in LLM]
     assert not bad, "\n".join(bad)
+
+
+def test_engine_and_system_are_not_web_apps():
+    bad = [f"{_label(f)} imports {m}" for name in ("engine.py", "system.py") for f in _files(name)
+           for m in _imports(f) if _top(m) in WEB]
+    assert not bad, "\n".join(bad)
+
+
+@pytest.mark.parametrize("path", _all(), ids=lambda p: _label(p))
+def test_no_module_grows_too_big(path):
+    n = len(path.read_text().splitlines())
+    assert n <= MAX_LINES, f"{_label(path)} has {n} lines; split it by responsibility (limit {MAX_LINES})"
 
 
 @pytest.mark.parametrize("script", sorted((PKG.parent / "scripts").glob("*.py")), ids=lambda p: p.name)
@@ -121,8 +179,11 @@ def test_scripts_are_thin_shells(script):
 
 
 def test_rule_detects_a_violation(tmp_path):
-    """The checker itself works: a core-style file importing aip, fastapi
-    and an adapter is caught three times, including a lazy import."""
+    """The checker itself works: a market module importing review, another
+    feature's service, and (lazily) the training stack is caught."""
     f = tmp_path / "bad.py"
-    f.write_text("import aip\nfrom minifinrl.adapters.x import y\ndef g():\n    import fastapi\n")
-    assert len(_violations([f], ["minifinrl.core"], WEB | LLM)) == 3
+    f.write_text("from minifinrl.review.intake import merge\nfrom minifinrl.regime.service import RegimeService\n"
+                 "def g():\n    import torch\n")
+    assert len(_feature_violations("market", [f])) == 2
+    assert len(_feature_violations("research", [tmp_path / "bad.py"])) == 2  # review not allowed; a service import
+    assert "torch" in _imports(f)

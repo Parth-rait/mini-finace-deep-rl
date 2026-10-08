@@ -7,9 +7,9 @@ import json
 
 import pytest
 
-from minifinrl.adapters.rules_bias import RulesBiasClassifier
-from minifinrl.bias_eval import _prf, cohen_kappa, evaluate, load_labels
-from minifinrl.capabilities import CapabilityRegistry, CapabilityUnavailable
+from minifinrl.sentiment.rules import RulesBiasClassifier
+from minifinrl.sentiment.evaluation import _prf, cohen_kappa, evaluate, load_labels
+from minifinrl.platform.capabilities import CapabilityRegistry, CapabilityUnavailable
 
 
 def test_kappa_known_values():
@@ -58,7 +58,7 @@ def test_bad_files_fail_loudly(tmp_path):
 
 
 def test_template_file_is_valid():
-    from minifinrl.core.configs.settings import ROOT
+    from minifinrl.platform.settings import ROOT
 
     rows = load_labels(ROOT / "corpus" / "bias_labels.template.jsonl")
     assert len(rows) == 3 and all("example" in r["source"] for r in rows)

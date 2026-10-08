@@ -6,9 +6,9 @@ import json
 
 import pytest
 
-import minifinrl.core.meta.market_data as md
-from minifinrl.core.meta import providers
-from minifinrl.core.meta.validate import DataValidationError
+import minifinrl.market.dataset as md
+from minifinrl.market import providers
+from minifinrl.market.validate import DataValidationError
 from tests.conftest import FakePriceProvider, FakeSeriesProvider
 
 

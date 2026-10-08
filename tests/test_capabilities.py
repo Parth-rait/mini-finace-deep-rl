@@ -5,7 +5,7 @@ from __future__ import annotations
 import pytest
 from pydantic import BaseModel, ValidationError
 
-from minifinrl.capabilities import (
+from minifinrl.platform.capabilities import (
     CapabilityError,
     CapabilityForbidden,
     CapabilityNotFound,
@@ -14,8 +14,8 @@ from minifinrl.capabilities import (
     capability,
     error_kind,
 )
-from minifinrl.core.meta.providers import ProviderError
-from minifinrl.ports import BudgetExhausted
+from minifinrl.market.providers import ProviderError
+from minifinrl.platform.errors import BudgetExhausted
 
 
 class In(BaseModel):

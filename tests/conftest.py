@@ -12,7 +12,7 @@ import pytest
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
-from minifinrl.core.meta.providers import PROVIDER_COLUMNS  # noqa: E402
+from minifinrl.market.providers import PROVIDER_COLUMNS  # noqa: E402
 
 
 class FakePriceProvider:
@@ -65,7 +65,7 @@ class FakeSeriesProvider:
 
 def make_panel(tickers=("AAA", "BBB", "CCC"), start="2024-01-01", end="2024-07-01") -> pd.DataFrame:
     """A clean tidy panel that passes every validation rule."""
-    from minifinrl.core.meta.store import adjust
+    from minifinrl.market.store import adjust
 
     p = FakePriceProvider()
     frames = []
@@ -197,11 +197,11 @@ File Creation Time: 1007202600:00|||||||
 @pytest.fixture
 def rw_engine(monkeypatch, tmp_path):
     """An Engine wired entirely to tmp_path and random-walk providers."""
-    from minifinrl.core import pipeline
-    from minifinrl.core.meta import providers
-    from minifinrl.core.meta.panel import DataSpec
+    from minifinrl.research import pipeline
+    from minifinrl.market import providers
+    from minifinrl.market.panel import DataSpec
     from minifinrl.engine import Engine, EngineConfig
-    from minifinrl.adapters.rules_bias import RulesBiasClassifier
+    from minifinrl.sentiment.rules import RulesBiasClassifier
 
     monkeypatch.setitem(providers.PRICE_PROVIDERS, "rw", RandomWalkProvider)
     monkeypatch.setitem(providers.VIX_PROVIDERS, "rwvix", RandomWalkVix)

@@ -6,7 +6,7 @@ import json
 
 import pytest
 
-from minifinrl.core.meta.providers import FredSeriesProvider, ProviderError, with_retries
+from minifinrl.market.providers import FredSeriesProvider, ProviderError, with_retries
 
 CSV = "observation_date,VIXCLS\n2026-06-24,18.63\n2026-06-25,.\n2026-06-26,18.41\n2026-06-29,17.65\n2026-06-30,16.45\n"
 

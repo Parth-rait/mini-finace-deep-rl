@@ -7,9 +7,9 @@ import numpy as np
 import pandas as pd
 import pytest
 
-from minifinrl.core.configs.settings import INDICATORS, TURBULENCE_LOOKBACK
-from minifinrl.core.meta.features import fill_indicators, train_test_split
-from minifinrl.core.meta.panel import compute_features, features_with_history
+from minifinrl.market.settings import INDICATORS, TURBULENCE_LOOKBACK
+from minifinrl.market.indicators import fill_indicators, train_test_split
+from minifinrl.market.panel import compute_features, features_with_history
 from tests.conftest import random_walk_panel
 
 FEATURES = INDICATORS + ["turbulence"]
@@ -65,7 +65,7 @@ def test_window_alone_would_have_zeros(raw):
 
 
 def test_synthetic_path_warmed_up_on_history(raw):
-    from minifinrl.core.meta.synthetic import to_tidy_panel
+    from minifinrl.regime.model import to_tidy_panel
 
     hist_last = raw["date"].max()
     closes = raw.pivot(index="date", columns="tic", values="close")
@@ -79,7 +79,7 @@ def test_synthetic_path_warmed_up_on_history(raw):
 
 
 def test_synthetic_path_overlapping_history_is_rejected(raw):
-    from minifinrl.core.meta.synthetic import to_tidy_panel
+    from minifinrl.regime.model import to_tidy_panel
 
     path = pd.DataFrame({t: [100.0] * 10 for t in ("AAA", "BBB", "CCC")})
     with pytest.raises(ValueError, match="not before the path start"):

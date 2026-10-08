@@ -7,19 +7,19 @@ import numpy as np
 import pandas as pd
 import pytest
 
-from minifinrl.core.agents.classical import (
+from minifinrl.research.agents.classical import (
     REBALANCE_EVERY,
     RebalancingBaseline,
     min_variance_weights,
     risk_contributions,
     risk_parity_weights,
 )
-from minifinrl.core.configs.settings import INDICATORS
-from minifinrl.core.envs.portfolio_allocation import PortfolioAllocationEnv
-from minifinrl.core.eval.metrics import sharpe_ratio, summarize
-from minifinrl.core.meta.features import to_array
-from minifinrl.core.meta.panel import compute_features
-from minifinrl.core.pipeline import risk_free_daily
+from minifinrl.market.settings import INDICATORS
+from minifinrl.research.envs.portfolio_allocation import PortfolioAllocationEnv
+from minifinrl.research.evaluation.metrics import sharpe_ratio, summarize
+from minifinrl.market.indicators import to_array
+from minifinrl.market.panel import compute_features
+from minifinrl.research.pipeline import risk_free_daily
 from tests.conftest import random_walk_panel
 
 # ---- optimisers ----------------------------------------------------------------------

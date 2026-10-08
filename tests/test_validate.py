@@ -5,7 +5,7 @@ from __future__ import annotations
 
 import pytest
 
-from minifinrl.core.meta.validate import DataValidationError, validate_panel, validate_series
+from minifinrl.market.validate import DataValidationError, validate_panel, validate_series
 from tests.conftest import make_panel
 
 TICKERS = ["AAA", "BBB", "CCC"]

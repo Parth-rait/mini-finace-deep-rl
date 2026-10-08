@@ -5,8 +5,8 @@ from __future__ import annotations
 
 import pytest
 
-from minifinrl.capabilities import CapabilityForbidden, CapabilityRegistry, CapabilityUnavailable
-from minifinrl.core.eval.report import wilson
+from minifinrl.platform.capabilities import CapabilityForbidden, CapabilityRegistry, CapabilityUnavailable
+from minifinrl.research.evaluation.report import wilson
 from minifinrl.engine import Engine, EngineConfig
 
 

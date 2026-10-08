@@ -5,14 +5,15 @@ from __future__ import annotations
 import numpy as np
 import pytest
 
-from minifinrl.core.agents.baseline import BuyAndHoldAgent
-from minifinrl.core.configs.settings import INDICATORS, TRANSACTION_COST_PCT
-from minifinrl.core.envs.portfolio_allocation import PortfolioAllocationEnv
-from minifinrl.core.envs.scaling import rule_for, scale_features
-from minifinrl.core.envs.stock_trading import StockTradingEnv
-from minifinrl.core.eval.backtest import backtest
-from minifinrl.core.meta.features import to_array
-from minifinrl.core.meta.panel import compute_features
+from minifinrl.research.agents.baseline import BuyAndHoldAgent
+from minifinrl.market.settings import INDICATORS
+from minifinrl.research.settings import TRANSACTION_COST_PCT
+from minifinrl.research.envs.portfolio_allocation import PortfolioAllocationEnv
+from minifinrl.research.envs.scaling import rule_for, scale_features
+from minifinrl.research.envs.stock_trading import StockTradingEnv
+from minifinrl.research.evaluation.backtest import backtest
+from minifinrl.market.indicators import to_array
+from minifinrl.market.panel import compute_features
 from tests.conftest import random_walk_panel
 
 
@@ -149,8 +150,8 @@ def test_action_stats_flag_a_constant_policy(arrays):
 
 
 def test_fully_invested_baseline_invests_equal_dollars(arrays):
-    from minifinrl.core.agents.baseline import FullyInvestedBuyAndHoldAgent
-    from minifinrl.core.eval.backtest import run_episode_with_actions
+    from minifinrl.research.agents.baseline import FullyInvestedBuyAndHoldAgent
+    from minifinrl.research.evaluation.backtest import run_episode_with_actions
 
     prices, features, tickers = arrays
     env = StockTradingEnv(prices=prices, features=features, tickers=tickers)

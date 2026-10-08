@@ -8,7 +8,7 @@ Command line, generated from the capability registry.
 
 Every capability the CLI may run (read, compute, llm, batch) is a
 subcommand; its flags come from the capability's input model, so a new
-Engine method is on the command line with no code here. Output is JSON,
+service method is on the command line with no code here. Output is JSON,
 except where a renderer below reproduces a script's classic printout.
 
 Exit codes: 0 ok · 1 ran, but the result reports ok=false (e.g. data failed
@@ -29,7 +29,7 @@ from typing import Any, Callable, Literal
 import pandas as pd
 from pydantic import BaseModel
 
-from minifinrl.capabilities import error_kind
+from minifinrl.platform.capabilities import error_kind
 from minifinrl.system import BIAS_BACKENDS, PROFILES, build_system
 
 EXIT = {"bad_input": 64, "not_found": 66, "unavailable": 2, "budget": 75, "forbidden": 77}
@@ -118,7 +118,7 @@ def _parser(registry) -> argparse.ArgumentParser:
     p = _Parser(prog="minifinrl", description="mini-FinRL capabilities")
     p.add_argument("--profile", choices=sorted(PROFILES), default="research")
     p.add_argument("--json", action="store_true", help="always print JSON, even where a renderer exists")
-    p.add_argument("--universe", default=None, help="ticker universe from configs/tickers.UNIVERSES")
+    p.add_argument("--universe", default=None, help="ticker universe from market/universe.UNIVERSES")
     p.add_argument("--workspace", default=None, help="experiment id: isolate models/paths/results under results/experiments/<id>/")
     p.add_argument("--bias", choices=sorted(BIAS_BACKENDS), default=None, help="bias classifier: rules (default) or aip (LLM)")
     sub = p.add_subparsers(dest="capability", required=True, metavar="CAPABILITY")
