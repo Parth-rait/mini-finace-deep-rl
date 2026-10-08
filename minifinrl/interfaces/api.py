@@ -119,6 +119,10 @@ def create_app(system: System | None = None) -> FastAPI:
             _request_id.reset(token)
         response.headers["X-Request-Id"] = rid
         response.headers["X-Duration-Ms"] = f"{(time.perf_counter() - t0) * 1000:.0f}"
+        if request.url.path == "/" or request.url.path.startswith("/static/"):
+            # browsers may keep the page, but must check it is current (a cheap 304 when it is),
+            # so an updated site is never mixed with stale scripts
+            response.headers["Cache-Control"] = "no-cache"
         return response
 
     routes = []
