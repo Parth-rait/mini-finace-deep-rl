@@ -6,7 +6,7 @@
 # (= editable install of this package, pinned by requirements.lock).
 #
 # Installed copies keep data/ and results/ under $MINIFINRL_HOME (see
-# minifinrl/core/configs/settings.py), never inside site-packages.
+# minifinrl/platform/settings.py), never inside site-packages.
 
 [build-system]
 requires = ["setuptools>=68"]
@@ -30,7 +30,7 @@ dependencies = [
     "stable-baselines3>=2.4,<3",
     "hmmlearn>=0.3.2,<0.4",
     "torch>=2.2",
-    "pydantic>=2.9,<3",   # capability input/output schemas (minifinrl/capabilities.py)
+    "pydantic>=2.9,<3",   # capability input/output schemas (each feature's schemas.py)
 ]
 
 [project.optional-dependencies]

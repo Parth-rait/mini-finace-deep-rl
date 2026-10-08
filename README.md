@@ -13,22 +13,24 @@ trained and tested on?
 ## Layers
 
 ```
-minifinrl/core/            the finance core (no LLM, no web)
-  configs/  tickers + all tunables (paths, dates, hyperparameters)
-  meta/     data (providers, incremental store, validation, provenance),
-            features, synthetic generation
-  envs/     gymnasium environments (one per application) + observation scaling
-  agents/   SB3 wrapper + non-RL baselines
-  eval/     metrics, backtest runner, multi-seed aggregation
-minifinrl/engine.py        the one facade: every capability is a typed method
-minifinrl/capabilities.py  registry that generates the CLI (and next the API, agent tools)
-minifinrl/ports.py         what the engine needs from outside (bias classifier)
-minifinrl/adapters/        port implementations; the only code allowed to import aip
-minifinrl/system.py        composition root: build_system(profile) wires everything
-minifinrl/interfaces/      CLI (API and agent next)
+minifinrl/
+  market/      prices, validated incremental cache, symbol directory, trading calendar
+  regime/      market regime model (HMM) and the luck test
+  research/    deep-RL envs, agents, backtests, walk-forward, experiment log (the only torch user)
+  sentiment/   bias signals in trading text, and their evaluation
+  review/      the trade review behind the website
+  orders/      declared and always refused (paper analysis only)
+  platform/    settings, logging, errors, the capability registry
+  engine.py    builds one service per feature
+  system.py    composition root: build_system(profile) picks rules or LLM adapters
+  interfaces/  CLI, HTTP API, website
 scripts/    thin shells over the CLI, kept for muscle memory
 tests/      offline test suite (pytest), incl. tests/test_architecture.py
 ```
+
+Every feature has the same shape (a service with its capabilities, its schemas,
+its settings) and features depend on each other in one direction only. See
+[ARCHITECTURE.md](ARCHITECTURE.md) for the rules and for how to add a capability or a feature.
 
 Each layer only imports from layers above it in this list (`envs` imports
 `meta`, never the reverse). That's what keeps a change to, say, the data
@@ -46,7 +48,7 @@ python scripts/02_fit_hmm.py
 python scripts/03_train.py --app trading --model ppo --seed 0
 python scripts/03_train.py --app trading --model sac --seed 0
 # repeat 03_train.py across --app {trading,portfolio}, --model {ppo,sac},
-# --seed {0,1,2} (see minifinrl/core/configs/settings.py APPS/MODELS/SEEDS) for the full grid
+# --seed {0,1,2} (see minifinrl/research/settings.py APPS/MODELS/SEEDS) for the full grid
 python scripts/04_backtest.py --paths both
 python scripts/05_report.py
 ```
@@ -128,7 +130,7 @@ between two human labellers when a second set of labels is present.
 
 ## Logging
 
-Every module logs through `minifinrl/core/configs/logging_config.py` (`get_logger(__name__)`)
+Every module logs through `minifinrl/platform/log.py` (`get_logger(__name__)`)
 rather than `print()`. Output goes to both the console (INFO+) and a
 rotating file at `results/logs/mini_finrl.log` (DEBUG+, 5 x 5MB, so a long
 sweep doesn't grow the file unbounded). Cache hits/misses, HMM convergence
@@ -140,15 +142,15 @@ printed directly (they're the deliverable, not a log event).
 
 ## Extending
 
-- **New algorithm**: add one entry to `_ALGOS` in `minifinrl/core/agents/sb3_wrapper.py`.
-- **New application**: add a `gym.Env` in `minifinrl/core/envs/`, register it in the
-  `ENVS` dict in `scripts/03_train.py` and `scripts/04_backtest.py`, add its
-  name to `APPS` in `minifinrl/core/configs/settings.py`.
-- **New ticker universe**: add a list to `minifinrl/core/configs/tickers.py`, point
-  `TICKERS` at it in `minifinrl/core/configs/settings.py`.
+- **New algorithm**: add one entry to `_ALGOS` in `minifinrl/research/agents/sb3_wrapper.py`.
+- **New application**: add a `gym.Env` in `minifinrl/research/envs/`, register it in the
+  `ENVS` dict in `minifinrl/research/pipeline.py`, add its name to `APPS` in
+  `minifinrl/research/settings.py`.
+- **New ticker universe**: add a list to `minifinrl/market/universe.py`, point
+  `TICKERS` at it in `minifinrl/market/settings.py`.
 - **New indicator**: add its stockstats name to `INDICATORS` in
-  `minifinrl/core/configs/settings.py`; `minifinrl/core/meta/features.py` picks it up automatically.
-  It also needs a scaling rule in `minifinrl/core/envs/scaling.py` (an unknown name raises).
+  `minifinrl/market/settings.py`; `minifinrl/market/indicators.py` picks it up automatically.
+  It also needs a scaling rule in `minifinrl/research/envs/scaling.py` (an unknown name raises).
 
 ## Results
 
@@ -238,11 +240,11 @@ See [CITATION.md](CITATION.md).
 ## Limitations
 
 - Daily bars only; no slippage or market-impact model; no short selling.
-- The Gaussian HMM in `minifinrl/core/meta/synthetic.py` is a single-factor (market + VIX)
+- The Gaussian HMM in `minifinrl/regime/model.py` is a single-factor (market + VIX)
   regime model, not a full multivariate fit across tickers. It understates
   tail risk and cross-asset correlation breakdown during real crises.
 - Synthetic OHLC collapses open/high/low to the synthetic close and volume
-  to 0 (`minifinrl/core/meta/synthetic.to_tidy_panel`). That's fine for computing technical
+  to 0 (`minifinrl/regime/model.to_tidy_panel`). That's fine for computing technical
   indicators, not a realistic intraday model.
 - Cash in the environments earns nothing, while Sharpe is measured over the T-bill rate.
   This is conservative for any strategy that holds cash (the trading agents hold 3-24%).
