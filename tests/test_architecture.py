@@ -34,6 +34,7 @@ FEATURES = {
     "research": {"market", "regime"},
     "sentiment": set(),
     "review": {"market", "regime"},
+    "journal": {"review"},
     "orders": set(),
 }
 

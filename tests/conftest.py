@@ -215,5 +215,6 @@ def rw_engine(monkeypatch, tmp_path):
     (sym / "nasdaqlisted.txt").write_text(SYMBOLS_NASDAQ)
     (sym / "otherlisted.txt").write_text(SYMBOLS_OTHER)
     cfg = EngineConfig(profile="test", spec=spec, paths=paths, manifest_dir=tmp_path / "manifests", today="2027-01-01",
-                       experiment_dir=tmp_path / "experiments", experiments_md=tmp_path / "EXPERIMENTS.md", symbols_dir=sym)
+                       experiment_dir=tmp_path / "experiments", experiments_md=tmp_path / "EXPERIMENTS.md", symbols_dir=sym,
+                       database_url=f"sqlite:///{tmp_path / 'journal.db'}")
     return Engine(cfg, bias=RulesBiasClassifier())

@@ -2,7 +2,7 @@
 The Engine: builds one service per feature and hands them to the capability
 registry. It holds no feature logic itself, only the system-wide `health`.
 
-Each feature (market, regime, research, sentiment, review, orders) declares
+Each feature (market, regime, research, sentiment, review, journal, orders) declares
 its capabilities on its own service class, and the CLI, the API and the
 agent's tools are generated from those declarations. Adding a feature means
 adding its package and one line in `Engine.__init__`; nothing else changes.
@@ -20,6 +20,8 @@ from pathlib import Path
 import numpy as np
 
 import minifinrl
+from minifinrl.journal import settings as journal_settings
+from minifinrl.journal.service import JournalService
 from minifinrl.market import symbols
 from minifinrl.market.dataset import MANIFEST_DIR, latest_manifest
 from minifinrl.market.panel import DataSpec
@@ -48,6 +50,7 @@ class EngineConfig:
     experiments_md: Path = research_paths.EXPERIMENTS_MD
     today: str | None = None  # pinned in tests/ci; None = real market date
     symbols_dir: Path = symbols.CACHE
+    database_url: str = journal_settings.DATABASE_URL  # the trade journal (SQLite file unless set)
 
 
 class Engine:
@@ -61,8 +64,10 @@ class Engine:
         self.sentiment = SentimentService(cfg, bias, bias_fallback)
         self.review = ReviewService(cfg, self.market, self.regime, self.sentiment, parser=parser,
                                     parser_fallback=parser_fallback, explainer=explainer)
+        self.journal = JournalService(cfg, self.review)
         self.orders = OrdersService()
-        self.services = (self.market, self.regime, self.research, self.sentiment, self.review, self.orders)
+        self.services = (self.market, self.regime, self.research, self.sentiment, self.review, self.journal,
+                         self.orders)
 
     # what is plugged in, for health checks and tests
     @property

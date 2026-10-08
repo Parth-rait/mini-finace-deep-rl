@@ -17,6 +17,7 @@ minifinrl/
   research/     deep-RL environments, agents, backtests, walk-forward, experiment log
   sentiment/    bias signals in trading text, and their evaluation
   review/       the trade review
+  journal/      private journal IDs and the trades logged under them (SQLite or Postgres)
   orders/       declared and always refused (paper analysis only)
   engine.py     builds one service per feature; the system-wide health check
   system.py     composition root: picks adapters (rules or LLM) from the profile
@@ -45,7 +46,7 @@ the registry, the API or a model.
 ```
 platform  <-  market  <-  regime  <-  research
 platform  <-  sentiment
-platform  <-  market, regime  <-  review
+platform  <-  market, regime  <-  review  <-  journal
 platform  <-  orders
 features  <-  engine.py  <-  system.py  <-  interfaces/
 ```

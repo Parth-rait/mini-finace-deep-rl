@@ -34,17 +34,19 @@ dependencies = [
 ]
 
 [project.optional-dependencies]
-service = ["fastapi>=0.115", "uvicorn>=0.32"]
-# the aip toolkit, imported only by minifinrl/adapters (PLAN_SHIPPABLE.md 1.6).
+service = ["fastapi>=0.115", "uvicorn>=0.32", "sqlalchemy>=2.0,<3"]  # sqlalchemy: the trade journal
+# Postgres driver for the journal when MINIFINRL_DATABASE_URL points at Postgres (e.g. Neon)
+postgres = ["psycopg[binary]>=3.2"]
+# the aip toolkit, imported only by the features' adapters/ packages.
 # Needs the aip-v1.0.0 tag to exist in lab1_ai_in_prac.
 llm = ["aip @ git+https://github.com/Parth-rait/lab1_ai_in_prac.git@aip-v1.0.0"]
-dev = ["pytest>=8.3", "fastapi>=0.115", "uvicorn>=0.32", "httpx2>=2.13"]  # tests cover the API too
+dev = ["pytest>=8.3", "fastapi>=0.115", "uvicorn>=0.32", "httpx2>=2.13", "sqlalchemy>=2.0,<3"]  # tests cover the API too
 
 [tool.setuptools.packages.find]
 include = ["minifinrl*"]
 
 [tool.setuptools.package-data]
-"minifinrl.interfaces" = ["web/*"]  # the website ships with the package
+"minifinrl.interfaces" = ["web/*", "web/js/*"]  # the website ships with the package
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
