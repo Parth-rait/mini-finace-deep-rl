@@ -102,3 +102,13 @@ class CrosscheckOut(BaseModel):
     agrees: bool
     tickers: list[TickerAgreement]
     rule: str = "p99 |r_ref - r_cand| <= 10 bps on overlapping days, and < 1% of reference days missing"
+
+
+class QuoteIn(Input):
+    ticker: str = Field(min_length=1, max_length=12)
+
+
+class QuoteOut(BaseModel):
+    ticker: str
+    last_close: float
+    as_of: str

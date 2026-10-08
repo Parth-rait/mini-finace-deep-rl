@@ -2,7 +2,7 @@
 The Engine: builds one service per feature and hands them to the capability
 registry. It holds no feature logic itself, only the system-wide `health`.
 
-Each feature (market, regime, research, sentiment, review, journal, orders) declares
+Each feature (market, regime, research, sentiment, review, plan, journal, orders) declares
 its capabilities on its own service class, and the CLI, the API and the
 agent's tools are generated from those declarations. Adding a feature means
 adding its package and one line in `Engine.__init__`; nothing else changes.
@@ -27,6 +27,7 @@ from minifinrl.market.dataset import MANIFEST_DIR, latest_manifest
 from minifinrl.market.panel import DataSpec
 from minifinrl.market.service import MarketService
 from minifinrl.orders.service import OrdersService
+from minifinrl.plan.service import PlanService
 from minifinrl.platform.capabilities import CapabilityRegistry, capability
 from minifinrl.platform.schemas import Empty, Health
 from minifinrl.regime.service import RegimeService
@@ -65,9 +66,10 @@ class Engine:
         self.sentiment = SentimentService(cfg, bias, bias_fallback, state_reader, state_fallback)
         self.review = ReviewService(cfg, self.market, self.regime, self.sentiment, parser=parser,
                                     parser_fallback=parser_fallback, explainer=explainer)
-        self.journal = JournalService(cfg, self.review)
+        self.plan = PlanService(cfg, self.market, self.regime, self.sentiment, self.review)
+        self.journal = JournalService(cfg, self.review, self.plan)
         self.orders = OrdersService()
-        self.services = (self.market, self.regime, self.research, self.sentiment, self.review, self.journal,
+        self.services = (self.market, self.regime, self.research, self.sentiment, self.review, self.plan, self.journal,
                          self.orders)
 
     # what is plugged in, for health checks and tests

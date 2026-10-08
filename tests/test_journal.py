@@ -171,3 +171,50 @@ def test_agents_get_no_write_tools(reg):
     """An AI agent may read and analyse, but never change someone's journal."""
     tools = set(reg.callables("agent"))
     assert "list_trades" in tools and not tools & {"create_profile", "log_trade", "delete_trade", "delete_profile"}
+
+
+def test_state_at_the_time_is_kept(reg):
+    pid = new(reg)
+    t = log(reg, pid, sell_date="2020-03-16", reasoning="everyone is buying, easy money, have to get in now")
+    first = reg.invoke("review_logged_trade", {"profile_id": pid, "trade_id": t.id}).trade.state
+    assert first and first["level"] in ("warm", "hot") and {"herd", "greed", "urgency"} <= {s["kind"] for s in first["signals"]}
+    again = reg.invoke("review_logged_trade", {"profile_id": pid, "trade_id": t.id}).trade.state
+    assert again == first  # reviewing again never rewrites how the trade was made
+
+
+def test_old_journal_is_upgraded_in_place(tmp_path):
+    """A journal.db made before plans existed gains the new columns and keeps its trades."""
+    import sqlite3
+
+    from minifinrl.journal.store import JournalStore
+
+    db = tmp_path / "old.db"
+    con = sqlite3.connect(db)
+    con.executescript("""
+        CREATE TABLE profiles (id VARCHAR(24) PRIMARY KEY, created_at VARCHAR(32) NOT NULL);
+        CREATE TABLE trades (id VARCHAR(32) PRIMARY KEY, profile_id VARCHAR(24) NOT NULL, created_at VARCHAR(32) NOT NULL,
+            updated_at VARCHAR(32) NOT NULL, status VARCHAR(16) NOT NULL, ticker VARCHAR(16) NOT NULL, name VARCHAR(200),
+            direction VARCHAR(8) NOT NULL, buy_date VARCHAR(10), sell_date VARCHAR(10), price_paid FLOAT, price_sold FLOAT,
+            quantity FLOAT, reasoning TEXT, state JSON, result JSON);
+        INSERT INTO profiles VALUES ('TR-AAAA-BBBB-CCCC-DDDD', '2026-10-01');
+        INSERT INTO trades (id, profile_id, created_at, updated_at, status, ticker, direction, buy_date)
+            VALUES ('t1', 'TR-AAAA-BBBB-CCCC-DDDD', '2026-10-01', '2026-10-01', 'open', 'AAPL', 'long', '2026-09-01');
+    """)
+    con.commit(); con.close()
+    store = JournalStore(f"sqlite:///{db}")
+    [t] = store.trades("TR-AAAA-BBBB-CCCC-DDDD")
+    assert t["ticker"] == "AAPL" and t["plan_stop"] is None and "plan" in t
+    assert store.set_account_size("TR-AAAA-BBBB-CCCC-DDDD", 5000)["account_size"] == 5000
+
+
+def test_insights(reg):
+    pid = new(reg)
+    out = reg.invoke("journal_insights", {"profile_id": pid})
+    assert out.closed == 0 and "Not enough closed trades" in out.headlines[0]
+    for sell in ("2020-03-16", "2020-04-15", "2020-05-15"):
+        t = log(reg, pid, sell_date=sell, reasoning="everyone is buying, easy money, get in now")
+        reg.invoke("review_logged_trade", {"profile_id": pid, "trade_id": t.id})
+    out = reg.invoke("journal_insights", {"profile_id": pid})
+    assert out.closed == 3 and out.by_plan[-1].key == "no_plan" and out.by_plan[-1].trades == 3
+    hot = next(g for g in out.by_state if g.key in ("hot", "warm") and g.trades)
+    assert hot.trades == 3 and hot.avg_return is not None

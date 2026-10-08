@@ -17,13 +17,15 @@ from minifinrl.market.schemas import (
     CrosscheckOut,
     FetchIn,
     FetchOut,
+    QuoteIn,
+    QuoteOut,
     Snapshot,
     SnapshotIn,
     TickerAgreement,
 )
 from minifinrl.market.settings import TRAIN_START
 from minifinrl.market.store import PriceStore, SeriesStore, market_today
-from minifinrl.platform.capabilities import CapabilityUnavailable, capability
+from minifinrl.platform.capabilities import CapabilityNotFound, CapabilityUnavailable, capability
 from minifinrl.platform.log import get_logger
 
 log = get_logger(__name__)
@@ -93,6 +95,20 @@ class MarketService:
         keep = sorted(panel["date"].unique())[-req.days:]
         panel = panel[panel["date"].isin(keep)]
         return Snapshot(as_of=keep[-1], bars=[Bar(**r) for r in panel.to_dict("records")])
+
+    @capability("last_close", QuoteIn, QuoteOut, effect="compute", budget_ms=5000)
+    def last_close(self, req: QuoteIn) -> QuoteOut:
+        """A stock's latest daily close, from the price cache (fetched if needed)."""
+        sym = symbols.yahoo_symbol(req.ticker)
+        sym = symbols.RENAMED.get(sym, sym)
+        try:
+            px = self.closes([sym], self.today())
+        except ProviderError:  # an unknown symbol and a busy source both come back empty
+            px = pd.DataFrame()
+        if sym not in px.columns or px[sym].dropna().empty:
+            raise CapabilityNotFound(f"No price history found for '{sym}'. Check the symbol, or try again if the data source is busy.")
+        s_ = px[sym].dropna()
+        return QuoteOut(ticker=sym, last_close=float(s_.iloc[-1]), as_of=str(s_.index[-1]))
 
     # ---- batch (CLI only) -------------------------------------------------------------
 

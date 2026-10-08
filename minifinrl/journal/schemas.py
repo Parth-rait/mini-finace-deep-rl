@@ -7,6 +7,7 @@ from typing import Literal
 from pydantic import BaseModel, Field, field_validator, model_validator
 
 from minifinrl.journal import ids
+from minifinrl.plan.schemas import PlanIn, PlanOut
 from minifinrl.platform.schemas import ISO_DATE, Input
 from minifinrl.review.schemas import ReviewOut
 
@@ -27,6 +28,11 @@ class ProfileOut(BaseModel):
     id: str
     created_at: str
     trades: int = 0
+    account_size: float | None = None
+
+
+class AccountIn(ProfileIn):
+    account_size: float | None = Field(default=None, gt=0, description="your trading account; empty to forget it")
 
 
 class TradeIn(ProfileIn):
@@ -70,7 +76,13 @@ class TradeRecord(BaseModel):
     quantity: float | None
     reasoning: str | None
     state: dict | None = Field(description="what was read from the reasoning when the trade was logged")
-    result: dict | None = Field(description="the latest review: return, luck percentile, verdict, market")
+    result: dict | None = Field(description="the latest review: return, luck percentile, verdict, market, and how it compares with the plan")
+    plan_entry: float | None = None
+    plan_stop: float | None = None
+    plan_target: float | None = None
+    plan_amount: float | None = None
+    plan_horizon: int | None = None
+    plan: dict | None = Field(default=None, description="the plan check when the plan was saved: risk, odds, range, nudges")
     created_at: str
     updated_at: str
 
@@ -103,3 +115,37 @@ class ReviewedTrade(BaseModel):
 
 class DeletedOut(BaseModel):
     deleted: int = Field(description="how many trades were deleted")
+
+
+class PlanSaveIn(ProfileIn, PlanIn):
+    """A plan to check and keep in the journal."""
+
+    name: str | None = Field(default=None, max_length=200, description="the listing's name, for display")
+
+
+class SavedPlan(BaseModel):
+    trade: TradeRecord
+    plan: PlanOut
+
+
+class StartPlanIn(TradeRef):
+    buy_date: str = Field(pattern=ISO_DATE, description="the day you made the trade")
+    price_paid: float | None = Field(default=None, gt=0)
+
+
+class Group(BaseModel):
+    key: str
+    label: str
+    trades: int
+    avg_return: float | None
+    win_rate: float | None
+
+
+class InsightsOut(BaseModel):
+    closed: int
+    avg_return: float | None
+    win_rate: float | None
+    by_plan: list[Group] = Field(description="closed trades by how they compared with their plan")
+    by_state: list[Group] = Field(description="closed trades by the state their reasoning was in when logged")
+    needs_attention: list[dict] = Field(description="open trades whose plan says it's time to act")
+    headlines: list[str]

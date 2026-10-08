@@ -18,6 +18,7 @@ from sqlalchemy import (
     Column,
     Float,
     ForeignKey,
+    Integer,
     MetaData,
     String,
     Table,
@@ -37,6 +38,7 @@ profiles = Table(
     "profiles", metadata,
     Column("id", String(24), primary_key=True),
     Column("created_at", String(32), nullable=False),
+    Column("account_size", Float),  # optional, to show plan risk as a share of the account
 )
 
 trades = Table(
@@ -57,9 +59,30 @@ trades = Table(
     Column("reasoning", Text),
     Column("state", JSON),  # what was read from the reasoning when the trade was logged
     Column("result", JSON),  # the latest review of the trade
+    # the plan, frozen when saved: what the trade is later checked against
+    Column("plan_entry", Float),
+    Column("plan_stop", Float),
+    Column("plan_target", Float),
+    Column("plan_amount", Float),
+    Column("plan_horizon", Integer),
+    Column("plan", JSON),  # the plan check: risk, odds, range and nudges at the time
 )
 
 TRADE_FIELDS = [c.name for c in trades.columns]
+
+
+def _add_missing_columns(engine: SqlEngine) -> None:
+    """Upgrade a journal made by an earlier version: add any column the tables
+    gained since (always nullable, so existing rows stay valid)."""
+    from sqlalchemy import inspect, text
+
+    insp = inspect(engine)
+    with engine.begin() as c:
+        for table in metadata.sorted_tables:
+            have = {col["name"] for col in insp.get_columns(table.name)}
+            for col in table.columns:
+                if col.name not in have:
+                    c.execute(text(f'ALTER TABLE {table.name} ADD COLUMN {col.name} {col.type.compile(dialect=engine.dialect)}'))
 
 
 def now() -> str:
@@ -89,6 +112,7 @@ class JournalStore:
                     def _fk_on(dbapi_conn, _):  # SQLite enforces ON DELETE CASCADE only when asked
                         dbapi_conn.execute("PRAGMA foreign_keys=ON")
                 metadata.create_all(self._engine)
+                _add_missing_columns(self._engine)
             return self._engine
 
     # ---- profiles -------------------------------------------------------------------------
@@ -103,6 +127,11 @@ class JournalStore:
         with self._db().connect() as c:
             r = c.execute(select(profiles).where(profiles.c.id == profile_id)).mappings().first()
         return dict(r) if r else None
+
+    def set_account_size(self, profile_id: str, account_size: float | None) -> dict | None:
+        with self._db().begin() as c:
+            c.execute(update(profiles).where(profiles.c.id == profile_id).values(account_size=account_size))
+        return self.profile(profile_id)
 
     def delete_profile(self, profile_id: str) -> int:
         """Deletes the profile and all its trades. Returns how many trades went."""
