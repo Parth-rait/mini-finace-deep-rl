@@ -5,7 +5,7 @@
 import { el, api, profile } from "./core.js";
 
 /** Draw the start panel into `host`. `done(id)` runs once a journal is open. */
-export function renderStart(host, done) {
+export function renderStart(host, done, { compact = false } = {}) {
   const msg = el("p", { class: "hint", "aria-live": "polite" });
   const idInput = el("input", { type: "text", id: "open-id", placeholder: "TR-XXXX-XXXX-XXXX-XXXX", maxlength: "40",
     spellcheck: "false", autocomplete: "off", "aria-label": "Your journal ID" });
@@ -32,31 +32,29 @@ export function renderStart(host, done) {
     }
   }
 
-  host.replaceChildren(el("div", { class: "start" },
+  host.replaceChildren(el("div", { class: compact ? "start compact" : "start" },
     el("section", { class: "start-card" },
-      el("span", { class: "start-no", "aria-hidden": "true", text: "1" }),
-      el("h2", { text: "New here?" }),
-      el("p", { text: "Start a journal. You get a private ID; every trade you log is kept under it. No email, no password." }),
-      el("button", { type: "button", class: "primary", text: "Start a new journal", onclick: (e) => create(e.currentTarget) })),
+      el("h3", { text: "New here?" }),
+      el("p", { text: "Start a journal. You get a private ID, and every plan and trade you save is kept under it. No email, no password." }),
+      el("button", { type: "button", class: "btn", text: "Start a new journal", onclick: (e) => create(e.currentTarget) })),
     el("form", { class: "start-card", onsubmit: open },
-      el("span", { class: "start-no", "aria-hidden": "true", text: "2" }),
-      el("h2", { text: "Have an ID?" }),
-      el("p", { text: "Open your journal on this device with the ID you saved." }),
+      el("h3", { text: "Have an ID?" }),
+      el("p", { text: "Open your journal on this device." }),
       idInput,
-      el("button", { type: "submit", class: "secondary", text: "Open my journal" })),
+      el("button", { type: "submit", class: "btn outline", text: "Open my journal" })),
     msg));
 }
 
 function showNewId(host, id, done) {
-  const copyBtn = el("button", { type: "button", class: "secondary", text: "Copy ID", onclick: async () => {
+  const copyBtn = el("button", { type: "button", class: "btn outline small", text: "Copy ID", onclick: async () => {
     try { await navigator.clipboard.writeText(id); copyBtn.textContent = "Copied"; } catch { copyBtn.textContent = "Select and copy it"; }
   } });
   const ok = el("input", { type: "checkbox", id: "saved-id" });
-  const go = el("button", { type: "button", class: "primary", text: "Continue", disabled: true,
+  const go = el("button", { type: "button", class: "btn", text: "Continue", disabled: true,
     onclick: () => { profile.set(id); done(id); } });
   ok.addEventListener("change", () => { go.disabled = !ok.checked; });
   host.replaceChildren(el("section", { class: "start-card new-id" },
-    el("h2", { text: "Your journal ID" }),
+    el("h3", { text: "Your journal ID" }),
     el("p", { class: "id-big", text: id }),
     el("p", { text: "This ID is the only key to your journal. Anyone who has it can see your trades, and if you lose it the journal can't be recovered. Save it somewhere private, like a password manager or a note." }),
     el("div", { class: "row" }, copyBtn),

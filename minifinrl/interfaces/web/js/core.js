@@ -74,3 +74,13 @@ export function confirmInline(host, question, yesLabel, onYes) {
   host.append(box);
   box.querySelector(".ghost").focus();
 }
+
+export const STATE_KINDS = {
+  fear: "Fear", greed: "Greed", regret: "Regret", frustration: "Frustration",
+  certainty: "Certainty", urgency: "Urgency", herd: "Herd talk",
+};
+export const LEVELS = {
+  calm: ["Calm", "No strong emotion or pressure in the wording."],
+  warm: ["Warm", "Some signs of emotion or pressure in the wording."],
+  hot: ["Hot", "Strong emotion or pressure in the wording. A good moment to slow down before acting."],
+};

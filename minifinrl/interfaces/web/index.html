@@ -4,198 +4,267 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Trade Review</title>
-<meta name="description" content="Keep a journal of your trades. See whether each outcome was luck, which biases show in your reasoning, and how the market did.">
+<meta name="description" content="Check your state before a trade, see what was luck after it, and keep it all in one private journal.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rozha+One&family=Mukta:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@600;700;800&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
 <link rel="stylesheet" href="/static/style.css">
 <script src="https://cdn.jsdelivr.net/npm/plotly.js-gl3d-dist-min@2.35.2/plotly-gl3d.min.js" defer></script>
 <script type="module" src="/static/js/main.js"></script>
 </head>
 <body>
-<div class="jaali-band" aria-hidden="true"></div>
-<header class="top">
-  <a class="brand" href="#start" data-go="start">
-    <span class="brand-mark" aria-hidden="true">
-      <svg viewBox="0 0 32 36" width="28" height="32"><path d="M2 35V16C2 7.7 8.3 2 16 2s14 5.7 14 14v19z" fill="none" stroke="currentColor" stroke-width="2.4"/><path d="M9 35V18c0-4 3.1-7 7-7s7 3 7 7v17" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>
-    </span>
-    <span>
-      <span class="brand-name">Trade Review</span>
-      <span class="brand-sub">a calmer look at your trades</span>
-    </span>
-  </a>
-  <nav aria-label="Pages">
-    <button class="tab" data-view="about">About</button>
-    <button class="tab" data-view="sentiment">Sentiment</button>
-    <button class="tab" data-view="trades">Trades</button>
-  </nav>
-  <div id="id-chip" class="id-chip"></div>
+<header class="nav">
+  <div class="nav-in">
+    <a class="logo" href="/" data-view="home">Trade Review<span class="dot">.</span></a>
+    <nav aria-label="Pages">
+      <a href="#plan" data-view="plan">Plan</a>
+      <a href="#review" data-view="review">Review</a>
+      <a href="#journal" data-view="journal">Journal</a>
+      <a href="#sentiment" data-view="sentiment">Sentiment</a>
+      <a href="#about" data-view="about">About</a>
+    </nav>
+    <div id="id-chip" class="id-chip"></div>
+  </div>
 </header>
 
 <main>
-  <!-- start: get or open a journal -->
-  <section id="view-start" class="view" hidden>
-    <div class="hero">
-      <h1>Was it skill, or the market's mood that week?</h1>
-      <p>Keep a journal of your trades. Each one is checked against a thousand paths the market could have taken, and your reasoning is read for the biases that push people to trade at the wrong moment.</p>
+  <!-- home -->
+  <section id="view-home" class="view">
+    <div class="hero wrap">
+      <p class="eyebrow">A calmer look at your trades</p>
+      <h1 class="display">Trade with a<br>clear head.</h1>
+      <p class="lead">Check the state you're in before a trade. See what was luck after it. Keep both in one private journal.</p>
+      <div class="actions">
+        <a class="btn arrow" href="#plan" data-view="plan">Plan a trade</a>
+        <a class="btn outline arrow" href="#review" data-view="review">Review a trade</a>
+      </div>
     </div>
-    <div id="start-panel"></div>
-    <div class="tiles">
-      <a class="tile" href="#about" data-go="about"><b>About</b><span>What this is for, the research behind it, and its limits.</span></a>
-      <a class="tile" href="#sentiment" data-go="sentiment"><b>Sentiment</b><span>Paste any trading text and see which biases show in it.</span></a>
-      <a class="tile" href="#trades" data-go="trades"><b>Trades</b><span>Log a trade, review it, and see your journal.</span></a>
+
+    <div class="wrap">
+      <div class="stats four">
+        <div class="stat"><b>1,000</b><span>market paths behind every check</span></div>
+        <div class="stat"><b>7</b><span>emotional signals read from your words</span></div>
+        <div class="stat"><b>89%</b><span>right on bullish vs bearish when it takes a side</span></div>
+        <div class="stat"><b>0 of 3</b><span>deep RL agents that reliably beat buy and hold</span></div>
+      </div>
+    </div>
+
+    <div class="wrap section">
+      <p class="eyebrow">How it works</p>
+      <h2 class="h2">Three steps, none of them advice.</h2>
+      <div class="steps3">
+        <article><span class="num">01</span><h3>Plan</h3><p>Set your entry, stop, target and time limit, and say why. See what you'd lose if wrong, how often normal luck hits your stop, and how charged your words are.</p></article>
+        <article><span class="num">02</span><h3>Trade</h3><p>On your own broker, in your own time. This site never places orders and never tells you to buy or sell.</p></article>
+        <article><span class="num">03</span><h3>Review</h3><p>See whether you followed your plan, whether the result was inside the normal range of luck, and which biases showed in your reasoning.</p></article>
+      </div>
+    </div>
+
+    <div class="wrap section">
+      <div class="panel" id="home-journal"></div>
     </div>
   </section>
 
-  <!-- about -->
-  <section id="view-about" class="view prose-wide" hidden>
-    <div class="hero">
-      <h1>Calmer decisions, one trade at a time</h1>
-      <p>Markets swing hardest when many people act on the same feeling at once: fear of missing out, panic, the need to win back a loss. This project helps one person at a time notice that state before and after a trade, using the evidence rather than hindsight.</p>
+  <!-- plan -->
+  <section id="view-plan" class="view" hidden>
+    <div class="wrap page-head">
+      <p class="eyebrow">Before a trade</p>
+      <h1 class="h1">Check your plan.</h1>
+      <p class="lead">Say what you're thinking of doing and why. You'll see the state your words are in, the range of outcomes you'd be signing up for, and what to watch.</p>
     </div>
-    <section class="card">
-      <h2>How a review works</h2>
-      <ol class="method">
-        <li><b>You pick the trade.</b> The stock comes from the daily list of every US-listed stock and ETF, the dates from a calendar. Trading days between them are counted by code on the exchange calendar: a buy on a holiday moves to the next session, a sell on a weekend uses the Friday close. If you describe the trade in words instead, a language model fills the form and you check it.</li>
-        <li><b>Check the data.</b> Daily prices come from Yahoo Finance through a validated cache. Unknown or delisted symbols, renamed tickers, listings that started after your buy date, too little history and future dates are explained rather than worked around.</li>
-        <li><b>Luck check.</b> A regime model (calm, normal or crisis) is fitted on market data up to your buy date only and simulates 1,000 paths from that day's regime. Your result is placed among them. The 3D view shows those outcomes for every day you could have held, with your actual path drawn across.</li>
-        <li><b>Bias signals.</b> Your stated reasoning is checked for six behavioural biases from the finance literature: FOMO, herding, overconfidence, anchoring, loss aversion and revenge trading. Every signal must quote your own words.</li>
-        <li><b>Context and explanation.</b> What the S&amp;P 500 did over the same days, and a short summary in which every number is filled in by code from the computed results.</li>
-      </ol>
-    </section>
-    <section class="card">
-      <h2>Your journal and your privacy</h2>
-      <ul class="plain">
-        <li>No account and no password. Your journal is reached with a private ID; anyone who has the ID can see its trades, so keep it like a password.</li>
-        <li>Only what you enter is stored: the trade, your reasons, and its review. You can delete a trade or the whole journal at any time.</li>
-      </ul>
-    </section>
-    <section class="card">
-      <h2>Limits</h2>
-      <ul class="plain">
-        <li>The luck check measures where an outcome sits within a model's range of luck. It is not a forecast and not a measure of skill.</li>
-        <li>The regime model is single-factor and understates tail risk. Daily closes, no slippage, no borrow costs on shorts.</li>
-        <li>Not covered: crypto, individual bonds, non-US listings. Options are reviewed as the underlying stock.</li>
-        <li>The bias classifier agrees moderately with human labels (Cohen's kappa 0.42 on 50 posts) and misreads sarcasm.</li>
-        <li>Nothing here is investment advice, and this site never places orders.</li>
-      </ul>
-    </section>
-    <div id="research" class="research"><p class="muted">Loading the recorded results…</p></div>
+    <div class="wrap">
+      <form id="plan-form" class="form-card" novalidate autocomplete="off">
+        <div class="row">
+          <div class="field-block grow2"><label class="label" for="stock-1">Stock or ETF</label><div id="p-stock"></div></div>
+          <div class="field-block"><span class="label">Side</span>
+            <div class="seg" role="radiogroup" aria-label="Side">
+              <label><input type="radio" name="p-direction" value="long" checked><span>Buy</span></label>
+              <label><input type="radio" name="p-direction" value="short"><span>Short</span></label>
+            </div>
+          </div>
+        </div>
+
+        <fieldset class="plan-prices">
+          <legend class="label">Your plan</legend>
+          <div class="row">
+            <div class="field-block"><label class="label-sm" for="p-entry">Entry price</label><input id="p-entry" type="number" step="any" min="0" inputmode="decimal">
+              <span class="hint" id="p-last"></span><div class="levels" id="p-lv-entry"></div></div>
+            <div class="field-block" id="p-field-stop"><label class="label-sm" for="p-stop">Stop price <span class="req">required</span></label><input id="p-stop" type="number" step="any" min="0" inputmode="decimal">
+              <span class="hint">Where you'd accept you were wrong and get out.</span><div class="levels" id="p-lv-stop"></div></div>
+            <div class="field-block"><label class="label-sm" for="p-target">Target price <span class="opt">optional</span></label><input id="p-target" type="number" step="any" min="0" inputmode="decimal">
+              <span class="hint">Where you'd take profit.</span><div class="levels" id="p-lv-target"></div></div>
+          </div>
+          <div class="row">
+            <label class="field-block"><span class="label-sm">Amount to put in <span class="opt">optional</span></span><input id="p-amount" type="number" step="any" min="0" inputmode="decimal"></label>
+            <label class="field-block"><span class="label-sm">Your account size <span class="opt">optional</span></span><input id="p-account" type="number" step="any" min="0" inputmode="decimal">
+              <label class="check small"><input type="checkbox" id="p-remember"><span>Remember it in my journal</span></label></label>
+            <label class="field-block"><span class="label-sm">When <span class="opt">optional</span></span><input id="p-date" type="date"></label>
+          </div>
+          <div class="field-block"><span class="label-sm">The longest you'd wait</span>
+            <div class="seg wrap-seg" id="p-holds" role="radiogroup" aria-label="Time limit"></div>
+          </div>
+          <p id="p-levels-info" class="hint"></p>
+          <p id="p-preview" class="preview" aria-live="polite"></p>
+        </fieldset>
+
+        <label class="field-block" id="p-field-why"><span class="label">Why do you want to make this trade? <span class="req">required to save</span></span>
+          <textarea id="p-why" rows="3" maxlength="2000" placeholder="In your own words, the way you'd say it to a friend."></textarea>
+          <span class="hint">This is what's read for emotion, pressure and bias. Be honest; nobody else sees it.</span>
+        </label>
+        <div class="actions">
+          <button type="submit" id="p-check" class="btn arrow">Check my plan</button>
+          <span id="p-busy" class="busy" hidden><span class="spinner" aria-hidden="true"></span>Reading your words and simulating 1,000 paths…</span>
+        </div>
+      </form>
+      <div id="p-notice" class="notice" hidden></div>
+      <div id="p-result" class="result-stack" hidden></div>
+    </div>
+  </section>
+
+  <!-- review -->
+  <section id="view-review" class="view" hidden>
+    <div class="wrap page-head">
+      <p class="eyebrow">After a trade</p>
+      <h1 class="h1">Review a trade.</h1>
+      <p class="lead">A trade you've made, sold or still held. Was the result skill, or the market's mood that week?</p>
+    </div>
+    <div class="wrap">
+      <form id="review-form" class="form-card" novalidate autocomplete="off">
+        <div class="field-block"><label class="label" for="stock-2">Stock or ETF</label><div id="r-stock"></div></div>
+        <div class="row">
+          <div class="field-block"><span class="label">Side</span>
+            <div class="seg" id="r-side" role="radiogroup" aria-label="Side">
+              <label><input type="radio" name="r-direction" value="long" checked><span>Bought</span></label>
+              <label><input type="radio" name="r-direction" value="short"><span>Shorted</span></label>
+            </div>
+          </div>
+          <div class="field-block"><span class="label">Now</span>
+            <div class="seg" role="radiogroup" aria-label="Status">
+              <label><input type="radio" name="r-status" value="closed" checked><span>Sold</span></label>
+              <label><input type="radio" name="r-status" value="open"><span>Still holding</span></label>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <label class="field-block" id="r-field-date"><span class="label" id="r-lbl-buy">Bought on</span><input id="r-date" type="date"></label>
+          <label class="field-block" id="r-field-sell"><span class="label" id="r-lbl-sell">Sold on</span><input id="r-sell" type="date"></label>
+        </div>
+        <p id="r-days" class="days-line" aria-live="polite"></p>
+        <details class="more">
+          <summary>Prices <span class="opt">optional, for your records</span></summary>
+          <div class="row">
+            <label class="field-block"><span class="label">Price paid</span><input id="r-paid" type="number" step="any" min="0" inputmode="decimal"></label>
+            <label class="field-block"><span class="label">Price sold</span><input id="r-sold" type="number" step="any" min="0" inputmode="decimal"></label>
+            <label class="field-block"><span class="label">Quantity</span><input id="r-qty" type="number" step="any" min="0" inputmode="decimal"></label>
+          </div>
+        </details>
+        <label class="field-block"><span class="label">Why did you make it? <span class="opt">optional</span></span>
+          <textarea id="r-why" rows="3" maxlength="2000" placeholder="In your own words."></textarea>
+        </label>
+        <div class="actions">
+          <button type="submit" id="r-save" class="btn arrow">Save and review</button>
+          <button type="button" id="r-only" class="btn outline">Review without saving</button>
+          <span id="r-busy" class="busy" hidden><span class="spinner" aria-hidden="true"></span><span id="r-busy-text">Working…</span></span>
+        </div>
+        <details class="more">
+          <summary>Rather describe it in words? <span class="opt">we'll fill the form for you to check</span></summary>
+          <div class="stack">
+            <textarea id="r-text" rows="3" maxlength="2000" placeholder="Bought Tesla on 3 March 2025 and sold on the 21st because everyone was buying"></textarea>
+            <div class="examples">
+              <button type="button" class="chip" data-example="aped into tesla on 3 march 2025, sold 21 march 2025 cuz everyone on reddit was saying it would moon and i can't lose on this one lol">A rough fortnight on Tesla</button>
+              <button type="button" class="chip" data-example="Bought META on 1 Feb 2023 and sold on 8 Feb 2023 because the earnings report was coming and the stock was cheap compared to its 2021 high">META into earnings</button>
+              <button type="button" class="chip" data-example="shorted nvidia on 3 march 2025 for two weeks because the chart looked toppy">A short on Nvidia</button>
+            </div>
+            <div><button type="button" id="r-fill" class="btn outline small">Fill the form</button></div>
+            <div id="r-fill-notes" class="hint" hidden></div>
+          </div>
+        </details>
+      </form>
+      <div id="r-notice" class="notice" hidden></div>
+      <div id="r-result" class="result" hidden></div>
+    </div>
+  </section>
+
+  <!-- journal -->
+  <section id="view-journal" class="view" hidden>
+    <div class="wrap page-head">
+      <p class="eyebrow">Your journal</p>
+      <h1 class="h1">Plans and trades.</h1>
+      <p class="lead">Everything you've saved, with the state your words were in at the time.</p>
+    </div>
+    <div class="wrap">
+      <div id="j-gate" class="panel" hidden></div>
+      <div id="j-body" hidden>
+        <div id="j-insights" hidden></div>
+        <div class="filters" id="j-summary"></div>
+        <div id="j-notice" class="notice" hidden></div>
+        <div id="j-result" class="result" hidden></div>
+        <div id="j-list" class="j-list"></div>
+      </div>
+    </div>
   </section>
 
   <!-- sentiment -->
   <section id="view-sentiment" class="view" hidden>
-    <div class="hero">
-      <h1>What does the wording give away?</h1>
-      <p>Paste a post, a message to a friend, or your own reason for a trade. Each signal quotes the words that triggered it. It describes the text, not the person.</p>
+    <div class="wrap page-head">
+      <p class="eyebrow">Sentiment</p>
+      <h1 class="h1">What state is the writer in?</h1>
+      <p class="lead">Paste a post, a message, or your own reason for a trade. See the mood, how charged it is, and the biases in it, each quoting the words that show it.</p>
     </div>
-    <form id="s-form" class="desk">
-      <label class="step-title" for="s-text">Text to read</label>
-      <textarea id="s-text" rows="4" maxlength="4000" placeholder="everyone is buying this and I can't miss it again"></textarea>
-      <div class="examples" id="s-examples" aria-label="Examples"></div>
-      <div class="desk-actions flush"><button type="submit" id="s-submit" class="primary">Analyse</button></div>
-    </form>
-    <section id="s-result" class="card" hidden aria-live="polite"></section>
-    <section id="s-accuracy" class="card"></section>
+    <div class="wrap">
+      <form id="s-form" class="form-card">
+        <label class="field-block"><span class="label">Text</span>
+          <textarea id="s-text" rows="4" maxlength="4000" placeholder="everyone is buying this and I can't miss it again"></textarea></label>
+        <div class="examples" id="s-examples" aria-label="Examples"></div>
+        <div class="actions"><button type="submit" id="s-submit" class="btn arrow">Analyse</button></div>
+      </form>
+      <section id="s-result" class="card" hidden aria-live="polite"></section>
+      <section id="s-accuracy" class="card"></section>
+    </div>
   </section>
 
-  <!-- trades -->
-  <section id="view-trades" class="view" hidden>
-    <div class="hero">
-      <h1>Log a trade</h1>
-      <p>Pick the stock and the dates, say why if you like, and save it to your journal. Closed and open trades are reviewed straight away.</p>
+  <!-- about -->
+  <section id="view-about" class="view" hidden>
+    <div class="wrap page-head">
+      <p class="eyebrow">About</p>
+      <h1 class="h1">Calmer decisions, one trade at a time.</h1>
+      <p class="lead">Markets swing hardest when many people act on the same feeling at once: fear of missing out, panic, the need to win back a loss. This helps one person at a time notice that state, before and after a trade, using evidence rather than hindsight.</p>
     </div>
-    <div id="trades-gate" class="gate" hidden></div>
-
-    <form id="trade-form" class="desk" novalidate autocomplete="off">
-      <ol class="steps">
-        <li class="step" id="step-stock">
-          <span class="step-no" aria-hidden="true">1</span>
-          <div class="step-body">
-            <label class="step-title" for="f-ticker">Which stock or ETF?</label>
-            <div class="combo">
-              <input id="f-ticker" type="text" role="combobox" aria-autocomplete="list" aria-expanded="false"
-                aria-controls="ticker-list" placeholder="Search a company or symbol: tesla, NVDA, berkshire" maxlength="60" spellcheck="false">
-              <ul id="ticker-list" class="listbox" role="listbox" hidden></ul>
-            </div>
-            <p id="ticker-picked" class="picked" hidden></p>
-            <p id="ticker-note" class="hint" hidden></p>
-          </div>
-        </li>
-        <li class="step" id="step-dates">
-          <span class="step-no" aria-hidden="true">2</span>
-          <div class="step-body">
-            <span class="step-title">What did you do, and when?</span>
-            <div class="seg-row">
-              <div class="seg" id="seg-side" role="radiogroup" aria-label="Side">
-                <label><input type="radio" name="direction" value="long" checked><span>Bought</span></label>
-                <label><input type="radio" name="direction" value="short"><span>Shorted</span></label>
-              </div>
-              <div class="seg" role="radiogroup" aria-label="Status">
-                <label><input type="radio" name="status" value="closed" checked><span>Sold</span></label>
-                <label><input type="radio" name="status" value="open"><span>Still holding</span></label>
-                <label><input type="radio" name="status" value="planned"><span>Planning</span></label>
-              </div>
-            </div>
-            <div class="dates">
-              <label class="field" id="field-date"><span id="lbl-buy">Buy date</span><input id="f-date" type="date"></label>
-              <label class="field" id="field-sell"><span id="lbl-sell">Sell date</span><input id="f-sell" type="date"></label>
-            </div>
-            <p id="days-line" class="days-line" aria-live="polite"></p>
-            <details class="prices">
-              <summary>Add prices <span class="muted">(optional, for your records)</span></summary>
-              <div class="dates">
-                <label class="field"><span>Price paid</span><input id="f-paid" type="number" step="any" min="0" inputmode="decimal"></label>
-                <label class="field"><span>Price sold</span><input id="f-sold" type="number" step="any" min="0" inputmode="decimal"></label>
-                <label class="field"><span>Quantity</span><input id="f-qty" type="number" step="any" min="0" inputmode="decimal"></label>
-              </div>
-            </details>
-          </div>
-        </li>
-        <li class="step" id="step-why">
-          <span class="step-no" aria-hidden="true">3</span>
-          <div class="step-body">
-            <label class="step-title" for="f-why">Why did you make the trade? <span class="opt">optional</span></label>
-            <textarea id="f-why" rows="3" maxlength="2000" placeholder="In your own words. For example: everyone on reddit said it would moon and I couldn't miss it again."></textarea>
-            <p class="hint">Only this text is read for bias signals. Saved with the trade so you can look back at it.</p>
-          </div>
-        </li>
-      </ol>
-      <div class="desk-actions">
-        <button type="submit" id="save" class="primary">Save and review</button>
-        <button type="button" id="review-only" class="secondary">Review without saving</button>
-        <span id="busy" class="busy" hidden><span class="spinner" aria-hidden="true"></span><span id="busy-text">Working…</span></span>
-      </div>
-      <details id="words" class="words">
-        <summary>Rather describe it in words? <span class="muted">We'll fill the form for you to check.</span></summary>
-        <div class="words-body">
-          <textarea id="f-text" rows="3" maxlength="2000" placeholder="Bought Tesla on 3 March 2025 and sold on the 21st because everyone was buying"></textarea>
-          <div class="examples" aria-label="Examples">
-            <button type="button" class="chip" data-example="aped into tesla on 3 march 2025, sold 21 march 2025 cuz everyone on reddit was saying it would moon and i can't lose on this one lol">A rough fortnight on Tesla</button>
-            <button type="button" class="chip" data-example="Bought META on 1 Feb 2023 and sold on 8 Feb 2023 because the earnings report was coming and the stock was cheap compared to its 2021 high">META into earnings</button>
-            <button type="button" class="chip" data-example="shorted nvidia on 3 march 2025 for two weeks because the chart looked toppy">A short on Nvidia</button>
-            <button type="button" class="chip" data-example="bought apple hospitality on 03/04/2025 and still holding">An ambiguous date</button>
-          </div>
-          <button type="button" id="fill" class="secondary">Fill the form</button>
-          <div id="fill-notes" class="hint" hidden></div>
-        </div>
-      </details>
-    </form>
-
-    <div id="notice" class="notice" hidden></div>
-    <div id="result" class="result" hidden></div>
-
-    <section id="journal" class="journal" hidden>
-      <div class="j-top"><h2>My trades</h2><span id="j-summary" class="muted"></span></div>
-      <div id="j-list" class="j-list"></div>
-    </section>
+    <div class="wrap about">
+      <section class="card">
+        <h2 class="h3">How it works</h2>
+        <ol class="method">
+          <li><b>Plan.</b> You set an entry, a stop (where you'd accept you were wrong), an optional target and a time limit. Code works out what the stop costs, the reward to risk and the share of your account at risk. Your reason is read for mood and seven state signals (fear, greed, regret, frustration, certainty, urgency, herd talk), and for six behavioural biases, each quoting your words. A heat score combines them with fixed weights. A regime model (calm, normal or crisis), fitted on prices up to today, simulates 1,000 paths for the hold you plan: how often they touch your stop or reach your target, and how wide the outcomes spread.</li>
+          <li><b>Review.</b> The same model, fitted only on data up to your buy date, places your actual result among 1,000 paths from that day's regime. Trading days are counted on the exchange calendar.</li>
+          <li><b>Journal.</b> Plans and trades are kept under a private ID, frozen as planned. Each trade is checked against its plan on daily closes: on plan, stop crossed, target reached, time limit passed, and once closed, whether you followed the plan, broke it or sold early. Over time it shows how you do when you follow your plans, and when you plan calm or hot.</li>
+        </ol>
+      </section>
+      <section class="card">
+        <h2 class="h3">Your journal and your privacy</h2>
+        <ul class="plain">
+          <li>No account and no password. Your journal is reached with a private ID; anyone with the ID can see its trades, so keep it like a password.</li>
+          <li>Only what you enter is stored. You can delete a trade or the whole journal at any time.</li>
+        </ul>
+      </section>
+      <section class="card">
+        <h2 class="h3">Limits</h2>
+        <ul class="plain">
+          <li>Not a forecast and not advice. The regime model has no predictive edge; it measures luck, not skill.</li>
+          <li>Single-factor model that understates tail risk. Daily closes, no slippage, no borrow costs on shorts.</li>
+          <li>Not covered: crypto, individual bonds, non-US listings. Options are reviewed as the underlying stock.</li>
+          <li>The readers are tested on small or noisy labels (E08, E09). Treat them as prompts to reflect, not verdicts.</li>
+        </ul>
+      </section>
+      <div id="research" class="research"><p class="muted">Loading the recorded results…</p></div>
+    </div>
   </section>
 </main>
 
 <footer class="foot">
-  <span>Paper analysis of past trades. Not investment advice, not a forecast, not a judgement of the person.</span>
-  <span id="status" class="status">connecting…</span>
-  <a href="/docs">API</a>
+  <div class="wrap foot-in">
+    <span>Paper analysis only. Not investment advice, not a forecast, not a judgement of the person.</span>
+    <span id="status" class="status">connecting…</span>
+    <a href="/docs">API</a>
+  </div>
 </footer>
 </body>
 </html>

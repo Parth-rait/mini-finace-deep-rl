@@ -99,7 +99,7 @@ def test_website_is_served(client):
     page = c.get("/")
     assert page.status_code == 200 and "text/html" in page.headers["content-type"] and "Trade Review" in page.text
     assert page.headers["cache-control"] == "no-cache"  # an updated site is never served from a stale copy
-    for asset in ("/static/js/main.js", "/static/js/trades.js", "/static/style.css"):
+    for asset in ("/static/js/main.js", "/static/js/plan.js", "/static/js/review.js", "/static/js/journal.js", "/static/style.css"):
         r = c.get(asset)
         assert r.status_code == 200 and r.headers["cache-control"] == "no-cache"
     assert "/review-trade" in {x["path"] for x in c.get("/api").json()["routes"]}

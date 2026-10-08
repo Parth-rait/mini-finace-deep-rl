@@ -2,11 +2,13 @@
 // 3D outcome surface, your reasoning with bias highlights, the same days in
 // the market, and the explanation. Used by the Trades page and the journal.
 
-import { el, pct, css, ordinal, nice, LABELS, VERDICT } from "./core.js";
+import { el, pct, css, ordinal, nice, LABELS, VERDICT, STATE_KINDS, LEVELS } from "./core.js";
 
 /** Draw a finished review (status "ok") into `host`. */
 export function renderReview(host, out) {
-  host.replaceChildren(verdictCard(out), ticketCard(out), chartCard(out), reasoningCard(out), contextCard(out), explainCard(out));
+  host.replaceChildren(verdictCard(out), ticketCard(out), chartCard(out), reasoningCard(out),
+    out.state ? el("section", { class: "card" }, el("h2", { text: "Your state when you wrote it" }), stateView(out.state)) : null,
+    contextCard(out), explainCard(out));
   host.hidden = false;
   const box = host.querySelector(".plot");
   drawChart(out, "3d", box);
@@ -173,4 +175,28 @@ function explainCard(out) {
     el("p", { class: "explain", text: out.explanation }),
     el("span", { class: "tag", text: out.explanation_source === "llm" ? "written by the language model from the numbers above; every number was checked" : "built from the numbers above" }),
     el("p", { class: "caption", text: out.disclaimer }));
+}
+
+// Mood, heat and the quoted state signals. Used in reviews and on the Sentiment page.
+export function stateView(st) {
+  const [levelName, levelText] = LEVELS[st.level] || LEVELS.calm;
+  const moodPct = Math.round(st.mood_strength * 100);
+  return el("div", { class: "state" },
+    el("div", { class: "state-row" },
+      el("div", { class: "state-cell" }, el("span", { class: "tag", text: "Mood" }),
+        el("b", { class: `mood ${st.mood}`, text: st.mood[0].toUpperCase() + st.mood.slice(1) }),
+        st.mood !== "neutral" && el("span", { class: "tag", text: `${moodPct}% strength` })),
+      el("div", { class: "state-cell grow" }, el("span", { class: "tag", text: "Heat" }),
+        el("div", { class: "heat", role: "meter", "aria-valuemin": "0", "aria-valuemax": "100", "aria-valuenow": String(Math.round(st.heat * 100)),
+          "aria-label": `Heat ${Math.round(st.heat * 100)} of 100, ${levelName}` },
+          el("span", { class: `heat-fill ${st.level}`, style: `width:${Math.max(2, st.heat * 100)}%` })),
+        el("b", { class: `level ${st.level}`, text: levelName }))),
+    el("p", { class: "caption", text: levelText }),
+    st.signals.length
+      ? el("ul", { class: "signals" }, ...st.signals.map((s) => el("li", {},
+          el("span", { class: `kind k-${s.kind}`, text: STATE_KINDS[s.kind] || s.kind }),
+          el("q", { text: s.evidence }),
+          el("span", { class: "tag", text: `${Math.round(s.strength * 100)}%` }))))
+      : el("p", { class: "muted", text: "No fear, greed, regret, frustration, certainty, urgency or herd talk found." }),
+    el("span", { class: "tag", text: `read by ${st.reader}. ${st.note}` }));
 }
