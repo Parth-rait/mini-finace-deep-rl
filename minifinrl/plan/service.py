@@ -9,13 +9,15 @@ from __future__ import annotations
 import pandas as pd
 
 from minifinrl.market.providers import ProviderError
-from minifinrl.plan import nudges, risk
-from minifinrl.plan.schemas import OutlookOut, PlanIn, PlanOut, RiskOut
+from minifinrl.plan import levels, nudges, risk
+from minifinrl.plan.schemas import LevelOut, LevelsIn, LevelsOut, OutlookOut, PlanIn, PlanOut, RiskOut
+from minifinrl.platform.capabilities import CapabilityNotFound, CapabilityUnavailable
 from minifinrl.platform.capabilities import capability
 from minifinrl.platform.log import get_logger
 from minifinrl.regime.luck import LuckTestError
 from minifinrl.regime.model import MIN_TICKER_RETURNS
-from minifinrl.regime.outlook import outcome_range
+from minifinrl.regime.outlook import outcome_range, simulate
+from minifinrl.market import symbols
 from minifinrl.review import intake, resolve
 
 log = get_logger(__name__)
@@ -96,3 +98,28 @@ class PlanService:
             state=state, biases=spans, bias_source=bias_source,
             nudges=nudges.build(state, spans, o, symbol, has_reasoning=bool(reasoning), extra=extra),
         )
+
+    @capability("plan_levels", LevelsIn, LevelsOut, effect="compute", budget_ms=8000)
+    def plan_levels(self, req: LevelsIn) -> LevelsOut:
+        """Entry, stop and target levels from how a stock has moved (its typical daily move, recent and 52-week highs and lows), each with how often normal luck reached it. Descriptions, not recommendations."""
+        sym = symbols.yahoo_symbol(req.ticker)
+        sym = symbols.RENAMED.get(sym, sym)
+        closes, dates, why_not = self._prices(sym)
+        if closes is None:
+            raise CapabilityNotFound(why_not)
+        today = self.market.today()
+        panel = self.market.price_store().get([sym], self.cfg.spec.start, today, refresh=False)
+        bars = panel.set_index("date")[["high", "low", "close"]].dropna()
+        if len(bars) < 30:
+            raise CapabilityUnavailable(f"not enough daily bars for {sym}")
+        universe = list(self.cfg.spec.tickers)
+        cols = universe + [sym] if sym not in universe else universe
+        try:
+            paths, _, _ = simulate(closes.loc[dates, cols], self.market.vix(today), sym, req.horizon_days,
+                                   fit=self.regime.fitter(universe))
+        except (LuckTestError, KeyError) as exc:
+            raise CapabilityUnavailable(f"the levels can't be computed: {exc}") from exc
+        out = levels.build(bars, paths, req.direction, req.entry_price, req.stop_price)
+        conv = lambda xs: [LevelOut(**vars(x)) for x in xs]  # noqa: E731
+        return LevelsOut(ticker=sym, horizon_days=req.horizon_days, **{**out, "entries": conv(out["entries"]),
+                         "stops": conv(out["stops"]), "targets": conv(out["targets"])})

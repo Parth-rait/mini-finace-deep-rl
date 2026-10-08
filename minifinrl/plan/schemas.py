@@ -82,3 +82,35 @@ class PlanOut(BaseModel):
     nudges: list[Nudge] = Field(default_factory=list)
     disclaimer: str = ("A check of your own words and of how wide luck is over the hold you plan. "
                        "Not a forecast and not investment advice: it never says whether to trade.")
+
+
+class LevelsIn(Input):
+    ticker: str = Field(min_length=1, max_length=12)
+    direction: Literal["long", "short"] = "long"
+    horizon_days: int = Field(default=21, ge=1, le=MAX_HORIZON)
+    entry_price: float | None = Field(default=None, gt=0, description="the entry to measure from; the latest close if empty")
+    stop_price: float | None = Field(default=None, gt=0, description="your stop, so targets are multiples of your risk")
+
+
+class LevelOut(BaseModel):
+    key: str
+    label: str
+    price: float
+    pct: float = Field(description="change from the entry")
+    prob: float | None = Field(description="share of normal-luck paths that reached it within the time limit")
+    note: str
+
+
+class LevelsOut(BaseModel):
+    ticker: str
+    last_close: float
+    as_of: str
+    entry: float
+    atr: float = Field(description="typical daily move: 14-day average true range")
+    atr_pct: float
+    horizon_days: int
+    entries: list[LevelOut]
+    stops: list[LevelOut]
+    targets: list[LevelOut]
+    note: str = ("Levels from how this stock has moved, with how often normal luck reached them on daily closes. "
+                 "They describe the stock; they are not recommendations.")

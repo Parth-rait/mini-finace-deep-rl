@@ -163,3 +163,35 @@ def test_a_plan_comes_before_the_trade(reg):
     t = save(reg, pid).trade
     with pytest.raises(CapabilityError, match="before you saved the plan"):
         reg.invoke("start_planned_trade", {"profile_id": pid, "trade_id": t.id, "buy_date": "2020-01-02"})
+
+
+def test_price_levels(reg):
+    out = reg.invoke("plan_levels", {"ticker": "AAA", "horizon_days": 21})
+    assert out.last_close == pytest.approx(last_close(reg)) and out.atr > 0 and out.entries[0].key == "now"
+    stops = {s.key: s for s in out.stops}
+    # defined by how often normal luck reaches them within the time limit
+    assert stops["tight"].prob == pytest.approx(0.5, abs=0.03) and stops["normal"].prob == pytest.approx(0.25, abs=0.03)
+    assert stops["wide"].prob == pytest.approx(0.10, abs=0.03)
+    assert all(s.price < out.entry for s in out.stops) and all(t.price > out.entry for t in out.targets)
+    assert [abs(s.pct) for s in out.stops] == sorted(abs(s.pct) for s in out.stops)
+    r2 = next(t for t in out.targets if t.key == "r2")
+    assert r2.price - out.entry == pytest.approx(2 * (out.entry - stops["normal"].price), abs=0.03)  # prices are in cents
+    dips = [e for e in out.entries if e.key.startswith("dip")]
+    assert [d.prob for d in dips] == sorted((d.prob for d in dips), reverse=True)  # deeper dips fill less often
+
+
+def test_levels_follow_your_stop_and_side(reg):
+    px = last_close(reg)
+    mine = reg.invoke("plan_levels", {"ticker": "AAA", "stop_price": px * 0.9})
+    assert next(t for t in mine.targets if t.key == "r2").price == pytest.approx(px * 1.2, rel=1e-3)
+    short = reg.invoke("plan_levels", {"ticker": "AAA", "direction": "short"})
+    assert all(s.price > short.entry for s in short.stops) and all(t.price < short.entry for t in short.targets)
+    week = reg.invoke("plan_levels", {"ticker": "AAA", "horizon_days": 5})
+    normal = lambda o: next(s for s in o.stops if s.key == "normal")  # noqa: E731
+    assert abs(normal(week).pct) < abs(normal(reg.invoke("plan_levels", {"ticker": "AAA", "horizon_days": 63})).pct)
+
+
+def test_levels_for_an_unknown_symbol(reg):
+    from minifinrl.platform.capabilities import CapabilityNotFound
+    with pytest.raises(CapabilityNotFound):
+        reg.invoke("plan_levels", {"ticker": "NOPE"})

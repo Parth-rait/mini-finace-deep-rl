@@ -60,12 +60,9 @@ def outcome_range(
         raise LuckTestError(f"unknown ticker '{ticker}'")
     if len(close) < min_history:
         raise LuckTestError(f"{len(close)} days of market history, need {min_history}")
-    gen = (fit or (lambda p, v: RegimeSyntheticGenerator().fit(p, v)))(close, vix)
-    posterior = gen.regime_probs_last()
-    start = posterior @ gen.hmm.transmat_
+    raw, gen, posterior = simulate(close, vix, ticker, horizon_days, n_paths=n_paths, seed=seed, fit=fit)
     sign = 1.0 if direction == "long" else -1.0
-    daily = gen.sample_ticker_returns(ticker, horizon_days, n_paths, start, seed)
-    paths = sign * (np.cumprod(1.0 + daily, axis=1) - 1.0)
+    paths = sign * raw
     final = paths[:, -1]
     q = np.quantile(final, [0.05, 0.25, 0.5, 0.75, 0.95])
     fan = np.quantile(paths, [0.05, 0.5, 0.95], axis=0)
@@ -79,6 +76,17 @@ def outcome_range(
         days=list(range(1, horizon_days + 1)), fan_p05=fan[0].tolist(), fan_p50=fan[1].tolist(), fan_p95=fan[2].tolist(),
         n_paths=n_paths, last_price=float(close[ticker].dropna().iloc[-1]), **hits,
     )
+
+
+def simulate(close: pd.DataFrame, vix: pd.Series, ticker: str, horizon_days: int, *, n_paths: int = 1000, seed: int = 0,
+             fit: Callable[[pd.DataFrame, pd.Series], RegimeSyntheticGenerator] | None = None):
+    """(paths, generator, regime posterior): cumulative price returns from the
+    latest close, (n_paths, horizon), from today's regime."""
+    gen = (fit or (lambda p, v: RegimeSyntheticGenerator().fit(p, v)))(close, vix)
+    posterior = gen.regime_probs_last()
+    start = posterior @ gen.hmm.transmat_
+    daily = gen.sample_ticker_returns(ticker, horizon_days, n_paths, start, seed)
+    return np.cumprod(1.0 + daily, axis=1) - 1.0, gen, posterior
 
 
 def _hits(paths: np.ndarray, stop: float | None, target: float | None) -> dict:
