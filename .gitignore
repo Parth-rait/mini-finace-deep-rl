@@ -23,3 +23,7 @@ corpus/bias_labels.jsonl
 # aip cache and traces (model responses quote the labelled posts): kept local
 .aip_cache/
 .aip_traces/
+
+# the trade journal (private: IDs, trades and reasons)
+data/journal.db
+data/journal.db-*
