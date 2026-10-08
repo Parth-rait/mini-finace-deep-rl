@@ -54,7 +54,7 @@ def test_declaration_checks():
     with pytest.raises(ValueError, match="snake_case"):
         capability("Bad-Name", In, Out, effect="read")
     with pytest.raises(ValueError, match="effect"):
-        capability("x", In, Out, effect="write")
+        capability("x", In, Out, effect="delete_everything")
     with pytest.raises(TypeError, match="pydantic"):
         capability("x", dict, Out, effect="read")
 

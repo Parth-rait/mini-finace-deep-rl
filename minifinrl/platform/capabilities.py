@@ -14,11 +14,12 @@ feature never means editing a shared list of methods.
 Effect classes carry the exposure and safety rules, so an interface never
 decides them ad hoc:
 
-    read       disk only, fast                API, agent, CLI
-    compute    bounded CPU, time budget       API, agent, CLI
-    llm        may call a model, costs money  API, agent, CLI
-    batch      long-running (train, fetch)    CLI only, never inside a request
-    forbidden  declared, never executed       listed, so refusals are testable
+    read       disk only, fast                   API, agent, CLI
+    compute    bounded CPU, time budget          API, agent, CLI
+    llm        may call a model, costs money     API, agent, CLI
+    write      changes stored user data          API, CLI (never an agent's tool)
+    batch      long-running (train, fetch)       CLI only, never inside a request
+    forbidden  declared, never executed          listed, so refusals are testable
 """
 
 from __future__ import annotations
@@ -35,11 +36,11 @@ from minifinrl.platform.log import get_logger
 
 log = get_logger(__name__)
 
-Effect = Literal["read", "compute", "llm", "batch", "forbidden"]
-EFFECTS: tuple[str, ...] = ("read", "compute", "llm", "batch", "forbidden")
+Effect = Literal["read", "compute", "llm", "write", "batch", "forbidden"]
+EFFECTS: tuple[str, ...] = ("read", "compute", "llm", "write", "batch", "forbidden")
 INTERFACE_EFFECTS: dict[str, frozenset[str]] = {
-    "cli": frozenset({"read", "compute", "llm", "batch"}),
-    "api": frozenset({"read", "compute", "llm"}),
+    "cli": frozenset({"read", "compute", "llm", "write", "batch"}),
+    "api": frozenset({"read", "compute", "llm", "write"}),
     "agent": frozenset({"read", "compute", "llm"}),
 }
 _NAME = re.compile(r"^[a-z][a-z0-9_]*$")
