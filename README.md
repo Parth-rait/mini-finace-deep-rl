@@ -19,6 +19,7 @@ minifinrl/
   research/    deep-RL envs, agents, backtests, walk-forward, experiment log (the only torch user)
   sentiment/   bias signals in trading text, and their evaluation
   review/      the trade review behind the website
+  journal/     private journal IDs and the trades logged under them
   orders/      declared and always refused (paper analysis only)
   platform/    settings, logging, errors, the capability registry
   engine.py    builds one service per feature
@@ -81,6 +82,15 @@ symbol directory, refreshed daily), pick the buy date and the sell date (or tick
 3. marks the bias signals in your reasoning, quoting your words;
 4. compares the trade with the S&P 500 over the same days, and explains the result in
    plain words (the model writes placeholders, the code fills in the numbers).
+
+Trades can be saved to a journal. The site gives each person a private ID (no
+account, no password; the ID is the key, so keep it like one), and every trade
+logged under it is kept with the reasoning given at the time and its review.
+Trades can be planned, open or closed; open ones are measured to the latest
+close, and closing one reviews it. A trade or a whole journal can be deleted.
+The journal is a SQLite file (`data/journal.db`) by default; set
+`MINIFINRL_DATABASE_URL` to a Postgres URL (for example Neon's free tier, with
+the `[postgres]` extra) when deploying.
 
 You can also describe the trade in words; the LLM fills the form and you check it.
 Dates that read two ways (03/04/2025), dates that don't exist, and days the text never

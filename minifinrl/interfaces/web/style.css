@@ -221,3 +221,87 @@ th { font: 500 .76rem var(--ui); color: var(--muted); letter-spacing: .05em; tex
 }
 @keyframes rise { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
 @keyframes drop { from { opacity: 0; transform: translateY(-4px); } to { opacity: 1; transform: none; } }
+
+/* ---- journal ID in the header ---------------------------------------------------------- */
+.top nav { margin-left: auto; }
+.id-chip { position: relative; }
+.id-btn { font: 500 .85rem var(--mono); background: var(--blue-wash); color: var(--blue-deep); border: 1px solid var(--rule); border-radius: 999px; padding: 6px 14px; cursor: pointer; }
+.id-btn:hover { border-color: var(--blue); }
+.id-menu { position: absolute; right: 0; top: calc(100% + 8px); z-index: 30; width: min(320px, calc(100vw - 32px)); background: var(--card);
+  border: 1px solid var(--rule); border-radius: 12px; box-shadow: var(--shadow); padding: 14px; display: grid; gap: 6px; }
+.id-menu p { margin: 0; }
+.id-mono { font: 600 .95rem var(--mono); color: var(--blue-deep); word-break: break-all; }
+.id-menu .ghost { text-align: left; }
+
+/* ---- buttons ------------------------------------------------------------------------------ */
+.ghost { background: none; border: 1px solid transparent; border-radius: 8px; padding: 6px 10px; color: var(--blue-deep); cursor: pointer; font-weight: 500; }
+.ghost:hover { background: var(--blue-mist); border-color: var(--rule); }
+.ghost:disabled { opacity: .6; cursor: progress; }
+.danger-text { color: var(--bad); }
+.danger { background: var(--bad); color: #fff; border: 0; border-radius: 8px; padding: 6px 12px; font-weight: 600; cursor: pointer; }
+.primary.small { padding: 8px 16px; }
+.confirm { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; padding: 10px 12px; background: color-mix(in srgb, var(--bad) 7%, var(--card));
+  border: 1px solid color-mix(in srgb, var(--bad) 30%, var(--rule)); border-radius: 10px; font-size: .92rem; }
+.desk-actions.flush { padding-left: 0; }
+
+/* ---- start --------------------------------------------------------------------------------- */
+.start { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 18px; }
+.start > .hint { grid-column: 1 / -1; }
+.start-card { position: relative; background: var(--card); border: 1px solid var(--rule); border-radius: 160px 160px 16px 16px / 56px 56px 16px 16px;
+  padding: 40px 24px 22px; box-shadow: var(--shadow); display: grid; gap: 12px; align-content: start; justify-items: start; }
+.start-card h2 { margin: 0; font: 1.35rem var(--display); font-weight: 400; color: var(--blue-deep); }
+.start-card p { margin: 0; color: var(--muted); }
+.start-card input[type="text"] { font-family: var(--mono); }
+.start-no { position: absolute; top: 12px; left: 50%; transform: translateX(-50%); font: .95rem var(--display); color: var(--blue); }
+.new-id { justify-items: center; text-align: center; max-width: 560px; margin: 0 auto; border-radius: 16px; padding-top: 26px; }
+.id-big { font: 600 1.45rem var(--mono) !important; color: var(--blue-deep) !important; letter-spacing: .04em; background: var(--blue-mist);
+  border: 1px dashed var(--blue); border-radius: 12px; padding: 12px 18px; user-select: all; word-break: break-all; }
+.new-id .row { display: flex; gap: 10px; }
+.tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 14px; margin-top: 6px; }
+.tile { display: grid; gap: 4px; padding: 16px 18px; border-radius: 14px; border: 1px solid var(--rule); background: var(--blue-mist); color: var(--ink); text-decoration: none; transition: border-color .2s, transform .2s; }
+.tile:hover { border-color: var(--blue); transform: translateY(-1px); }
+.tile b { font: 1.1rem var(--display); font-weight: 400; color: var(--blue-deep); }
+.tile span { color: var(--muted); font-size: .92rem; }
+.gate { display: grid; gap: 14px; }
+.gate-msg { margin: 0; font-weight: 500; }
+
+/* ---- trades form extras ---------------------------------------------------------------- */
+.seg-row { display: flex; flex-wrap: wrap; gap: 10px; }
+.prices summary { cursor: pointer; color: var(--blue-deep); font-weight: 500; font-size: .95rem; }
+.prices .dates { margin-top: 10px; }
+input[type="number"] { width: 100%; padding: 11px 14px; border: 1px solid var(--rule); border-radius: 10px; background: var(--blue-mist); }
+input[type="number"]:focus { outline: none; border-color: var(--blue); background: var(--card); box-shadow: 0 0 0 3px color-mix(in srgb, var(--blue) 18%, transparent); }
+
+/* ---- journal ------------------------------------------------------------------------------- */
+.journal { display: grid; gap: 14px; margin-top: 8px; }
+.j-top { display: flex; align-items: baseline; gap: 14px; flex-wrap: wrap; }
+.j-top h2 { margin: 0; font: 1.6rem var(--display); font-weight: 400; color: var(--blue-deep); }
+.j-list { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 14px; }
+.j-card { background: var(--card); border: 1px solid var(--rule); border-top: 3px solid var(--blue); border-radius: 14px; padding: 14px 16px; display: grid; gap: 8px; box-shadow: var(--shadow); min-width: 0; }
+.j-card.status-planned { border-top-color: var(--muted); }
+.j-card.status-open { border-top-color: var(--blue); }
+.j-card.status-closed { border-top-color: var(--blue-deep); }
+.j-head { display: flex; align-items: baseline; gap: 8px; min-width: 0; }
+.j-head .sym { font: 600 1.05rem var(--mono); color: var(--blue-deep); }
+.j-head .nm { color: var(--muted); font-size: .9rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; flex: 1; }
+.badge { font: 500 .7rem var(--mono); text-transform: uppercase; letter-spacing: .06em; padding: 3px 8px; border-radius: 999px; background: var(--blue-wash); color: var(--blue-deep); }
+.badge.planned { background: var(--blue-mist); color: var(--muted); }
+.badge.closed { background: var(--blue-deep); color: var(--card); }
+.j-dates { margin: 0; font-size: .92rem; }
+.outcome { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+.ret { font: 600 1.15rem var(--mono); }
+.ret.up { color: var(--good); } .ret.down { color: var(--bad); }
+.seal.small { font-size: .68rem; padding: 3px 9px; }
+.j-why { margin: 0; color: var(--muted); font-size: .9rem; font-style: italic; overflow-wrap: anywhere; }
+.j-actions { display: flex; flex-wrap: wrap; gap: 4px; align-items: center; margin-left: -10px; }
+.close-form { display: flex; flex-wrap: wrap; gap: 10px; align-items: end; padding-top: 6px; border-top: 1px dashed var(--rule); }
+.close-form .field { flex: 1 1 130px; }
+
+/* ---- about / sentiment ------------------------------------------------------------------- */
+.prose-wide { max-width: 900px; }
+.method { padding-left: 22px; display: grid; gap: 12px; margin: 0; }
+.plain { padding-left: 20px; display: grid; gap: 6px; margin: 0; }
+.section-title { margin: 12px 0 0; font: 1.6rem/1.2 var(--display); font-weight: 400; color: var(--blue-deep); text-wrap: balance; }
+.signal { margin: 0; font-size: .95rem; }
+.signal b { text-transform: capitalize; }
+@media (max-width: 560px) { .top nav { margin-left: 0; order: 3; width: 100%; } .id-chip { margin-left: auto; } }

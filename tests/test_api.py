@@ -98,7 +98,7 @@ def test_website_is_served(client):
     c, _ = client
     page = c.get("/")
     assert page.status_code == 200 and "text/html" in page.headers["content-type"] and "Trade Review" in page.text
-    for asset in ("/static/app.js", "/static/style.css"):
+    for asset in ("/static/js/main.js", "/static/js/trades.js", "/static/style.css"):
         assert c.get(asset).status_code == 200
     assert "/review-trade" in {x["path"] for x in c.get("/api").json()["routes"]}
 
